@@ -1,0 +1,68 @@
+
+<style>
+        body{
+                /* font-family: 'Chakra Petch', sans-serif; */
+/* font-family: 'Montserrat Alternates', sans-serif; */
+font-family: 'Ubuntu', sans-serif;
+        }
+</style>
+<!-- Sidebar -->
+
+<div class="d-flex toggled " id="wrapper">
+<div  id="sidebar-wrapper" style="background-color: rgb(255, 255, 255) !important;border:.5px solid rgb(165, 165, 165);box-shadow: 5px 5px 10px grey; ">
+    <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold  border-bottom"><i class="fa-solid fa-cart-shopping"></i>aceCart</div>
+    <div class="list-group list-group-flush my-3">
+            <a href="/admin/" class="list-group-item list-group-item-action bg-transparent second-text active"><i
+                            class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a href="/admin/products" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-project-diagram me-2"></i>Products</a>
+            <a href="/admin/customers" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-chart-line me-2"></i>customers</a>
+            <a href="/admin/orders" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-paperclip me-2"></i>orders</a>
+            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-shopping-cart me-2"></i>payment</a>
+            <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-gift me-2"></i>Banner</a>
+            <a href="/admin/category" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-comment-dots me-2"></i>category</a>
+
+            <a href="/admin/logout" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+                            class="fas fa-power-off me-2"></i>Logout</a>
+    </div>
+</div>
+<!-- /#sidebar-wrapper -->
+<div id="page-content-wrapper" style="background-color: white;">
+    <nav class="navbar navbar-expand-lg navbar-light  py-4 px-4" style="background-color: black;">
+            <div class="d-flex  align-items-center">
+                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle" style="color: antiquewhite;"></i>
+                    <h2 class="fs-2 m-0"><%-locals.title?title:""%></h2>
+            </div>
+
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle second-text fw-bold" href="#"
+                                            id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false" style="color: white;">
+                                            <i class="fas fa-user me-2" ></i><%-locals.name?name:"account"-%>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                                            <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                                    </ul>
+                            </li>
+                    </ul>
+            </div>
+    </nav>
+ <script>
+    var el = document.getElementById("wrapper");
+    var toggleButton = document.getElementById("menu-toggle");
+
+    toggleButton.onclick = function () {
+       
+        el.classList.toggle("toggled");
+    };
+</script>

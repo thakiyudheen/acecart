@@ -1,0 +1,150 @@
+
+<%-include("../layout/user/header")-%>
+<style>
+  
+  input{
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100%;
+    height: 40px;
+    padding-left: 20px;
+  
+  }
+  label{
+    margin-left: 10px;
+  }
+  h2{
+  text-align: center;
+  color: black;
+  }
+  p{
+    color: red;
+  }
+  .btn{
+    color:white ;
+    background-color: black;
+    border-radius: 10px;
+  }
+  .btn:hover{
+    background-color: black;
+    border:2px solid blue;
+    color: white;
+  }
+
+  
+  
+  </style>
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <img src="draw2.webp"
+            class="img-fluid" alt="Sample image">
+        </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 mt-5  shadow p-5 rounded-4">
+          <form action="/send-otp" method="post">
+            <h2><i class="fa-solid fa-cart-shopping"></i>aceCart</h2><br>
+            <h4 class="float-start p-3">SignUp</h4>
+            <label for="" style="color: red;"><%-locals.exists?exists:""-%></label>
+            <input type="hidden" placeholder="Enter your name" name="status" value="active"  ><br>
+           
+           <input type="text" placeholder="Enter your name" id="Input1" name="name" onclick="ok()" onchange="validateUserName()" required><br>
+           <label for=""  >Name</label><br>
+           <p id="msgname"> </p>
+          
+           <input type="text" placeholder="Enter your email" id="Input2" name="email" onchange="validateUserEmail()" required><br>
+           <label for="">Email</label><br>
+           <p id="msgemail"> </p>
+           
+           <input type="password" placeholder="Enter Password" id="Input3" name="password" onchange="validatePassword()" required><br>
+           <label for="">Password</label><br>
+           <p id="msgpass1"> </p>
+           
+           <input type="password" placeholder="Comfirm Password" id="Input4"  name="confirm password" onkeyup="checkPasswordMatch();" required ><br>
+           <label for="">confirm Password</label><br>
+           <p id="msgpass2"> </p>
+           <a href="/login" class="p-2" style="float: right;">I have account</a><br>
+           
+           
+           <input type="submit" class="btn" value="submit" id="signupButton">
+          </form>
+        </div>
+      </div>
+    </div>
+      
+     
+      <script>
+        function ok(){
+          console.log("okk")
+        }
+   function validateUserName() {
+    console.log("hii");
+    var usernamePattern = /^[a-zA-Z0-9_.\s]{3,16}$/;
+    var name = document.getElementById("Input1").value;
+    var msg = document.getElementById("msgname");
+    var signupButton = document.getElementById("signupButton");
+
+    if (usernamePattern.test(name)) {
+        msg.innerHTML = "";
+        signupButton.disabled = false; // Enable the button
+        console.log("ayknu1"); // Move this line inside the if block
+    } else {
+        console.log("ayknu2");
+        msg.innerHTML = "Username must be 3-20 characters";
+        signupButton.disabled = true; // Disable the button
+    }
+}
+
+    function validateUserEmail() {
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        var email = document.getElementById("Input2").value;
+        var isValid = emailPattern.test(email);
+        var msg = document.getElementById("msgemail");
+        var signupButton = document.getElementById("signupButton");
+
+        if (isValid) {
+            msg.innerHTML = "";
+            signupButton.disabled = false; // Enable the button
+        } else {
+            msg.innerHTML = "Invalid email address";
+            signupButton.disabled = true; // Disable the button
+        }
+    }
+    function validatePassword() {
+        var passwordPattern = /^.{8,}$/;
+        var msg = document.getElementById("msgpass1");
+        var password = document.getElementById("Input3").value;
+        var isValid = passwordPattern.test(password);
+        var signupButton = document.getElementById("signupButton");
+
+        if (isValid) {
+            msg.innerHTML = "";
+            signupButton.disabled = false; // Enable the button
+        } else {
+            msg.innerHTML = "Password must be at least 8 characters";
+            signupButton.disabled = true; // Disable the button
+        }
+    }
+
+    // JavaScript function to check password match
+    function checkPasswordMatch() {
+        var password = document.getElementById("Input3").value;
+        var confirmPassword = document.getElementById("Input4").value;
+        var message = document.getElementById("msgpass2");
+        var messagep = document.getElementById("msgpass2");
+        var signupButton = document.getElementById("signupButton");
+
+        if (password === confirmPassword) {
+            message.innerHTML = ""; // Clear the error message
+            signupButton.disabled = false; // Enable the button
+        } else {
+            message.innerHTML = "Passwords do not match. Please try again.";
+            signupButton.disabled = true; // Disable the button
+        }
+    }
+    
+
+</script>
+    
+  </section>
+  <%-include("../layout/user/footer")-%>

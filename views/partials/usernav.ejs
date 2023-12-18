@@ -1,0 +1,105 @@
+
+
+</style>
+<!-- nav bar start  ---------------------------------------------------------------->
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand p-2" href="#"><h3 >aceCart</h3></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+     
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+       
+        <form class="d-flex">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-dark" type="submit">Search</button>
+          </form>
+          
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 firstul" >
+          <li class="nav-item">
+            <a class=" active" aria-current="page" href="/"><i class="fa fa-home" aria-hidden="true"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class=" active" aria-current="page" href="/userhome/products"><i class="fa-brands fa-shopify"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class=" active" aria-current="page" href="/login"><i class="fa fa-heart" aria-hidden="true"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="" href="/login"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+          </li>
+          <% if(locals.user){ %>
+            <li class="nav-item dropdown ">
+                <a class=" dropdown-toggle " href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px"><%= user%></button>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="">settings</a></li>
+                  <li><a class="dropdown-item" href="/logoutuser">Logout</a></li>
+                 
+                </ul>
+              </li>
+         
+         <%} else{ %>
+            <li class="nav-item dropdown ">
+                <a class=" dropdown-toggle " href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px">login</button>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/login">Login</a></li>
+                  <li><a class="dropdown-item" href="/send-otp">Signup</a></li>
+                 
+                </ul>
+              </li>
+          <% } %>
+         
+          
+        
+        </ul>
+      
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 secondul" >
+          <li class="nav-item">
+            <a class=" active" aria-current="page" href="/"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class=" active" aria-current="page" href="/userhome/products"><i class="fa-brands fa-shopify"></i>&nbsp;SHOPIFY</a>
+          </li>
+          <li class="nav-item">
+            <a class=" active" aria-current="page" href="/login"><i class="fa fa-heart" aria-hidden="true"></i>&nbsp;WISH LIST</a>
+          </li>
+          <li class="nav-item">
+            <a class="" href="/login"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;CART</a>
+          </li>
+          <% if(locals.user){ %>
+            <li class="nav-item dropdown ">
+                <a class=" dropdown-toggle " href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px"><%= user%></button>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/login">settings</a></li>
+                  <li><a class="dropdown-item" href="/send-otp">Logout</a></li>
+                 
+                </ul>
+              </li>
+        
+         <%} else{ %>
+            <li class="nav-item dropdown ">
+                <a class=" dropdown-toggle " href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px">login</button>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/login">Login</a></li>
+                  <li><a class="dropdown-item" href="/logoutuser">Signup</a></li>
+                 
+                </ul>
+              </li>
+          <% } %>
+          
+        
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- nav bar end ----------------------------------------------------------------->

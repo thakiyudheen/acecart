@@ -1,0 +1,81 @@
+
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+<style>
+    .list-group-item{
+        border:2px soid rgb(10, 10, 10) !important;
+       
+       }
+       .ok{
+        background-color: grey;
+        
+       }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            
+            <a href="/admin/addcategory"  id="exampleModal" class="btn btn-primary p-2 m-3 float-end">Add Category</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+   
+    <div class="row">
+       
+        <div class="col-md-12">
+            
+            <!-- <ul class="list-group ok shadow-lg " >
+                <li class="list-group-item active text-light">CATEGORY</li>
+                <% if (locals.err) { %>
+                    <li class="list-group-item active text-light"><%-err-%></li>
+                <% } %>
+                <% data.forEach((ele,index) => { %>
+                    <li class="list-group-item"><%-index+1-%>  &nbsp;&nbsp; &nbsp;&nbsp;<%-ele.categoryname-%> <div class="float-end"><a ><i class="fa-solid fa-trash" style="color: red; " onclick="remove('<%-ele._id-%>')"></i></a></div></li>
+                <% }) %>
+               
+               
+              </ul> -->
+              <table class="table" id="example">
+                <thead>
+                  <tr>
+                    <th scope="col">NO</th>
+                    <th scope="col">CATEGORY</th>
+                    <th scope="col">EDIT</th>
+                    <th scope="col">DELETE</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                    <% data.forEach((ele,index) => { %>
+                  <tr>
+                   
+                    <td><%-index+1-%></td>
+                    <td><%-ele.categoryname-%></td>
+                    <td><a href="/admin/editcategory/<%-ele._id-%>"><i class="fa-solid fa-pen-to-square" style="color:blue; padding:10px"></i></a></td>
+                    <td><a><i class="fa-solid fa-trash" style="color: red; " onclick="remove('<%-ele._id-%>')"></i></a></td>
+                  </tr> 
+                   <% }) %>
+                
+                </tbody>
+              </table>
+              <% if (locals.err) { %>
+                <p class=" text-light" style="color: red;"><%-err-%></p>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+        let table = new DataTable('#example');
+      });
+</script>
+
+<%-include("../layout/admin/footer")-%>

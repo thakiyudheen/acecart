@@ -1,0 +1,41 @@
+
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+
+
+<div class="container">
+   
+    <div class="row">
+       
+        <div class="col-md-12">
+            <div class="d-flex justify-content-center align-items-center " style="height: 100vh;">
+                <section style="width: 500px; height: 300px;border-radius: 10px; "class="shadow-lg">
+                    <form action="/admin/editcategory" method="post">
+                        <div class="d-flex justify-content-center align-items-center" style="height: 70px;border-radius:10px 10px 0 0;background-color: rgb(82, 82, 82);">
+                            <h4 style="color: white;">Edit Catagory</h4>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="height: 60px;border-radius:10px 10px 0 0;">
+                            <h5><strong>Enter Catagory</strong></h5>
+                        </div>
+                       
+                        <div class="d-flex justify-content-center align-items-center" style="height: 37px;border-radius:10px 10px 0 0;">
+                            <input type="text" style="border-radius: 30px; padding:10px; height: 35px;" name="categoryname" value=" <%-category.categoryname-%>" required>
+                        </div>
+                        <input type="hidden" name="id" value="<%-category._id-%>">
+                        <div class="d-flex justify-content-center align-items-center" style="height: 80px;">
+                           <a href="/admin/category" class="btn btn-danger me-2">Cancel</a> <button  class=" btn btn-dark" style="width: 100px;height: 37px;color: white;">Add </button>
+                        </div>
+                    </form>
+                    <p style="color: red; text-align: center;"><%-locals.err?err:""-%></p>
+                </section>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+<%-include("../layout/admin/footer")-%>

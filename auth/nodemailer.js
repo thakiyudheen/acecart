@@ -10,7 +10,7 @@ async function sendEmail(recipientEmail) {
     // otp generations ---------------------
     await otp.deleteOne({email:recipientEmail})
     let OTP=generateOTP();
-    console.log(" your otp is :"+OTP)
+    console.log(" your otp is this :"+OTP)
 
     await otp.create({email:recipientEmail,otp:OTP})
     setTimeout(async()=>{

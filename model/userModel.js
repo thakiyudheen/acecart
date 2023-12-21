@@ -16,10 +16,7 @@ const userschema = new Schema(
     },
     status: {
       type: String,
-    },
-    refferedBy: {
-      type: String,
-    },
+    }
   },
   {
     timestamps: true,

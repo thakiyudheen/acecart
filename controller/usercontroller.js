@@ -14,9 +14,10 @@ module.exports={
     
    },
    
-   getHomepage:(req,res)=>{
+   getHomepage:async(req,res)=>{
       try{
-         res.render('user/homepage',{user:req.session.user})
+         const product=await Product.find({Category:"FLAGSHIP MOBILES",status:"Active"})
+         res.render('user/homepage',{user:req.session.user,product})
       }catch(err){
          console.log(err)
       }
@@ -51,6 +52,19 @@ module.exports={
          console.log(err)
       }
       
+
+   },
+   // searching  ----------------------------------------------
+   postSearch:async (req,res)=>{
+      try{
+         console.log(req.body)
+         const product=await Product.find({
+            ProductName:{ $regex: "^" + req.body.search, $options: "i"},status:"Active"
+         })
+         res.render('user/producthome',{product,user:req.session.user})
+      }catch(err){
+         console.log(err);
+      }
 
    }
 

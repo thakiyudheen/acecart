@@ -48,7 +48,7 @@ module.exports={
     updateStatus:async (req,res)=>{
 
           try{
- const id=req.params.id
+       const id=req.params.id
        const status=req.params.stat
        console.log(status)
        var msg;

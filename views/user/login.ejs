@@ -1,93 +1,102 @@
 <%-include("../layout/user/header")-%>
 
-  <style>
-
-  
-
-  body{
-    padding:40px;
-   
-    
+<style>
+  body {
+    padding: 40px;
   }
-  input{
+  input {
     border-radius: 10px;
     border: 1px solid black;
     width: 100%;
     height: 40px;
-    padding-left:20px ;
-  
+    padding-left: 20px;
   }
-  .btn{
-    color:white ;
+  .btn {
+    color: white;
     background-color: black;
     border-radius: 10px;
   }
-  .btn:hover{
+  .btn:hover {
     background-color: black;
-    border:2px solid blue;
+    border: 2px solid blue;
     color: white;
   }
 
-  label{
+  label {
     margin-left: 10px;
   }
-  h2{
-  text-align: center;
-  color: black;
+  h2 {
+    text-align: center;
+    color: black;
   }
-  p{
+  p {
     color: red;
   }
-  
-  
-  </style>
+</style>
 <section class="vh-100">
-    <div class="container-fluid h-custom">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-md-9 col-lg-6 col-xl-5">
-          <img src="draw2.webp"
-            class="img-fluid" alt="Sample image">
-        </div>
-        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 mt-5 shadow p-5 rounded-4">
-          <form action="/login" method="post">
-            <h2><i class="fa-solid fa-cart-shopping"></i>aceCart</h2><br>
-            <h4 class="float-start p-3">Login</h4><br>
-            <label for="" class="text-center" style="color: greenyellow;"><%-locals.msg?msg:""-%></label><br>
-            <label for="" style="color: red;"><%-locals.err?err:""-%></label><br>
-           
-           <input type="text" placeholder="Enter your email" id="Input2" name="email" onchange="validateUserEmail()" required><br>
-           <label for="">Email</label><br>
-           <p id="msgemail"> </p>
-           
-           <input type="password" placeholder="Enter Password" id="Input3" name="password"  required><br>
-           <label for="">Password</label><br>
-           <p id="msgpass1"> </p>
-           
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="draw2.webp" class="img-fluid" alt="Sample image" />
+      </div>
+      <div
+        class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 mt-5 shadow p-5 rounded-4"
+      >
+        <form action="/login" method="post">
+          <h2><i class="fa-solid fa-cart-shopping"></i>aceCart</h2>
+          <br />
+          <h4 class="float-start p-3">Login</h4>
+          <br />
+          <label for="" class="text-center" style="color: greenyellow"
+            ><%-locals.msg?msg:""-%></label
+          ><br />
+          <label for="" style="color: red"><%-locals.err?err:""-%></label><br />
 
-           <a href="/send-otp" style="float: right;">I Dont have account</a><br><br>
-           
-           
-           <input type="submit" class="btn" value="submit" id="signupButton">
-          </form>
-        </div>
+          <input
+            type="text"
+            placeholder="Enter your email"
+            id="Input2"
+            name="email"
+            onchange="validateUserEmail()"
+            required
+          /><br />
+          <label for="">Email</label><br />
+          <p id="msgemail"></p>
+
+          <input
+            type="password"
+            placeholder="Enter Password"
+            id="Input3"
+            name="password"
+            required
+          /><br />
+          <label for="">Password</label><br />
+          <p id="msgpass1"></p>
+
+          <a href="/send-otp" style="float: right">I Dont have account</a
+          ><br /><br />
+
+          <input type="submit" class="btn" value="submit" id="signupButton" />
+        </form>
       </div>
     </div>
-  </section>
-  <script>
-      function validateUserEmail() {
-        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        var email = document.getElementById("Input2").value;
-        var isValid = emailPattern.test(email);
-        var msg = document.getElementById("msgemail");
-        var signupButton = document.getElementById("signupButton");
+  </div>
+</section>
+<script>
+  function validateUserEmail() {
+    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    var email = document.getElementById("Input2").value;
+    var isValid = emailPattern.test(email);
+    var msg = document.getElementById("msgemail");
+    var signupButton = document.getElementById("signupButton");
 
-        if (isValid) {
-            msg.innerHTML = "";
-            signupButton.disabled = false; // Enable the button
-        } else {
-            msg.innerHTML = "Invalid email address";
-            signupButton.disabled = true; // Disable the button
-        }
+    if (isValid) {
+      msg.innerHTML = "";
+      signupButton.disabled = false; // Enable the button
+    } else {
+      msg.innerHTML = "Invalid email address";
+      signupButton.disabled = true; // Disable the button
     }
-  </script>
-  <%-include("../layout/user/footer")-%>
+  }
+</script>
+<%-include("../layout/user/footer")-%>

@@ -11,8 +11,8 @@
      
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
        
-        <form class="d-flex">
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        <form class="d-flex" action="/search" method="post">
+            <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-dark" type="submit">Search</button>
           </form>
           
@@ -27,7 +27,7 @@
             <a class=" active" aria-current="page" href="/login"><i class="fa fa-heart" aria-hidden="true"></i></a>
           </li>
           <li class="nav-item">
-            <a class="" href="/login"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            <a class="" href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
           </li>
           <% if(locals.user){ %>
             <li class="nav-item dropdown ">
@@ -70,7 +70,7 @@
             <a class=" active" aria-current="page" href="/login"><i class="fa fa-heart" aria-hidden="true"></i>&nbsp;WISH LIST</a>
           </li>
           <li class="nav-item">
-            <a class="" href="/login"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;CART</a>
+            <a class="" href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;CART</a>
           </li>
           <% if(locals.user){ %>
             <li class="nav-item dropdown ">

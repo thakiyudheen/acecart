@@ -20,33 +20,33 @@
             <br> <label for="" id="err1" style="color: red; padding:5px;"></label><br>
             
             <div class="d-flex mt-4 justify-content-center align-items-center">
-                <input type="text" name="ProductName" placeholder="Product Name"
-                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
+                <input type="text" name="ProductName" id="proname" placeholder="Product Name"
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validation('proname')"  required>
             </div><br>
             <input type="hidden" name="status" value="Active">
             <div class="d-flex mt-2 justify-content-center align-items-center">
-                <input type="text" name="BrandName" placeholder="Barand Name"
-                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
+                <input type="text" name="BrandName" placeholder="Barand Name" id="brname"
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validation('brname')" required>
             </div>
             <br>
             <div class="d-flex justify-content-center">
-                <textarea name="Specification1" placeholder="Specification1"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required></textarea>
+                <textarea name="Specification1" placeholder="Specification1" id="spec1"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validation('spec1')" required></textarea>
                 <textarea name="Specification2" placeholder="Specification2"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" id="spec2" oninput="validation('spec2')" required></textarea>
             </div>
             <br>
             <div class="d-flex justify-content-center">
                 <textarea name="Specification3" placeholder="Specification3"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required></textarea>
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" id="spec3"  oninput="validation('spec3')" required></textarea>
                 <textarea name="Specification4" placeholder="Specification4"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" id="spec4" oninput="validation('spec4')" required></textarea>
             </div>
             
             <br>
             <div class="d-flex justify-content-center align-items-center">
                 <textarea name="Description" placeholder="Description"
-                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required></textarea>
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="dec" oninput="validation('dec')" required></textarea>
             </div>
             <br>
             <div class="d-flex justify-content-center align-items-center ">
@@ -76,17 +76,17 @@
             style="border-radius: 15px;">
 
             <div class="d-flex justify-content-center align-items-center" >
-                <input type="file" name="image1" id="imageInput1" accept="image/*" onchange="change1(event)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" required>
-                <input type="file" name="image2" id="imageInput2" accept="image/* "onchange="change2(event)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;"required>
+                <input type="file" name="image1" id="imageInput1" accept="image/*" onchange="change(event,1)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('imageInput1',1)" required>
+                <input type="file" name="image2" id="imageInput2" accept="image/*" onchange="change(event,2)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('imageInput2',2)" required>
             </div>
             <br>
             <div class="d-flex justify-content-center align-items-center">
-                <input type="file" name="image3" id="imageInput4" accept="image/*" onchange="change3(event)"
+                <input type="file" name="image3" id="imageInput3" accept="image/*" oninput="validateImage('imageInput3',3)" onchange="change(event,3)"
                     style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px; margin-right: 4%;" required>
                 
-                <input type="file" name="image4" id="imageInput4" accept="image/*" onchange="change4(event)"
+                <input type="file" name="image4" id="imageInput4" accept="image/*" oninput="validateImage('imageInput4',4)" onchange="change(event,4)"
                     style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
             </div>
             <div class="d-flex justify-content-center p-3">
@@ -110,7 +110,7 @@
             </div>
             <div class="d-flex justify-content-center align-items-center">
                 <input name="Tags" placeholder="Tags"
-                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" required></input>
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="tags" oninput="validation('tags')"  required></input>
             </div>
             <div class="d-flex justify-content-center mt-4">
                 <a href="/admin/products" class="btn btn-danger me-2 shadow-sm">Cancel</a>  <button type="submit" id="submit" class="shadow-sm btn" style="background-color: rgb(0, 189, 0);color: white;">Add Product</button>
@@ -129,30 +129,46 @@
 
 <!-- script of the add imag ------------------------------------------------------------------- -->
 <script>
-    function change1(event){
+    
+  
+
+    function change(event,no){
         console.log("ok da")
-        document.getElementById('imagePreview1').src=URL.createObjectURL(event.target.files[0])
-    }
-    function change2(event){
-        console.log("ok da")
-        document.getElementById('imagePreview2').src=URL.createObjectURL(event.target.files[0])
-    }
-    function change3(event){
-        console.log("ok da")
-        document.getElementById('imagePreview3').src=URL.createObjectURL(event.target.files[0])
-    }
-    function change4(event){
-        console.log("ok da")
-        document.getElementById('imagePreview4').src=URL.createObjectURL(event.target.files[0])
-    }
+        document.getElementById(`imagePreview${no}`).src=URL.createObjectURL(event.target.files[0])
+      
+     }
+
+  
 
 
+
+    function validation(id) {
+    console.log("working");
+    console.log(id);
+    const submitButton = document.getElementById('submit');
+    const errMessage = document.getElementById('err1');
+    var val = document.getElementById('' + id).value;
+
+    if (val.trim() === "") {
+      errMessage.textContent = 'Only space doesn\'t accept';
+      submitButton.disabled = true;
+    } else if (val.startsWith(' ')) {
+      errMessage.textContent = 'Text should not start with a space.';
+      submitButton.disabled = true;
+    } else {
+      errMessage.textContent = '';
+      submitButton.disabled = false;
+    }
+  }
     
 
      document.addEventListener('DOMContentLoaded', function () {
     const priceInput = document.querySelector('input[name="Price"]');
     const discountInput = document.querySelector('input[name="DiscountAmount"]');
     const quantityInput = document.querySelector('input[name="AvailableQuantity"]');
+    const productname = document.querySelector('input[name="Productname"]');
+    const barndname = document.querySelector('input[name="Brandname"]');
+
     const errMessage = document.getElementById('err1');
     const submitButton = document.getElementById('submit');
 
@@ -178,6 +194,7 @@
             submitButton.disabled = false;
         }
     }
+  
 });
  </script>
 

@@ -4,6 +4,7 @@ const login=require('../middleware/session')
 const adminhelper= require('../controller/admin-controller')
 const producthelper= require('../controller/product-controller')
 const upload = require("../middleware/multer");
+const usercontroller = require('../controller/usercontroller')
 
 // admin login ------------------------------------------------------
 router.get('/',login.adminExist,adminhelper.getlogin)
@@ -50,6 +51,8 @@ router.get('/deleteproduct/:id',producthelper.deleteProduct)
 router.get('/editproduct/:id',login.verifyAdmin,producthelper.geteditProducts)
 router.post('/editproduct/:id',upload.any(),producthelper.editProducts)
 router.get('/editproduct/deleteimg/:imgname/:id',producthelper.DltImage)
+
+
 
 // logout admin ---------------------------------------------------------
 router.get('/logout',adminhelper.logOut)

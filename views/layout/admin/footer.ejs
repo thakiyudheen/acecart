@@ -1,4 +1,59 @@
 
+<script>
+function validateImage(id,no) {
+    console.log("sett");
+    const imageInput = document.getElementById(''+id);
+    const submitButton = document.getElementById('submit');
+    const errMessage = document.getElementById('err1');
+
+               
+
+    const arr = ['jpg', 'jpeg', 'png', 'gif']; // Change this to the allowed extension
+
+    const selectedFile = imageInput.files[0];
+    const fileNameParts = selectedFile.name.split('.');
+    const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
+    console.log(fileExtension);
+
+    if (!arr.includes(fileExtension)) {
+      errMessage.textContent = `Invalid file type.`;
+    //   submitButton.disabled = true;
+      imageInput.value='';
+      
+    }else{
+        errMessage.textContent = ` `;
+        submitButton.disabled = false;
+    }
+
+    
+   
+  }
+
+
+  function validatecat(id){
+    
+   console.log("okk");
+    const submitButton = document.getElementById('submit');
+    const errMessage = document.getElementById('err1');
+    var val = document.getElementById('' + id).value;
+
+    if (val.trim() === "") {
+      errMessage.textContent = 'Only space does not accept';
+      submitButton.disabled = true;
+    } else if (val.startsWith(' ')) {
+      errMessage.textContent = 'Text should not start with a space.';
+      submitButton.disabled = true;
+    } else {
+      errMessage.textContent = '';
+      submitButton.disabled = false;
+    }
+  
+  }
+
+</script>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
 
 

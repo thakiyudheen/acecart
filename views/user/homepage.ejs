@@ -93,9 +93,63 @@
     </div>
   </div>
   <!-- catogaries ----------------------------------------------------->
-  <div class="container mt-5">
+  <div class="container mt-4">
     <div class="row">
-      <h2 style="padding: 10px ; width: 100%; background-color:white;">Brands</h2>
+      <h2 style="padding: 10px ; width: 100%; background-color:white;">Flagship Mobiles</h2>
+      <% product.forEach(el=> { %>
+       
+     
+        <div class="col-6 col-md-3 col-sm-6 d-flex justify-content-center justify-content-md-start">
+            <div class="card h-90 shadow-sm mt-4" style="position:relative;">
+                <a href="https://amzn.to/42dsdGC" target="_blank">
+                  <img src="/product-images/<%-el.images[0]-%>" class="card-img-top" alt="product.title" style="width:100%; height:300px; padding:20px;" />
+                </a>
+            
+                <div class="label-top shadow-0">
+                  <a class="text-white" href="https://amzn.to/42dsdGC" target="_blank">razer</a>
+                </div>
+                <div class="card-body">
+                  <h7 style="font-weight: 500;">₹<%-el.DiscountAmount-%>\-</h7>&nbsp;&nbsp;<p7><del style="color: red; font-size: 13px;">₹<%-el.Price-%></del></p7>
+                  <div class="clearfix mb-1">
+                    <h7><%-el.ProductName-%></h7>
+                    <span class="float-start rounded-pill "><%-el.DiscountAmount-%></span>
+  
+                    <span class="float-end" style="position: absolute;    color: white;
+                    position: absolute;
+                    top: 15px;
+                    background-color: red;
+                    border-radius: 17px;
+                    right: 34px;
+                   text-align: center;
+                    border: 2px solid red;
+                    width: 33px;
+                ">
+                      <i class="far fa-heart" style="cursor: pointer"></i>
+            
+                    </span>
+                  </div>
+                  <p class="card-title m-1" style="font-size: 12px;">
+                    <a target="_blank " style="text-decoration: none;color: black;" href="#"><%-el.discription-%></a>
+                  </p>
+            
+                  <!-- <div class="d-grid gap-1 my-1">
+            
+                    <a href="#" class="btn btn-dark bold-btn">add to cart</a>
+            
+                  </div> -->
+                  <div class="d-flex  my-1">
+            
+                    <a href="/userhome/products/productdetails/<%-el._id-%>" style="width: 48%;" class="btn btn-dark bold-btn">View  </a>
+                    <a class="btn btn-dark bold-btn ms-2 " onclick="addTocart('<%-el._id-%>')" style="width: 48%;">Add to cart</a>
+                  </div>
+                 
+              </div>
+            </div>
+  
+        </div>
+      
+        <% }) %> 
+      
     </div>
   </div>
   <!-- end  -->

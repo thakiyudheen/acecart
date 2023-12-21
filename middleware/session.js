@@ -1,5 +1,6 @@
 // after login----------------------------
 const verifyUser = (req, res, next) => {
+  console.log("hii here")
     if (req.session.userlogged) {
       next();
     } else {

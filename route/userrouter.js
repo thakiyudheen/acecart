@@ -4,7 +4,7 @@ const router= express.Router()
 const login=require('../middleware/session')
 const userhelper= require('../controller/controller')
 const usercontroller=require('../controller/usercontroller')
-
+const cartcontroller=require('../controller/cart-controller')
 
 
 
@@ -35,6 +35,23 @@ router.get('/userhome/products',usercontroller.getProductpage)
 router.get('/userhome/products/productdetails/:id/',usercontroller.getProductDetails)
 // get branded product ------------------------------------------
 router.get('/userhome/brandpage/:brandname',login.verifyUser,usercontroller.getBrandpage)
+// search product ------------------------------------------------------
+router.post('/search',usercontroller.postSearch )
+
+
+// cart listing---------------------------------------------------------
+router.get("/cart",login.verifyUser,cartcontroller.getCart)
+// add to cart --------------------------------------------------------
+router.get('/addTocart/:id',login.verifyUser,cartcontroller.addTocart)
+// Update count -------------------------------------------------------
+router.get('/updatecart/:proid/:no/:qty/:cartid',cartcontroller.updateCart)
+// remove from cart---------------------------------------------------
+router.get('/removecart/:cartid/:proid',login.verifyUser,cartcontroller.removeCart)
+
+
+
+
+
 
 
 

@@ -2,7 +2,7 @@ const mongoose=require("mongoose")
 require('dotenv').config();
 
 const Schema = mongoose.Schema;
-//otp schema
+//category schema
 const categoryschema = new Schema(
   {
    
@@ -16,4 +16,4 @@ const categoryschema = new Schema(
 );
 
 const categories = mongoose.model("category", categoryschema);
-module.exports =categories ;
+module.exports =categories;

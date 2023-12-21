@@ -26,32 +26,32 @@
             <div class="d-flex mt-4 justify-content-center align-items-center">
                
                 <input type="text" name="ProductName" placeholder="Product Name"
-                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;"  value="<%-product.ProductName -%>" required>
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="proname" oninput="validation(proname)" value="<%-product.ProductName -%>" required>
             </div><br>
             <input type="hidden" name="status" value="Active">
             <div class="d-flex mt-2 justify-content-center align-items-center">
                 <input type="text" name="BrandName" placeholder="Barand Name"
-                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%-product.BrandName -%>" required>
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="brname" oninput="validation(brname)" value="<%-product.BrandName -%>" required>
             </div>
             <br>
             <div class="d-flex justify-content-center">
                 <textarea name="Specification1" placeholder="Specification1"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" value="<%= product.Specification1%>" required><%= product.Specification1%></textarea>
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" id="spec1" oninput="validation(spec1)" value="<%= product.Specification1%>" required><%= product.Specification1%></textarea>
                 <textarea name="Specification2" placeholder="Specification2"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%= product.Specification2%>" required><%= product.Specification2%></textarea>
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" id="spec2" oninput="validation(spec2)" value="<%= product.Specification2%>" required><%= product.Specification2%></textarea>
             </div>
             <br>
             <div class="d-flex justify-content-center">
-                <textarea name="Specification3" placeholder="Specification3"
+                <textarea name="Specification3" placeholder="Specification3" id="spec3" oninput="validation(spec3)"
                     style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" value="<%= product.Specification3 %>" required><%= product.Specification3 %></textarea>
-                <textarea name="Specification4" placeholder="Specification4"
+                <textarea name="Specification4" placeholder="Specification4" id="spec4" oninput="validation(spec4)"
                     style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%= product.Specification4 %>" required><%= product.Specification4 %></textarea>
             </div>
             
             <br>
             <div class="d-flex justify-content-center align-items-center">
-                <textarea name="Description" placeholder="Description"
-                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%= product.Description %>" required><%= product.Description %></textarea>
+                <textarea name="Description" placeholder="Description" id="dec" oninput="validation(dec)"
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;"  value="<%= product.Description %>" required><%= product.Description %></textarea>
             </div>
             <br>
             <div class="d-flex justify-content-center align-items-center ">
@@ -82,16 +82,16 @@
 
             <div class="d-flex justify-content-center align-items-center" >
                 <input type="file" name="image1" id="image1" accept="image/*" onchange="change(event,1)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"  value="/product-images/<%=product?.images[0]?.filename%>" >
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('image1',1)" value="/product-images/<%=product?.images[0]?.filename%>" >
                 <input type="file" name="image2" id="image2" accept="image/* "onchange="change(event,2)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;"  value="/product-images/<%=product?.images[1]?.filename%>">
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('image2',1)"   value="/product-images/<%=product?.images[1]?.filename%>">
             </div>
             <br>
             <div class="d-flex justify-content-center align-items-center">
                 <input type="file" name="image3" id="image3" accept="image/*" onchange="change(event,3)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" value="/product-images/<%=product?.images[2]?.filename%>" >
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('image3',1)"  value="/product-images/<%=product?.images[2]?.filename%>" >
                 <input type="file" name="image4" id="image4" accept="image/*" onchange="change(event,4)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" value="/product-images/<%=product?.images[3]?.filename%>" >
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('image4',1)"  value="/product-images/<%=product?.images[3]?.filename%>" >
             </div>
             <div class="d-flex justify-content-center p-3">
                 <div style="width: 100px;height: 100px;margin-right: 4%;margin-left: 4%; border: 1px solid grey;">
@@ -126,7 +126,7 @@
             <br>
             <div class="d-flex justify-content-center align-items-center">
                 <input name="Tags" placeholder="Tags"
-                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%=product.Tags%>" required></input>
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%=product.Tags%>" id="tags" oninput="validation(tags)" required></input>
             </div>
             <div class="d-flex justify-content-center mt-4">
                 <a href="/admin/products" class="btn btn-danger me-2">Cancel</a> <button type="submit" id="submit" class="btn shado" style="background-color: rgb(52, 209, 0);color: white;">Add Product</button>
@@ -151,7 +151,24 @@
      }
     
 
+     function validation(id) {
+    console.log("working");
+    console.log(id);
+    const submitButton = document.getElementById('submit');
+    const errMessage = document.getElementById('err1');
+    var val = document.getElementById('' + id).value;
 
+    if (val.trim() === "") {
+      errMessage.textContent = 'Only space doesn\'t accept';
+      submitButton.disabled = true;
+    } else if (val.startsWith(' ')) {
+      errMessage.textContent = 'Text should not start with a space.';
+      submitButton.disabled = true;
+    } else {
+      errMessage.textContent = '';
+      submitButton.disabled = false;
+    }
+  }
 
    
     document.addEventListener('DOMContentLoaded', function () {

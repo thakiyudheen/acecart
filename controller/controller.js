@@ -2,13 +2,14 @@ const User= require("../model/userModel");
 const otp = require("../model/otpModel");
 const {sendEmail}=require('../auth/nodemailer')
 const { generateOTP}=require('../util/generateotp')
+const { hashData,verifyHashedData}=require('../util/bcrypt')
 
 
-var _email;
-var _name;
-var _status;
-var _password;
-var _otp;
+// var _email;
+// var _name;
+// var _status;
+// var _password;
+// var _otp;
 module.exports={
     
     getSignupOtp:async(req,res)=>{
@@ -25,21 +26,23 @@ module.exports={
             const { status, name, email, password} = req.body;
            let data= await User.findOne({email:email})
            if(data){
-            console.log(data)
+            
             res.render('user/signUp',{exists:'Email already exist'})
            }else{
-         
-           _status=status
-           _name=name
-           _email=email
-           _password=password
 
-        //    const nowotp=generateOTP()
-        //    await otp.create({email:_email,otp:nowotp})
-        //    console.log("otp:"+nowotp)
+            const hashedpass= await hashData(password)
+            console.log(hashedpass)
+            req.session.userdata={
+                status:status,
+                name:name,
+                email:email,
+                password:hashedpass
+            }
+           
+         console.log("okk session",req.session.userdata); 
+      
            sendEmail(email)
-        //    setTimeout(async()=>{
-        //     await otp.deleteOne({email:_email})
+        
  
         //     },120000)
 
@@ -48,7 +51,7 @@ module.exports={
 
             
         }catch(err){
-
+            console.log(err)
         }
     },
     getSignup:(req,res)=>{
@@ -62,7 +65,7 @@ module.exports={
         }
     },
     postSignup:async (req,res)=>{
-        console.log("ok mam ",req.body)
+        
         const arr=[];
         const {num1,num2,num3,num4}=req.body
         arr.push(num1)
@@ -70,13 +73,17 @@ module.exports={
         arr.push(num3)
         arr.push(num4)
         const userotp=arr.join("").toString()
-        console.log(_otp)
+        
         console.log(userotp)
 
-        const otp_=await otp.findOne({email:_email})
+        const otp_=await otp.findOne({email:req.session.userdata.email})
         console.log(otp_)
         if(otp_?.otp==userotp&&otp_!=null){
-            User.create({name:_name,email:_email,password:_password,status:_status}).then((data)=>{
+            // User.create({name:_name,email:_email,password:_password,status:_status}).then((data)=>{
+            //     res.render('user/login',{msg:"signUp successfully..!"});
+            // })
+          
+            User.create(req.session.userdata).then((data)=>{
                 res.render('user/login',{msg:"signUp successfully..!"});
             })
         }else{
@@ -88,26 +95,29 @@ module.exports={
         res.render('user/login')
     },
     resendOtp:async (req,res)=>{
-        // await otp.deleteOne({email:_email})
-        // const newotp=generateOTP()
-        //   await otp.create({email:_email,otp:newotp})
-        //   console.log("otp:"+newotp)
-           sendEmail(_email)
+     
+           sendEmail(req.session.userdata.email)
            res.render('user/otp',{status:"OTP resend successfully" })
-        //    setTimeout(async()=>{
-        //    await otp.deleteOne({email:_email})
-
-        //    },120000)
+      
     },
     postLogin:async(req,res)=>{
        const {email,password}=req.body
       const data= await User.findOne({email:email})
       console.log(data)
-     if(data&&data.status=='active'&&data.password===password){
-        req.session.user=data.name;
-        req.session.userlogged=true;
-        console.log(data.name)
-        res.redirect('/userhome')
+      
+     
+     if(data&&data.status=='active'){
+        let ifmatch= await verifyHashedData(password,data.password)
+        if(ifmatch){
+            req.session.user=data.name;
+            req.session.userlogged=true;
+            req.session.email=data.email;
+            console.log(data.name)
+            res.redirect('/userhome')
+        }else{
+            res.render("user/login",{err:"Incorrect password or email"})
+        }
+       
      }else{
         res.render("user/login",{err:"Incorrect password or email"})
      }

@@ -1,0 +1,206 @@
+<%-include("../layout/user/header")-%>
+<%-include("../partials/usernav")-%> 
+  <div class="container rounded bg-white position-relative">
+    <div class="row">
+        
+
+      <div class="col-md-12 offset">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="">
+              <div class="card shadow rounded-0">
+                <div class="card-header px-4 py-5">
+                  <h5 class="text-muted mb-0">Thanks for your Order!</h5>
+                </div>
+                <div class="card-body p-4 rounded-0">
+                  <!-- Order details and items -->
+                  <div class="card shadow-0 border mb-4 px-2">
+                    <div class="card-body">
+                        <% if (orderData && orderData[0].products && Array.isArray(orderData[0].products)) { %>
+                            <% orderData[0].products.forEach((x)=> { %>
+
+                              <div class="row">
+                                <div class="col-md-2 mb-4">
+                                  <img src="/product-images/<%=x.productid.images[0]%>" class="img-fluid" alt="Phone">
+                                </div>
+
+                                <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
+                                  <p class="text-muted mb-0">
+                                    <%= x.productid.ProductName %>
+                                  </p>
+                                </div>
+
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                  <p class="text-muted mb-0 small">Qty : <%= x.quantity %>
+                                  </p>
+                                </div>
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                  <p class="text-muted mb-0 small">$<%= x.productid.DiscountAmount %>
+                                  </p>
+                                </div>
+                                <% if(x.status=="Return" ){%>
+                                  <h5 style="color: brown;">item returned</h5>
+
+                                  <% }else if(orderData[0].Status=="Delivered" ){ %>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                      <button class="btn small btn-danger"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                        id="returnOrderBtn" data-item-id="<%= x._id %> "
+                                        data-order-id="<%=orderData[0]._id%>">Return</button>
+                                    </div>
+                                    <% } else if(x.status=="Cancelled" ){%>
+                                      <h5 style="color: brown;">item Cancelled</h5>
+                                    <% }else if(orderData[0].Status !=="Cancelled" ){%>
+                                      <!-- <hr> -->
+                                      <div
+                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <button class="btn small btn-dark mb-3" style="  --bs-btn-font-size: .75rem;"
+                                          id="cancelOrderBtn" data-item-id="<%= x._id %> "
+                                          data-order-id="<%=orderData[0]._id%>">Cancel item</button>
+                                      </div>
+                              </div>
+                              <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+
+                            
+
+                                <% }%>
+                                  <div class="row d-flex align-items-center">
+
+                                  </div>
+                                  <% }) %>
+                                    <% }else{%>
+                                      <h3>No data available</h3>
+                                      <% } %>
+                        </div>
+                      </div>
+
+
+
+
+                      <div class="d-flex justify-content-between">
+                        <p class="text-muted mb-0"><b>Order ID : <%=orderData[0]._id%></b></p>
+
+                      </div>
+
+                      <div class="d-flex justify-content-between">
+                        <p class="text-muted mb-0"><b>Order Status :
+                          <%if(orderData[0].orderStatus==="Cancelled"){%> 
+                          <span class="text-danger"><%=orderData[0].orderStatus%></span></b></p>
+                          <% }else {%>
+                            <%=orderData[0].orderStatus%></b></p>
+                          <%}%>
+                    </div>
+                     <% if (orderData[0].del) { %>
+                      
+                     <% } %>
+
+
+
+                            <!-- address --------------------------------- -->
+                            <div class="d-flex flex-column mt-3">
+                                <% let orderDate=new Date(orderData[0].orderDate) %>
+                                <b>
+                                    <p class="card-text">
+                                        Ordered Date and Time:
+                                        <%= orderDate.toLocaleDateString() || 'N/A' %>
+                                            <%= orderDate.toLocaleTimeString() || 'N/A' %>
+                                    </p>
+                                    <p class="card-text">
+                                        Expected Delivery Date and Time:
+                                        <% if (orderData[0].expectedDeliveryDate) { %>
+                                            <%= (new Date(orderData[0].expectedDeliveryDate)).toLocaleString() %>
+                                                <% } else { %>
+                                                    N/A
+                                                    <% } %>
+                                    </p>
+                                
+                                    <h5 class="mb-0 text-success"><strong>Payment Method : <span>
+                                                <%=orderData[0].paymentMethod%>
+                                            </span></strong></h5><br>
+                                    <p class="mb-0"><strong>Name : <%=user%>
+                                        </strong></p>
+                                    <p class="mb-0"><strong>Email : <%=email%>
+                                        </strong></p>
+
+                                    <p class="mt-5"><span class="font-weight-bold "><b>Address</b> : <%=orderData[0].address.address%>,
+                                                <%=orderData[0].address.locality%>,<br>
+                                                    <%=orderData[0].address.city%>,<%=orderData[0].address.district%>,
+                                                            <%=orderData[0].address.state%>,<br>
+                                                                <%=orderData[0].address.pincode%>
+                                        </span></p></b>
+
+                            </div>
+
+                  </div>
+                </div>
+                
+               
+
+
+
+
+                <div class="card-footer border-0 rounded-0 px-4 py-5" style="background-color: rgb(22, 21, 21); ">
+                  <!-- Display Cancel Order button based on conditions -->
+                  <% if (orderData[0].orderStatus!="Cancelled"&&orderData[0].orderStatus!="Delivered") { %>
+                    <button class="btn btn-outline-danger float-left" id="cancelOrder"onclick="cancelOrder('<%-orderData[0]._id-%>','Cancelled')" data-item-id=""
+                        data-order-id="">Cancel Order</button>
+                  <% } %>
+                  
+
+                  <!-- Display total price -->
+                  <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                    <span class="h2 mb-0 ms-2 float-right"> ₹ <%=orderData[0].totalAmount%></span>
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Return Order Modal -->
+
+
+
+        <!-- <div class="modal fade" id="returnOrderModal" tabindex="-1" role="dialog" aria-labelledby="returnOrderModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="returnOrderModalLabel">Return Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body"> -->
+                <!-- Return Order form fields -->
+                <!-- <div class="form-group">
+                  <label for="returnReason">Reason:</label>
+                  <input type="text" class="form-control" id="returnReason" placeholder="Enter reason" required>
+                </div>
+                <div class="form-group">
+                  <label for="returnDescription">Description:</label>
+                  <textarea class="form-control" id="returnDescription" placeholder="Enter description" required></textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="confirmReturnBtn">Confirm Return</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- External script and library links -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <script>
+    // Your custom JavaScript code here
+  </script>
+</body>
+
+</html>

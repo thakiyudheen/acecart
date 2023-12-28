@@ -5,6 +5,11 @@ const adminhelper= require('../controller/admin-controller')
 const producthelper= require('../controller/product-controller')
 const upload = require("../middleware/multer");
 const usercontroller = require('../controller/usercontroller')
+const orderController = require('../controller/order-controller')
+const brandController = require('../controller/brand-controller')
+
+
+
 
 // admin login ------------------------------------------------------
 router.get('/',login.adminExist,adminhelper.getlogin)
@@ -15,6 +20,19 @@ router.get('/customers',login.verifyAdmin,adminhelper.getcustomers)
 router.get('/customers/block/:id/:stat',login.verifyAdmin,adminhelper.updateStatus)
 
 
+// get Brand ---------------------------------------------------------
+router.get('/getBrand',login.verifyAdmin,brandController.getBrand)
+// get add brand -----------------------------------------------------
+router.get('/addbrand',login.verifyAdmin,brandController.getAddbrand)
+// post addbrand -----------------------------------------------------
+router.post('/addbrand',login.verifyAdmin,brandController.postAddbrand)
+// edit brand get-----------------------------------------------------
+router.get('/editbrand/:id',login.verifyAdmin,brandController.geteditBrand)
+// post  edit brand --------------------------------------------------
+router.post('/editbrand',login.verifyAdmin,brandController.posteditBrand)
+// deleet brand-------------------------------------------------------
+router.get('/deletebrand/:id/:brand',brandController.deleteBrand)
+
 
 // get the catogary-----------------------------------------------------
 router.get('/category',login.verifyAdmin,adminhelper.getCatogary)
@@ -23,7 +41,7 @@ router.get('/addcategory',login.verifyAdmin,adminhelper.getaddCategory)
 router.post('/addcategory',login.verifyAdmin,adminhelper.postaddCategory)
 
 // delete edit category----------------------------------------------------
-router.get('/deletecategory/:id',adminhelper.deleteCategory)
+router.get('/deletecategory/:id/:category',adminhelper.deleteCategory)
 router.get('/editcategory/:id',login.verifyAdmin,adminhelper.editCategory)
 router.post('/editcategory',login.verifyAdmin,adminhelper.postCategory)
 
@@ -51,6 +69,23 @@ router.get('/deleteproduct/:id',producthelper.deleteProduct)
 router.get('/editproduct/:id',login.verifyAdmin,producthelper.geteditProducts)
 router.post('/editproduct/:id',upload.any(),producthelper.editProducts)
 router.get('/editproduct/deleteimg/:imgname/:id',producthelper.DltImage)
+
+
+// order listing -------------------------------------------------------
+router.get('/getOrder',login.verifyAdmin,orderController.getOrder)
+// upadate order status ------------------------------------------------
+router.get('/updatestatus/:orderid/:status',orderController.updateOrderstatus)
+// order details--------------------------------------------------------
+router.get('/orderView/:orderid',login.verifyAdmin,orderController.getOrderdetails)
+
+
+
+
+
+
+
+
+
 
 
 

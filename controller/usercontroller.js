@@ -1,7 +1,9 @@
 const User= require("../model/userModel");
 const Product= require("../model/productModel");
+const Address= require("../model/addressModel");
 const {sendEmail}=require('../auth/nodemailer')
 const {getSignupOtp, generateOTP}=require('../util/generateotp')
+const { hashData,verifyHashedData}=require('../util/bcrypt')
 module.exports={
    getGustpage:async(req,res)=>{
       try{
@@ -66,6 +68,55 @@ module.exports={
          console.log(err);
       }
 
+   }
+   ,
+    getuserProfile:async (req,res)=>{
+      try{
+         const user1=await User.findOne({email:req.session.email})
+         const addresses=await Address.find({userId:user1._id})
+        res.render('user/userprofile',{user1,addresses,user:req.session.user})
+      }catch(err){
+        console.log(err);
+      }
+    },
+    editUser:async (req,res)=>{
+      try{
+        console.log(req.body)
+      
+        await User.updateOne({email:req.session.email},{$set:req.body})
+        
+        res.json({msg:"changed successfully"})
+      }catch(err){
+         console.log(err);
+      }
+    },
+    getresetPassword:(req,res)=>{
+      try{
+         res.render('user/resetpassword')
+      }catch(err){
+         console.log(err);
+      }
+    },
+    postresetPassword:async(req,res)=>{
+      try{
+         const user=await User.findOne({email:req.session.email})
+         const success=await verifyHashedData(req.body.oldPassword,user.password)
+         if(success){
+           
+            const hashed= await hashData(req.body.newPassword)
+            user.password=hashed;
+            await user.save()
+            console.log(hashed)
+            
+            // res.redirect('/userprofile')
+            res.json(true )
+         }else{
+            res.json(false)
+            // res.render('user/resetpassword',{err:"old password is incorrect!!"})
+         }
+      }catch(err){
+         console.log(err);
+      }
    }
 
 

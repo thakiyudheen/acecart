@@ -29,10 +29,10 @@
                     style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="proname" oninput="validation(proname)" value="<%-product.ProductName -%>" required>
             </div><br>
             <input type="hidden" name="status" value="Active">
-            <div class="d-flex mt-2 justify-content-center align-items-center">
+            <!-- <div class="d-flex mt-2 justify-content-center align-items-center">
                 <input type="text" name="BrandName" placeholder="Barand Name"
                     style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="brname" oninput="validation(brname)" value="<%-product.BrandName -%>" required>
-            </div>
+            </div> -->
             <br>
             <div class="d-flex justify-content-center">
                 <textarea name="Specification1" placeholder="Specification1"
@@ -54,16 +54,27 @@
                     style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;"  value="<%= product.Description %>" required><%= product.Description %></textarea>
             </div>
             <br>
-            <div class="d-flex justify-content-center align-items-center ">
+            
+            <div class="d-flex justify-content-center  ">
                 <select class="" id="category" name="Category" required
-                    style="width:38%;height: 35px;border-radius: 5px;margin-right: 4%;" >
-                    <option  value="<%-product.Category-%>" selected ><%-product.Category-%></option>
+                style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"  >
+                    
                         <% category.forEach(ele=> { %>
-                            <option><%-ele.categoryname-%></option>
+                            <option  <%product.Category==ele.categoryname?'selected':""%> ><%-ele.categoryname-%></option>
                         <% }) %>
                       
                   
                 </select>
+
+                <select class="" id="brand" name="BrandName" required
+                style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;"  >
+                
+                    <% brand.forEach(ele=> { %>
+                        <option  <%product.BrandName==ele.brandname?'selected':""%> ><%-ele.brandname-%></option>
+                    <% }) %>
+                  
+              
+            </select>
                 
             </div>
             <br>

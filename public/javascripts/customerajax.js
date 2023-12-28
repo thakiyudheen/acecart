@@ -1,12 +1,41 @@
 // delete catogory-----------------------------
 
-function remove(dta){
-    console.log('okk',dta);
-    let ok=confirm("Are you sure to delete")
+function remove(dta,catname){
+    console.log('okk',dta,catname);
+    let ok=confirm("Are you sure to delete this category and all this category products")
     if(ok==true){
         $.ajax({
         
-            url:"/admin/deletecategory/"+dta,
+            url:"/admin/deletecategory/"+`${dta}/${catname}`,
+            
+            method:"get",
+            success:function (response){
+                window.location.reload()
+                alert(response.msg)
+               
+                
+            },
+            error:function (err){
+                alert("Something Error")
+        
+            }
+        })
+    }
+   
+}
+
+// delete brand
+
+
+// delete catogory-----------------------------
+
+function removebrand(dta,brand){
+    console.log('okk',dta,brand);
+    let ok=confirm("Are you sure to delete this brand and all this branded products")
+    if(ok==true){
+        $.ajax({
+        
+            url:"/admin/deletebrand/"+`${dta}/${brand}`,
             
             method:"get",
             success:function (response){
@@ -50,22 +79,22 @@ function deletepro(dta){
 // user block ------------------------------------------------------
 function block(id,status){
     console.log("ajax working ");
-    $.ajax({
-        
-        url:"/admin/customers/block/"+`${id}/${status}`,
-        
-        method:"get",
-        success:function (response){
-            window.location.reload()
-            alert(response.msg)
-           
+        $.ajax({
             
-        },
-        error:function (err){
-            alert("Something Error")
-    
-        }
-    })
+            url:"/admin/customers/block/"+`${id}/${status}`,
+            
+            method:"get",
+            success:function (response){
+                window.location.reload()
+                alert(response.msg)
+            
+                
+            },
+            error:function (err){
+                alert("Something Error")
+        
+            }
+        })
 }
 // delete image when edit image --------------------------------------------------
 

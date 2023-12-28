@@ -2,14 +2,19 @@ const ADMIN= require('../model/adminModel');
 const User= require("../model/userModel");
 const Category= require("../model/categoryModel");
 const Product = require("../model/productModel");
-
+const Brand = require("../model/brandModel");
 
 
 module.exports={
     getaddProducts:async (req,res)=>{
         try{
-            const data= await Category.find()
-            res.render('admin/addproduct',{data})
+            
+            const[category,brand]=await Promise.all([
+                Category.find(),
+                Brand.find()
+            ])
+
+            res.render('admin/addproduct',{category,brand})
         }catch(err){
             console.log(err)
         }
@@ -40,6 +45,7 @@ module.exports={
     getProducts:async(req,res)=>{
         try{
             const data =await Product.find()
+
             res.render('admin/products',{data})
         }catch(err){
             console.log(err);
@@ -69,10 +75,14 @@ module.exports={
     },
     geteditProducts:async (req,res)=>{
         try{
-            const products= await Product.find({_id:req.params.id})
-            const category= await Category.find()
+            const [products,category,brand]=await Promise.all([
+                Product.find({_id:req.params.id}),
+                Category.find(),
+                Brand.find()
+            ])
+            
            
-            res.render('admin/editproduct',{product:products[0],category})
+            res.render('admin/editproduct',{product:products[0],category,brand})
         }catch(err){
             console.log(err);
         }

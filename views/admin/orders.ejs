@@ -1,0 +1,72 @@
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Order Id</th>
+                      <th scope="col">User Id</th>
+                      <th scope="col">Purchased On</th>
+                      <th scope="col">Payment Method</th>
+                      <th scope="col">Total Price</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">View</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <% if (orderData.length > 0) { %>
+                    <% orderData.forEach((x, index) => { %>
+                      <tr>
+                        <th scope="row"><%= index + 1 %></th>
+                        <td><%= x._id %></td>
+                         <td><%= x.userid %></td>
+                         <td>
+                            <%= x.orderDate.toLocaleDateString()%>
+                            <%= x.orderDate.toLocaleTimeString()%>
+                        </td>
+                        <td><%= x.paymentMethod %></td>
+                        <td><%= x.totalAmount %></td>
+                        <td>
+                           
+                            <% if (x.orderStatus !== 'Cancelled') { %>
+                              <% const currentStatus = x.orderStatus || 'Order processed'; %>
+                              <select class="form-select" id="statusSelect<%= x %>" onchange="updateOrderStatus('<%= x._id %>', this.value)">
+                                <option value="Order Processed" <%= currentStatus === 'Order processed' ? 'selected' : '' %>>Order processed</option>
+                                <option value="Shipped" <%= currentStatus === 'Shipped' ? 'selected' : '' %>>Shipped </option>
+                                <option value="Delivered" <%= currentStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                <option value="Rejected" <%= currentStatus === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                              </select>
+                            <% } else { %>
+                              Cancelled
+                            <% } %>
+                            
+              
+                        </td>
+                        <td><a href="/admin/orderView/<%=x._id%>"><button type="button" class="btn btn-light">View</button></a></td>
+                      </tr>
+                    <% }) %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="8">
+                        <h4>No Any Orders</h4>
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            
+        </div>
+
+    </div>
+</div>
+
+
+
+
+</div>
+</div>
+<%-include("../layout/admin/footer")-%>

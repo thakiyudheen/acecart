@@ -50,7 +50,7 @@
           <label for="" class="text-center" style="color: greenyellow"
             ><%-locals.msg?msg:""-%></label
           ><br />
-          <label for="" style="color: red"><%-locals.err?err:""-%></label><br />
+          <small for="" style="color: red"><%-locals.err?err:""-%></small><br />
 
           <input
             type="text"
@@ -62,7 +62,7 @@
           /><br />
           <label for="">Email</label><br />
           <p id="msgemail"></p>
-
+          <small id="msgpass1"></small>
           <input
             type="password"
             placeholder="Enter Password"
@@ -71,7 +71,7 @@
             required
           /><br />
           <label for="">Password</label><br />
-          <p id="msgpass1"></p>
+          
 
           <a href="/send-otp" style="float: right">I Dont have account</a
           ><br /><br />

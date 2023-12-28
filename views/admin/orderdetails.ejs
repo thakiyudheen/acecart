@@ -1,0 +1,134 @@
+
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+
+<div class="container rounded bg-white position-relative">
+    <div class="row">
+        
+
+      <div class="col-md-12 ">
+        <div class="container py-5 h-100 ">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="">
+              <div class="card shadow rounded-lg" >
+                <div class="card-header px-4 py-3"style="background-color: black; color:white;">
+                  <h4 class=" mb-0">ORDER DETAILS</h4>
+                </div>
+                <div class="card-body p-4 rounded-0">
+                  <!-- Order details and items -->
+                  <div class="card shadow-0  mb-4 px-2">
+                    <div class="card-body">
+                        <% if (orderData && orderData[0].products && Array.isArray(orderData[0].products)) { %>
+                            <% orderData[0].products.forEach((x)=> { %>
+
+                              <div class="row">
+                                <div class="col-md-2 mb-4">
+                                  <img src="/product-images/<%=x.productid.images[0]%>" class="img-fluid" alt="Phone">
+                                </div>
+
+                                <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
+                                  <p class="text-muted mb-0">
+                                    <%= x.productid.ProductName %>
+                                  </p>
+                                </div>
+
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                  <p class="text-muted mb-0 small">Qty : <%= x.quantity %>
+                                  </p>
+                                </div>
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                  <p class="text-muted mb-0 small">$<%= x.productid.DiscountAmount %>
+                                  </p>
+                                </div>
+                                <% if(x.status=="Return" ){%>
+
+                                  <h5 style="color: brown;">item returned</h5>
+                                  
+                                <% }%>
+                                  <div class="row d-flex align-items-center">
+                                    <hr style="height: 1px; background-color:black; border:black">
+                                  </div>
+                                  <% }) %>
+                                    <% }else{%>
+                                      <h3>No data available</h3>
+                                      <% } %>
+                        </div>
+                      </div>
+                      
+
+
+
+                      <div class="d-flex justify-content-between">
+                        <p class="text-muted mb-0"><b>Order ID : <%=orderData[0]._id%></b></p>
+
+                      </div>
+
+                      <div class="d-flex justify-content-between">
+                        <p class="text-muted mb-0"><b>Order Status :
+                          <%if(orderData[0].orderStatus==="Cancelled"){%> 
+                          <span class="text-danger"><%=orderData[0].orderStatus%></span></b></p>
+                          <% }else {%>
+                            <%=orderData[0].orderStatus%></b></p>
+                          <%}%>
+                    </div>
+
+
+
+                            <!-- address --------------------------------- -->
+                            <div class="d-flex flex-column mt-3">
+                                <% let orderDate=new Date(orderData[0].orderDate) %>
+                                <b>
+                                    <p class="card-text">
+                                        Ordered Date and Time:
+                                        <%= orderDate.toLocaleDateString() || 'N/A' %>
+                                            <%= orderDate.toLocaleTimeString() || 'N/A' %>
+                                    </p>
+                                    <p class="card-text">
+                                        Expected Delivery Date and Time:
+                                        <% if (orderData[0].expectedDeliveryDate) { %>
+                                            <%= (new Date(orderData[0].expectedDeliveryDate)).toLocaleString() %>
+                                                <% } else { %>
+                                                    N/A
+                                                    <% } %>
+                                    </p>
+                                
+                                    <h5 class="mb-0 text-success"><strong>Payment Method : <span>
+                                                <%=orderData[0].paymentMethod%>
+                                            </span></strong></h5><br>
+                                    <p class="mb-0"><strong>Name : <%=user%>
+                                        </strong></p>
+                                    <p class="mb-0"><strong>Email : <%=email%>
+                                        </strong></p>
+
+                                    <p class="mt-5"><span class="font-weight-bold "><b>Address</b> : <%=orderData[0].address.address%>,
+                                                <%=orderData[0].address.locality%>,<br>
+                                                    <%=orderData[0].address.city%>,<%=orderData[0].address.district%>,
+                                                            <%=orderData[0].address.state%>,<br>
+                                                                <%=orderData[0].address.pincode%>
+                                        </span></p></b>
+
+                            </div>
+
+                  </div>
+                </div>
+                
+               
+
+
+
+
+                <div class="card-footer border-0 rounded-lg shadow px-3 py-4" style="background-color: rgb(0, 0, 0); ">
+
+                  <!-- Display total price -->
+                  <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                    <span class="h2 mb-0 ms-2 float-right"> ₹ <%=orderData[0].totalAmount%></span>
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<%-include("../layout/admin/footer")-%>

@@ -4,16 +4,15 @@
 
   
 
-
 <div class="container mt-4">
     <div class="row">
       <% product.forEach(el=> { %>
        
      
         <div class="col-6 col-md-3 col-sm-6 d-flex justify-content-center justify-content-md-start">
-            <div class="card h-90 shadow-sm mt-4" style="position:relative;">
+            <div class="card shadow-sm mt-4" style="position:relative; ">
                 <a href="https://amzn.to/42dsdGC" target="_blank">
-                  <img src="/product-images/<%-el.images[0]-%>" class="card-img-top" alt="product.title" style="width:100%; height:300px; padding:20px;" />
+                  <img src="/product-images/<%-el.images[0]-%>" class="card-img-top p-5" alt="product.title" style="width:100%; height:300px; padding:20px;" />
                 </a>
             
                 <div class="label-top shadow-0">
@@ -43,15 +42,11 @@
                     <a target="_blank " style="text-decoration: none;color: black;" href="#"><%-el.discription-%></a>
                   </p>
             
-                  <!-- <div class="d-grid gap-1 my-1">
-            
-                    <a href="#" class="btn btn-dark bold-btn">add to cart</a>
-            
-                  </div> -->
+                
                   <div class="d-flex  my-1">
             
-                    <a href="/userhome/products/productdetails/<%-el._id-%>" style="width: 48%;" class="btn btn-dark bold-btn">View  </a>
-                    <a href="#" class="btn btn-dark bold-btn ms-2 " onclick="addTocart('<%-el._id-%>')" style="width: 48%;">Add to cart</a>
+                    <a href="/userhome/products/productdetails/<%-el._id-%>" style="width: 48%; background-color: white; color: black;border:1px solid black" class="btn bold-btn">View  </a>
+                    <a href="#" class="btn btn-dark bold-btn ms-2 " onclick="addTocart('<%-el._id-%>')" style="width: 48%; background-color: white; color: black;border:1px solid black">Add to cart</a>
                   </div>
                  
               </div>
@@ -62,7 +57,8 @@
         <% }) %> 
       
     </div>
-</div>
+</div> 
+
 
 
 

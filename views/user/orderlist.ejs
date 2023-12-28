@@ -1,0 +1,50 @@
+<%-include("../layout/user/header")-%>
+<%-include("../partials/usernav")-%> 
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table mt-5 p-3">
+                <thead>
+                  <tr>
+                    <th scope="col">no</th>
+                    <th scope="col">orderId </th>
+                    <th scope="col">NO of Products</th>
+                    <th scope="col">Orderd date</th>
+                    <th scope="col">status</th>
+                    <th scope="col">View Order</th>
+                  </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                <% orders.forEach((ele,index) => { %>
+                  <tr>
+                    <th scope="row"><%-index+1-%></th>
+                    <td><%-ele._id-%></td>
+                    <td><%-ele.products.length-%></td>
+                    <td><%-ele.orderDate-%></td>
+                    <% if (ele.orderStatus=="Pending") { %>
+                        <td style="color:red;"><%-ele.orderStatus-%></td>
+                    <% }else if(ele.orderStatus=="Delivered"){%>
+                        <td style="color:green ;"><%-ele.orderStatus-%></td>
+                    <% }else {%>
+                        <td style="color:blue ;"><%-ele.orderStatus-%></td>
+                    <% }%>
+
+                    
+                    <td><a href="/orderdetails/<%-ele._id-%>" class="btn btn-primary">view order</a></td>
+                   
+                  </tr>
+                  <% }) %>
+                 
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+  <!-- footer start ------------ -->
+<%-include("../partials/footernav")-%>
+<!-- footer end ------------ -->
+<%-include("../layout/user/footer")-%>
+  <!-- Footer -->
+  

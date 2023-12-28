@@ -1,6 +1,7 @@
 const ADMIN= require('../model/adminModel');
 const User= require("../model/userModel");
 const Category= require("../model/categoryModel");
+const Product= require("../model/productModel");
 
 
 module.exports={
@@ -114,6 +115,7 @@ module.exports={
     deleteCategory:async (req,res)=>{
         try{
             await Category.deleteOne({_id:req.params.id})
+            await Product.deleteMany({Category:req.params.category})
             res.json({msg:"catogary deleted success"})
         }catch(err){
             console.log(err);

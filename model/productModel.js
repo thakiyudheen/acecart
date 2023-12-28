@@ -52,9 +52,6 @@ const productSchema = new Schema({
   Specification4: {
     type: String,
   },
-  status: {
-    type: String,
-  }
 },{
 
   timestamps: true,

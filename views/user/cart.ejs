@@ -122,10 +122,17 @@ body {
 
                           </div>
                            <div class="col-lg col-sm-3">
-                            <button class="btn btn-light border px-2 icon-hover-primary" type="button"style="background-color: white; border:none;"
+                            <% if (el.quantity>1) { %>
+                             <button class="btn btn-light border px-2 icon-hover-primary" type="button"style="background-color:white;  border:none;"
                               onclick="quantityChanger(' <%-el.productid -%> ',-1,'<%-el.quantity -%>','<%-el._id-%>')"><i
                                 class="fa-solid fa-minus" style="color: #000000;"></i></button>
-                            <span id="quantity_">
+                                <% }else{ %>
+                                  <button disabled class="btn btn-light border px-2 icon-hover-primary" type="button"style="background-color: white; border:1px solid white;"
+                                  onclick="quantityChanger(' <%-el.productid -%> ',-1,'<%-el.quantity -%>','<%-el._id-%>')"><i
+                                    class="fa-solid fa-minus" style="color:white;"></i></button>
+                                  
+                                  <% }%>
+                            <span id="quantity_" class="p-3">
                               <%-el.quantity -%> 
                             </span>
                             <button id="" style="background-color: white; border:none;"
@@ -232,6 +239,9 @@ body {
         <% } %>
        
   </form>
+  
+
+
   
 <!-- footer start ------------ -->
 <%-include("../partials/footernav")-%>

@@ -1,0 +1,164 @@
+<%-include("../layout/user/header")-%>
+<%-include("../partials/usernav")-%> 
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container1 {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    small{
+      color:red;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+  </style>
+
+  <div class="container1">
+    <h3 class="fs-5 p-4">Edit Address</h3>
+
+    <form method="post" action="/editaddress" id="addressForm2">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6"><div class="form-group">
+            <label for="recipient-name">Name:</label>
+            <input type="text" class="form-control" name="name" value="<%-address.name-%>" id="recipient-name" required>
+            <small class="text-danger" id="nameError"></small>
+          </div>
+          <input type="hidden" name="_id" value="<%-address._id-%>">
+          <div class="form-group">
+            <label for="recipient-phone">Phone no:</label>
+            <input type="number" class="form-control" name="mobile" id="recipient-phone" value="<%-address.mobile-%>" required>
+            <small class="text-danger" id="phoneError" ></small>
+          </div>
+    
+          <div class="form-group">
+            <label for="recipient-email">Email:</label>
+            <input type="email" class="form-control" name="email" id="recipient-email" value="<%-address.email-%>" required>
+            <small class="text-danger" id="emailError"></small>
+          </div>
+    
+          <div class="form-group">
+            <label for="recipient-pincode">Pincode:</label>
+            <input type="text" class="form-control" name="pincode" id="recipient-pincode" value="<%-address.pincode-%>" required>
+            <small class="text-danger" id="pincodeError"></small>
+          </div>
+    
+          <div class="form-group">
+            <label for="recipient-locality">Locality:</label>
+            <input type="text" class="form-control" name="locality" id="recipient-locality" value="<%-address.locality-%>" required>
+            <small class="text-danger" id="localityError"></small>
+          </div>
+    </div>
+        <div class="col-md-6">  <div class="form-group">
+            <label for="recipient-city">City:</label>
+            <input type="text" class="form-control" name="city" id="recipient-city" value="<%-address.city-%>" required>
+            <small class="text-danger" id="cityError"></small>
+          </div>
+    
+          <div class="form-group">
+            <label for="recipient-district">District:</label>
+            <input type="text" class="form-control" name="district" id="recipient-district" value="<%-address.district-%>" required>
+            <small class="text-danger" id="districtError"></small>
+          </div>
+    
+          <div class="form-group">
+            <label for="recipient-state">State:</label>
+            <input type="text" class="form-control" name="state" id="recipient-state" value="<%-address.state-%>" required>
+            <small class="text-danger" id="stateError"></small>
+          </div>
+    
+          <div class="form-group">
+            <label for="message-text">Address:</label>
+            <textarea class="form-control" id="message-text" name="address" value="<%-address.address -%>" placeholder="house name, post office" required><%-address.address-%></textarea>
+            <small class="text-danger" id="addressError"></small>
+          </div>
+    
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary w-100" id="submitBtn" >Submit</button>
+          </div>
+        </form></div>
+    </div>
+</div>
+
+      
+    
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("addressForm2");
+      const submitButton = document.getElementById("submitBtn");
+
+      submitButton.disabled =false;
+
+      form.addEventListener("input", function (event) {
+        const input = event.target;
+        const errorElement = document.getElementById(`${input.name}Error`);
+
+        const value = input.value.trim();
+
+        if (/^[a-zA-Z0-9].*$/.test(value) && !value.startsWith(' ')) {
+          errorElement.textContent = ''; // Clear error message
+        } else {
+          errorElement.textContent = 'Must start with a number or letter and cannot start with a space';
+        }
+
+        // Check all input fields for validation
+        const inputs = form.querySelectorAll("input[type='text'], input[type='number'], input[type='email'], textarea");
+        const isValid = Array.from(inputs).every(input => {
+          const value = input.value.trim();
+          return /^[a-zA-Z0-9].*$/.test(value) && !value.startsWith(' ');
+        });
+
+        submitButton.disabled = !isValid;
+      });
+    });
+  </script>
+<!-- footer start ------------ -->
+<%-include("../partials/footernav")-%>
+<!-- footer end ------------ -->
+<%-include("../layout/user/footer")-%>
+  <!-- Footer -->

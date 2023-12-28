@@ -1,0 +1,279 @@
+
+<%-include("../layout/user/header")-%>
+<%-include("../partials/usernav")-%> 
+<div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+    <nav class="nav nav-borders">
+         <h4><a class="nav-link active ms-0"><b>Profile</b></a></h4>
+        
+    </nav>
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <div class="card mb-4 mb-xl-0 shadow" style="border: none !important;">
+                <div class="card-header " style="background-color:black; color: white ;">Profile Picture</div>
+                <div class="card-body text-center">
+                    <!-- Profile picture image-->
+                    <img class="img-account-profile rounded-circle mb-2" src="/profile.png" alt="">
+                    <!-- Profile picture help block-->
+                    <div class="small text-dark  mt-4"><b><%-user1.name%></b></div>
+                    <div class="small text-dark "><%-user1.email%></div>
+                    <br>
+                    <a class="btn btn-dark w-100" href="/resetpassword">Reset Password</a>
+                    <button class="btn btn-dark w-100 mt-2"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModaladd" data-bs-whatever="@getbootstrap">Add Address</button>
+                    <!-- Profile picture upload button-->
+                    <!-- <button class="btn btn-primary" type="button">Upload new image</button> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8 shadow">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header" style="background-color: black; color: white;">Account Details</div>
+                <div class="card-body">
+                    <form>
+                      
+                        <div class="row gx-3 mb-3 d-flex flex-column">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-12">
+                                <label class="small mb-1" for="inputFirstName">Name</label>
+                                <input class="form-control" id="inputFirstName" type="text"  value="<%-user1.name-%>" disabled>
+                               
+                               <i class="fa-solid fa-pen-to-square float-end"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" onclick="edituser('/edituser/')" style="color:rgb(118, 118, 118); padding:10px"></i>
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-12">
+                                <label class="small mb-1" for="inputLastName">Email</label>
+                                <input class="form-control" id="inputLastName" type="email"  value="<%-user1.email-%>" disabled>
+                               
+                            </div>
+                          
+                        </div>
+
+                      
+                      
+                    </form>
+                </div>
+                <h4 class=" p-3 "> <b>Address:</b></h4>
+                <div class="address border" style="height:200px; overflow-x: scroll;">
+                    <div class="container ">
+                       
+                        <div class="row">
+                          <% addresses.forEach(function(x,index) { %>
+                            <div class="col-md-12 mb-3">
+                              <div class="form-check border  px-5 py-5">
+                                <p>ADDRESS-<%=index+1 %></p>
+                                <label class="form-check-label text-dark" for="<%- 'flexRadioDefault' + x._id %>" style="font-size: small;">
+                                  <%= x.name %>, <%= x.mobile %> <br>
+                                  <%= x.address %>, <%= x.locality %>,<br>
+                                  <%= x.city %>, <%= x.district %>, <%= x.state %>,<br>
+                                  <%= x.pincode %>
+                                </label>
+                                <div class="float-end d-flex flex-row justify-content-between">
+                                    <a href="/editaddress/<%-x._id-%>"><i class="fa-solid fa-pen-to-square float-end"  style="color:rgb(118, 118, 118);"></i></a>&nbsp;&nbsp;
+                                <i&nbsp; class="fa-solid fa-trash float-end" style="color: rgb(0, 0, 0); " onclick="deleteaddress('<%-x._id-%>')"></i>
+                                </div>
+                                
+                              </div>
+                            </div>
+                           
+                          <% }) %>
+                        </div>
+                      </div>
+                      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- modal edit name -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Address</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-5" method="post" action="/edituser" id="addressForm1">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" name="name" id="recipient-name1" value="<%-user1.name-%>" required>
+                    <small class="text-danger" id="nameError1"></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn1" onclick="edituser(event)" disabled>Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const nameInput = document.getElementById('recipient-name1');
+      const nameError1 = document.getElementById('nameError1');
+      const submitBtn = document.getElementById('submitBtn1');
+  
+      nameInput.addEventListener('input', function () {
+        const nameValue = nameInput.value.trim();
+  
+        if (nameValue === '') {
+          nameError1.textContent = 'Name is required';
+          submitBtn.disabled = true;
+        } else if (/^\s/.test(nameValue) || /\s$/.test(nameValue)) {
+          nameError.textContent = 'Name cannot start or end with spaces';
+          submitBtn.disabled = true;
+        } else {
+          nameError.textContent = '';
+          submitBtn.disabled = false;
+        }
+      });
+    });
+  </script>
+  
+
+
+
+<!-- end -->
+
+
+<!-- add address modal  -->
+<div class="modal fade" id="exampleModaladd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Address</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-5" method="post" action="/addaddressprofile" id="addressForm2">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" name="name" id="recipient-name" required>
+                    <small class="text-danger" id="nameError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-phone" class="col-form-label">Phone no:</label>
+                    <input type="number" class="form-control" name="mobile" id="recipient-phone" required>
+                    <small class="text-danger" id="phoneError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-email" class="col-form-label">Email:</label>
+                    <input type="email" class="form-control" name="email" id="recipient-email" required>
+                    <small class="text-danger" id="emailError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-pincode" class="col-form-label">Pincode:</label>
+                    <input type="text" class="form-control" name="pincode" id="recipient-pincode" required>
+                    <small class="text-danger" id="pincodeError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-locality" class="col-form-label">Locality:</label>
+                    <input type="text" class="form-control" name="locality" id="recipient-locality" required>
+                    <small class="text-danger" id="localityError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-city" class="col-form-label">City:</label>
+                    <input type="text" class="form-control" name="city" id="recipient-city" required>
+                    <small class="text-danger" id="cityError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-district" class="col-form-label">District:</label>
+                    <input type="text" class="form-control" name="district" id="recipient-district" required>
+                    <small class="text-danger" id="districtError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-state" class="col-form-label">State:</label>
+                    <input type="text" class="form-control" name="state" id="recipient-state" required>
+                    <small class="text-danger" id="stateError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Address:</label>
+                    <textarea class="form-control" id="message-text" name="address" placeholder="house name, post office" required></textarea>
+                    <small class="text-danger" id="addressError"></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn" >Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("addressForm2");
+      const submitButton = document.getElementById("submitBtn");
+  
+      submitButton.disabled = true;
+  
+      form.addEventListener("input", function (event) {
+        const input = event.target;
+        const errorElement = document.getElementById(`${input.name}Error`);
+        
+        const value = input.value.trim();
+  
+        if (/^[a-zA-Z0-9].*$/.test(value) && !value.startsWith(' ')) {
+          errorElement.textContent = ''; // Clear error message
+        } else {
+          errorElement.textContent = 'Must start with a number or letter and cannot start with a space';
+        }
+  
+        // Check all input fields for validation
+        const inputs = form.querySelectorAll("input[type='text'], input[type='number'], input[type='email'], textarea");
+        const isValid = Array.from(inputs).every(input => {
+          const value = input.value.trim();
+          return /^[a-zA-Z0-9].*$/.test(value) && !value.startsWith(' ');
+        });
+  
+        submitButton.disabled = !isValid;
+      });
+    });
+  </script>
+<!-- end add address  -->
+
+<!-- footer start ------------ -->
+<%-include("../partials/footernav")-%>
+<!-- footer end ------------ -->
+<%-include("../layout/user/footer")-%>
+  <!-- Footer -->

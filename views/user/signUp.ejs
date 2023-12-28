@@ -14,7 +14,7 @@
     text-align: center;
     color: black;
   }
-  p {
+  small{
     color: red;
   }
   .btn {
@@ -41,14 +41,15 @@
           <h2><i class="fa-solid fa-cart-shopping"></i>aceCart</h2>
           <br />
           <h4 class="float-start p-3">SignUp</h4>
-          <label for="" style="color: red"><%-locals.exists?exists:""-%></label>
+          <small for="" style="color: red"><%-locals.exists?exists:""-%></small>
+          <br><br>
           <input
             type="hidden"
             placeholder="Enter your name"
             name="status"
             value="active"
           /><br />
-
+          <small id="msgname"></small>
           <input
             type="text"
             placeholder="Enter your name"
@@ -58,8 +59,8 @@
             required
           /><br />
           <label for="">Name</label><br />
-          <p id="msgname"></p>
-
+          
+          <small id="msgemail"></small>
           <input
             type="text"
             placeholder="Enter your email"
@@ -69,8 +70,8 @@
             required
           /><br />
           <label for="">Email</label><br />
-          <p id="msgemail"></p>
-
+          
+          <small id="msgpass1"></small>
           <input
             type="password"
             placeholder="Enter Password"
@@ -80,8 +81,8 @@
             required
           /><br />
           <label for="">Password</label><br />
-          <p id="msgpass1"></p>
-
+          
+          <small id="msgpass2"></small>
           <input
             type="password"
             placeholder="Comfirm Password"
@@ -91,7 +92,7 @@
             required
           /><br />
           <label for="">confirm Password</label><br />
-          <p id="msgpass2"></p>
+          
           <a href="/login" class="p-2" style="float: right">I have account</a
           ><br />
 
@@ -143,26 +144,42 @@
         signupButton.disabled = true; // Disable the button
       }
     }
-    function validatePassword() {
-      var passwordPattern = /^.{8,}$/;
-      var msg = document.getElementById("msgpass1");
-      var password = document.getElementById("Input3").value;
-      var isValid = passwordPattern.test(password);
-      var signupButton = document.getElementById("signupButton");
+    // function validatePassword() {
+    //   var passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    //   var msg = document.getElementById("msgpass1");
+    //   var password = document.getElementById("Input3").value;
+    //   var isValid = passwordPattern.test(password);
+    //   var signupButton = document.getElementById("signupButton");
 
-      if (isValid && !password.includes(" ")) {
-        msg.innerHTML = "";
-        signupButton.disabled = false; // Enable the button
-      } else {
-        if (password.includes(" ")) {
-          msg.innerHTML = "Password does not contain space";
-          signupButton.disabled = true; // Disable the button
-        } else {
-          msg.innerHTML = "Password must be at least 8 characters";
-          signupButton.disabled = true; // Disable the button
-        }
-      }
-    }
+    //   if (isValid && !password.includes(" ")) {
+    //     msg.innerHTML = "";
+    //     signupButton.disabled = false; // Enable the button
+    //   } else {
+    //     if (password.includes(" ")) {
+    //       msg.innerHTML = "Password does not contain space";
+    //       signupButton.disabled = true; // Disable the button
+    //     } else {
+    //       msg.innerHTML = "Password must be at least 8 characters";
+    //       signupButton.disabled = true; // Disable the button
+    //     }
+    //   }
+    // }
+    function validatePassword() {
+  var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  var msg = document.getElementById("msgpass1");
+  var password = document.getElementById("Input3").value;
+  var isValid = passwordPattern.test(password);
+  var signupButton = document.getElementById("signupButton");
+
+  if (isValid) {
+    msg.innerHTML = "";
+    signupButton.disabled = false; // Enable the button
+  } else {
+    msg.innerHTML = "Password must be at least 8 characters, including one lowercase letter, one uppercase letter, and one number.";
+    signupButton.disabled = true; // Disable the button
+  }
+}
+
 
     // JavaScript function to check password match
     function checkPasswordMatch() {

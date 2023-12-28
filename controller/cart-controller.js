@@ -59,6 +59,9 @@ module.exports={
 
                 
             }
+            //   data store in session -------------------------------
+                req.session.subtotel=subtotel
+                req.session.totelprice= totelprice
               console.log(products)
                res.render('user/cart',{products,user:req.session.user,subtotel,totelqty,toteldiscount,totelprice})
             }

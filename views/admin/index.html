@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+        <html lang="en">
+        
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Product Page</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f8f9fa;
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+            }
+        
+            .container {
+              max-width: 1200px;
+              margin: 50px auto;
+              padding: 20px;
+              background-color: #ffffff;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              border-radius: 8px;
+            }
+        
+            .product-card {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+              padding: 20px;
+              border: 1px solid #ced4da;
+              border-radius: 8px;
+              margin: 10px;
+              /* Ensure the product card has enough space to show fully */
+              width: 200px; /* Adjust the width as needed */
+              box-sizing: border-box;
+            }
+        
+            .product-image {
+              width: 100%;
+              max-height: 200px; /* Set a maximum height for the product image */
+              object-fit: cover;
+              border-radius: 4px;
+            }
+        
+            .product-name {
+              margin-top: 10px;
+              font-weight: bold;
+            }
+        
+            .product-price {
+              margin-top: 5px;
+              color: #007bff;
+            }
+          </style>
+        </head>
+        
+        <body>
+          <div class="container">
+            <h1 class="fs-5">Product List</h1>
+        
+            <div class="product-card">
+              <img class="product-image" src="product1.jpg" alt="Product 1">
+              <div class="product-name">Product 1</div>
+              <div class="product-price">$19.99</div>
+            </div>
+        
+            <div class="product-card">
+              <img class="product-image" src="product2.jpg" alt="Product 2">
+              <div class="product-name">Product 2</div>
+              <div class="product-price">$29.99</div>
+            </div>
+        
+            <!-- Add more product cards as needed -->
+        
+          </div>
+        </body>
+        
+        </html>
+        
+    </div>
+<!-- Add Bootstrap JS and Popper.js scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

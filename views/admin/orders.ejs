@@ -1,10 +1,10 @@
 <%-include("../layout/admin/header")-%>
 <%-include("../partials/adminnav")-%>
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
-            <table class="table">
+            <table class="table" id="example">
                 <thead>
                     <tr>
                       <th scope="col">No</th>
@@ -35,10 +35,11 @@
                             <% if (x.orderStatus !== 'Cancelled') { %>
                               <% const currentStatus = x.orderStatus || 'Order processed'; %>
                               <select class="form-select" id="statusSelect<%= x %>" onchange="updateOrderStatus('<%= x._id %>', this.value)">
-                                <option value="Order Processed" <%= currentStatus === 'Order processed' ? 'selected' : '' %>>Order processed</option>
+                                <option value="Order Processing" <%= currentStatus === 'Order Processing' ? 'selected' : '' %>>Order Processing</option>
+                                <option value="Order Placed" <%= currentStatus === 'Order Placed' ? 'selected' : '' %>>Order Placed</option>
                                 <option value="Shipped" <%= currentStatus === 'Shipped' ? 'selected' : '' %>>Shipped </option>
                                 <option value="Delivered" <%= currentStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
-                                <option value="Rejected" <%= currentStatus === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                                
                               </select>
                             <% } else { %>
                               Cancelled
@@ -46,7 +47,7 @@
                             
               
                         </td>
-                        <td><a href="/admin/orderView/<%=x._id%>"><button type="button" class="btn btn-light">View</button></a></td>
+                        <td><a href="/admin/orderView/<%=x._id%>"><button type="button" class="btn btn-primary">View</button></a></td>
                       </tr>
                     <% }) %>
                   <% } else { %>
@@ -69,4 +70,9 @@
 
 </div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+        let table = new DataTable('#example');
+      });
+</script>
 <%-include("../layout/admin/footer")-%>

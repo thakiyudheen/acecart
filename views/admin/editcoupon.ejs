@@ -1,0 +1,147 @@
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+<style>
+                  
+    .container {
+max-width: 800px;
+margin: 20px auto;
+padding: 20px;
+background-color: #ffffff;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+border-radius: 8px;
+}
+
+  
+</style>
+
+<body>
+    <div class="container">
+   
+     
+   
+        <div class="col-md-12">
+        <form class="p-5 mt-3" method="post" action="/admin/editcoupon" id="editcouponform">
+          <div class="p-1"> <h3>Edit Coupon</h3></div>
+          <div class="mb-3">
+            <label for="coupon-type" class="col-form-label">Coupon CODE:</label>
+            <input type="text" class="form-control" name="couponCode" value="<%-coupon.couponCode-%>" id="coupon-type" required>
+            <small class="text-danger" id="couponTypeError"></small>
+          </div>
+          <input type="hidden" name="id" value="<%-coupon._id-%>">
+          <div class="mb-3">
+            <label for="coupon-description" class="col-form-label">Description:</label>
+            <input type="text" class="form-control" name="description" value="<%-coupon.description-%>" id="coupon-description" required>
+            <small class="text-danger" id="couponDescriptionError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="min-purchase" class="col-form-label">Min Purchase Amount:</label>
+            <input type="number" class="form-control" name="minPurchaseAmount" value="<%-coupon.minPurchaseAmount-%>" id="min-purchase" required>
+            <small class="text-danger" id="minPurchaseAmountError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="discount-amount" class="col-form-label">Discount Amount:</label>
+            <input type="number" class="form-control" name="discountAmount" value="<%-coupon.discountAmount-%>" id="discount-amount" required>
+            <small class="text-danger" id="discountAmountError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="start-date" class="col-form-label">Start Date:</label>
+            <input type="date" class="form-control" name="startDate" value="<%-coupon.startDate-%>" id="start-date" required>
+            <small class="text-danger" id="startDateError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="expiry-date" class="col-form-label">Expiry Date:</label>
+            <input type="date" class="form-control" name="expiryDate" value="<%-coupon.expiryDate-%>" id="expiry-date" required>
+            <small class="text-danger" id="expiryDateError"></small>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" onclick="editcoupon(event)" id="submitBtn" >Submit</button>
+          </div>
+        </form>
+    </div>
+      </div>
+    </div>
+    </div> 
+ 
+
+      <script>
+        document.getElementById('editcouponform').addEventListener('input', function () {
+          validateForm();
+        });
+    
+        function validateForm() {
+          clearErrors();
+    
+          const startDate = document.getElementById('start-date').value;
+          const expiryDate = document.getElementById('expiry-date').value;
+          const discountAmount = parseFloat(document.getElementById('discount-amount').value);
+          const minPurchaseAmount = parseFloat(document.getElementById('min-purchase').value);
+          const couponType = document.getElementById('coupon-type').value.trim();
+          const description = document.getElementById('coupon-description').value.trim();
+    
+          if (isFieldEmptyOrSpaces(startDate)) {
+            showError('startDateError', 'Start date cannot be empty or contain only spaces.');
+          }
+    
+          if (isFieldEmptyOrSpaces(expiryDate)) {
+            showError('expiryDateError', 'Expiry date cannot be empty or contain only spaces.');
+          }
+    
+          if (isFieldEmptyOrSpaces(couponType)) {
+            showError('couponTypeError', 'Coupon type cannot be empty or contain only spaces.');
+          }
+    
+          if (isFieldEmptyOrSpaces(description)) {
+            showError('couponDescriptionError', 'Description cannot be empty or contain only spaces.');
+          }
+    
+          if (couponType[0] === ' ') {
+            showError('couponTypeError', 'Coupon type cannot start with a space.');
+          }
+    
+          if (new Date(startDate) >= new Date(expiryDate)) {
+            showError('startDateError', 'Start date must be smaller than the expiry date.');
+          }
+    
+          if (isNaN(discountAmount) || discountAmount < 0) {
+            showError('discountAmountError', 'Discount must be a non-negative number.');
+          }
+    
+          if (isNaN(minPurchaseAmount) || minPurchaseAmount < 0) {
+            showError('minPurchaseAmountError', 'Min Purchase Amount must be a non-negative number.');
+          }
+    
+          if (discountAmount >= minPurchaseAmount) {
+            showError('discountAmountError', 'Discount must be less than Min Purchase Amount.');
+          }
+    
+          checkForLeadingAndTrailingSpaces('start-date', 'startDateError');
+          checkForLeadingAndTrailingSpaces('expiry-date', 'expiryDateError');
+    
+          const submitBtn = document.getElementById('submitBtn');
+          const hasErrors = document.querySelectorAll('.text-danger:not(:empty)').length > 0;
+          submitBtn.disabled = hasErrors;
+        }
+    
+        function isFieldEmptyOrSpaces(value) {
+          return value.trim() === '';
+        }
+    
+        function checkForLeadingAndTrailingSpaces(fieldName, errorId) {
+          const field = document.getElementById(fieldName);
+          if (field.value.trim() !== field.value) {
+            showError(errorId, 'Leading or trailing spaces are not allowed.');
+          }
+        }
+    
+        function showError(errorId, message) {
+          document.getElementById(errorId).innerText = message;
+        }
+    
+        function clearErrors() {
+          const errorElements = document.querySelectorAll('.text-danger');
+          errorElements.forEach((error) => {
+            error.innerText = '';
+          });
+        }
+      </script>
+      <%-include("../layout/admin/footer")-%>

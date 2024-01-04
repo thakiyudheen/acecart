@@ -8,6 +8,18 @@ const verifyUser = (req, res, next) => {
     }
   };
 
+  // after login for navbar----------------------------
+const verifyUsernav = (req, res, next) => {
+  
+  if (req.session.userlogged) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+};
+
+
+
   // bfore login-----------------------
   const userExist = (req, res, next) => {
     if (req.session.userlogged) {
@@ -38,6 +50,7 @@ const verifyUser = (req, res, next) => {
   
   module.exports={
     verifyUser,
+    verifyUsernav,
     userExist,
     adminExist,
     verifyAdmin

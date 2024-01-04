@@ -1,0 +1,186 @@
+<%-include("../layout/user/header")-%>
+<%-include("../partials/usernav")-%> 
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container1 {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ced4da;
+      border-radius: 30px !important;
+      box-sizing: border-box;
+    }
+
+    small {
+      color: #dc3545;
+    }
+
+    button {
+      
+      
+      
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+
+    .cancel-btn {
+      background-color: #6c757d;
+    }
+  </style>
+
+<div class="container1">
+    <h1 class="fs-5">Password Reset</h1>
+    <small id="errmsg" class="text-danger"></small>
+
+    <form method="post" action="/setforgotpassword" id="forgotpasswordForm" class="p-4">
+
+        <small class="text-danger text-center" id="oldpasserr"><%-locals.err?err:""-%></small><br>
+
+        <div class="form-group">
+            <label for="new-password">New Password:</label>
+            <input type="password" class="form-control" name="newPassword" id="new-password" required>
+            <small class="text-danger" id="passwordError"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" class="form-control" name="confirmPassword" id="confirm-password" required>
+            <small class="text-danger" id="confirmPasswordError"></small>
+        </div>
+
+        <div class="form-group">
+            <label for="otp">Enter OTP:</label>
+            <input type="text" class="form-control" name="otp" id="otp" maxlength="4" required>
+            <small class="text-danger" id="otpError"></small>
+            <button type="button" class="btn btn-link" id="resendOtpBtn" onclick="resendOtp('<%-email-%>')" disabled>Resend OTP</button>
+        </div>
+
+        <input type="hidden" name="email" value="<%= email%>">
+
+        <div class="form-group">
+            <button type="submit" class="btn " style="background-color: rgb(0, 227, 0) !important; border:none !important;" id="resetBtn" onclick="forgotpassword(event)" disabled>Reset Password</button>
+            <button type="button" class="btn cancel-btn" >Cancel</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("forgotpasswordForm");
+        const resetButton = document.getElementById("resetBtn");
+        const otpInput = document.getElementById("otp");
+        const otpError = document.getElementById("otpError");
+        const resendOtpBtn = document.getElementById("resendOtpBtn");
+
+        resetButton.disabled = true;
+
+        let resendTimeout;
+        let countdown = 30;
+
+        function startResendCountdown() {
+            resendOtpBtn.disabled = true;
+            resendTimeout = setInterval(function () {
+                if (countdown === 0) {
+                    clearInterval(resendTimeout);
+                    resendOtpBtn.disabled = false;
+                    resendOtpBtn.textContent = "Resend OTP";
+                    countdown = 30;
+                } else {
+                    resendOtpBtn.textContent = `Resend OTP (${countdown}s)`;
+                    countdown--;
+                }
+            }, 1000);
+        }
+
+        form.addEventListener("input", function () {
+            const newPasswordInput = document.getElementById("new-password");
+            const confirmPasswordInput = document.getElementById("confirm-password");
+
+            const passwordError = document.getElementById("passwordError");
+            const confirmPasswordError = document.getElementById("confirmPasswordError");
+
+            const newPassword = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            // Validate new password format
+            if (/^(?=.*[A-Z])(?=.*\d)(?!.*\s).{8,}$/.test(newPassword)) {
+                passwordError.textContent = '';
+            } else {
+                passwordError.textContent = 'Password must be 8 characters long, contain at least one capital letter, and one number. No spaces are allowed.';
+            }
+
+            // Validate password match
+            if (newPassword === confirmPassword) {
+                confirmPasswordError.textContent = '';
+            } else {
+                confirmPasswordError.textContent= 'Passwords do not match.';
+            }
+
+            // Enable/disable submit button based on validation
+            resetButton.disabled = !( /^(?=.*[A-Z])(?=.*\d)(?!.*\s).{8,}$/.test(newPassword) && newPassword === confirmPassword);
+        });
+
+        otpInput.addEventListener("input", function () {
+            const otp = otpInput.value;
+
+            // Validate OTP format
+            if (/^\d{4}$/.test(otp)) {
+                otpError.textContent = '';
+            } else {
+                otpError.textContent = 'Please enter a valid 4-digit OTP.';
+            }
+
+            // Enable/disable submit button based on validation
+            resetButton.disabled = !(/^\d{4}$/.test(otp));
+        });
+
+        resendOtpBtn.addEventListener("click", function () {
+            // Logic to resend OTP goes here (not implemented in this code)
+            startResendCountdown();
+        });
+
+        // Start countdown if the page is loaded with an active countdown
+        if (resendOtpBtn.disabled) {
+            startResendCountdown();
+        }
+    });
+</script>
+
+
+<!-- footer start ------------ -->
+<%-include("../partials/footernav")-%>
+<!-- footer end ------------ -->
+<%-include("../layout/user/footer")-%>
+  <!-- Footer -->

@@ -39,10 +39,7 @@ app.use(
   })
 );
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(404).render("user/pageNotFound");
-});
+
 
 app.use(express.static(path.join(__dirname,'public')))
 app.use(express.static(path.join(__dirname,'public/assets')))
@@ -53,6 +50,9 @@ app.use(express.static(path.join(__dirname,'public/assets')))
 app.use("/", router);
 
 app.use("/admin", routers);
+
+
+
 mongoose.connect(process.env.MONGOURL,{useNewUrlParser:true,useUnifiedTopology:false})
 .then(()=>{
    console.log("Mongo connected succesfully");
@@ -61,10 +61,11 @@ mongoose.connect(process.env.MONGOURL,{useNewUrlParser:true,useUnifiedTopology:f
    console.log("not connected",err);
 })
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(404).send("some thing went wrong");
+});
 
-// mongoose.connect(process.env.MONGO_URI).then(() =>
- 
-// );
 app.listen(3001, () => {
   console.log("server running in http://localhost:3001");
 })

@@ -19,12 +19,17 @@
                   <a class="text-white" href="https://amzn.to/42dsdGC" target="_blank">razer</a>
                 </div>
                 <div class="card-body">
-                  <h7 style="font-weight: 500;">₹<%-el.DiscountAmount-%>\-</h7>&nbsp;&nbsp;<p7><del style="color: red; font-size: 13px;">₹<%-el.Price-%></del></p7>
+                  <% if (el.AvailableQuantity==0) { %>
+                    <h7 style="font-weight: 500; color: red;">Out of stock</h7>
+                  <% }else{ %>
+                    <h7 style="font-weight: 500;">₹<%-el.DiscountAmount-%>\-</h7>&nbsp;&nbsp;<p7><del style="color: red; font-size: 13px;">₹<%-el.Price-%></del></p7>
+                    <%}%>
+                  
                   <div class="clearfix mb-1">
                     <h7><%-el.ProductName-%></h7>
                     <span class="float-start rounded-pill "><%-el.DiscountAmount-%></span>
 
-                    <span class="float-end" style="position: absolute;    color: white;
+                    <span  onclick="addTowishlist('<%-el._id-%>')" class="float-end" style="position: absolute;    color: white;
                     position: absolute;
                     top: 15px;
                     background-color: red;
@@ -46,7 +51,12 @@
                   <div class="d-flex  my-1">
             
                     <a href="/userhome/products/productdetails/<%-el._id-%>" style="width: 48%; background-color: white; color: black;border:1px solid black" class="btn bold-btn">View  </a>
-                    <a href="#" class="btn btn-dark bold-btn ms-2 " onclick="addTocart('<%-el._id-%>')" style="width: 48%; background-color: white; color: black;border:1px solid black">Add to cart</a>
+                    <% if (el.AvailableQuantity==0) { %>
+                      <a href="#" class="btn btn-dark bold-btn ms-2 disabled" onclick="addTocart('<%-el._id-%>')" style="width: 48%; background-color: white; color: black;border:1px solid black">Add to cart</a>
+                    <% }else{ %>
+                      <a href="#" class="btn btn-dark bold-btn ms-2" onclick="addTocart('<%-el._id-%>')" style="width: 48%; background-color: white; color: black;border:1px solid black">Add to cart</a>
+                      <%}%>
+                   
                   </div>
                  
               </div>

@@ -94,12 +94,14 @@
             <div class="d-flex flex-row my-3">
 
   <!-- in stock ----------------------------------------------->
-          <% if (product.AvailableQuantity>0) { %>
+          <% if (product.AvailableQuantity>=10) { %>
             <span class="text-success ms-2">In stock</span>
              
-          <% }else{ %>
-            <span class="text-danger ms-2">Out of stock</span>
-          <% }%>  
+          <% }else if(product.AvailableQuantity>0){ %>
+            <span class="text-danger ms-2">Only <%-product.AvailableQuantity-%> left</span>
+          <% }else{%>
+            <span class="text-danger ms-2">Out of Stock</span>
+            <%}%>  
           
           
           

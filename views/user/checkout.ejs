@@ -3,14 +3,14 @@
 
 
 <div class="container">
-    <form action="/confirmAddress" method="post">
+    <form action="/confirmAddress" method="post" id="checkoutform">
       <div class="row d-flex">
         <div class="col-12 col-md-8">
           <div class="card border shadow mt-5">
 
             <div class="m-4">
-              <div class="col-12 d-flex rounded-lg justify-content-center" style="background-color:black; color:white;">
-                <h4 class="card-title mb-4 mt-4 ">Select Address</h4>
+              <div class="col-12 d-flex rounded-lg " style="background-color:rgb(255, 255, 255); color:black;">
+                <h5 class="card-title mb-2 mt-2 ">Select Address</h5>
               </div>
               <!-- start for each ------------------------- -->
               <% address.forEach(x => { %>
@@ -36,7 +36,7 @@
                 Address</a>
             </div> -->
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-primary m-3" style="width: 20%;" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">add address</button>
+                <button type="button" class="btn btn-primary m-3" style="width: 20%;" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><small>add address</small></button>
             </div>
            
         
@@ -48,23 +48,30 @@
         <div class="col-12 col-md-4">
           <div class="card border shadow mt-5">
             <div class="card-body">
-              <h5 class="card-title">Have You coupon ?</h5>
+              <h5 class="card-title mb-3">Have You coupon ?</h5>
+              <hr>
               <span class="bg-danger text-white" role="alert" id="errrorShow"></span>
               <div class="input-group mb-3">
                 <!-- if coupen code---------------------------------------------------- -->
                
-                  <input type="text" class="form-control border" placeholder="Coupon Code" aria-label="coupon"
-                    id="coupon" aria-describedby="button-addon2" value="coupencode " />
+                
                   <!--      -->
-                    <input type="text" class="form-control border" placeholder="Coupon Code" aria-label="coupon"
+                  <!-- <form action="/checkcoupen" id="checkcoupon"> -->
+                    
+                    <input type="text" class="form-control border" name="couponCode" value="<%-couponCode-%>" <%-coupondiscount>0?"disabled":''-%> placeholder="Coupon Code" aria-label="coupon"
                       id="coupon" aria-describedby="button-addon2" />
-                  <!--       -->
-                      <button class="btn btn-primary border shadow-0" onclick="checkCoupon()" type="button"
-                        id="button-addon2" data-mdb-ripple-color="dark">
-                        Apply
+                      
+                 
+                      <button class="btn btn-primary border shadow-0" onclick="checkcoupon(event)" type="button"
+                        id="button-addon2" data-mdb-ripple-color="dark" <%-coupondiscount>0?"disabled":''-%>>
+                       <small>Apply</small> 
                       </button>
+                    
+                     
+                  <!-- </form> -->
                       <!-- ifcoupen code----------------------------------------------------- -->
               </div>
+              <small id="checkcouponerr" class="text-center"></small>
             </div>
           </div>
           <div class="card shadow border mt-3">
@@ -72,7 +79,8 @@
               <div id="subtotal" class="d-flex justify-content-between">
                 <p class="mb-2"><b>Subtotal :</b></p>
                 <b>
-                  <p>Rs.<%= subtotel%><span id="subtotalAmount">
+                  <p>₹<span id="subtotalAmount">
+                    <%= subtotelbefore%>
                       </span></p>
                 </b>
               </div>
@@ -86,8 +94,8 @@
                   <!-- </b> -->
                 <!-- eklse  if----------------- -->
                     <b>
-                      <p>Rs.0<span id="discountAmount">
-
+                      <p>₹<span id="discountAmount">
+                          <%-coupondiscount-%>
                         </span></p>
                     </b>
                 <!-- end ------------------------------ -->
@@ -95,10 +103,10 @@
               <hr />
               <div class="d-flex justify-content-between">
                 <p class="mb-2"><b>Total price :</p>
-                <h5 class="mb-2" style="color: rgb(47, 129, 207);"><span id="totalPrice">
+                <h7 class="mb-2" style="color: rgb(47, 129, 207);"><span id="totalPrice">
                    
-                          Rs. <%- subtotel-%>
-                  </span></h5>
+                  ₹ <%= subtotel%>
+                  </span></h7>
                
 
                   </b>
@@ -110,21 +118,21 @@
 
           <div class="card shadow border p-3 mt-3">
             <!-- Check if address length is less than 0 -->
-            <h5 class="text-success"><b>Choose Payment Method</b></h5>
-        
+            <h5 class="text-success text-center"><b>Choose Payment Method</b></h5>
+            <hr>
             <!-- Payment options -->
-            <div>
-                <input type="radio" name="paymethod" id="onlinepayment" value="online" class="p-2" checked >
+            <div class="mt-3">
+                <input type="radio" name="paymethod" id="onlinepayment" value="online" class="p-4" checked >&nbsp;&nbsp;
                 <label for="onlinepayment"><b>Online Payment</b></label><br>
         
-                <input type="radio" name="paymethod" id="codpayment" value="cod" class="p-2">
+                <input type="radio" name="paymethod" id="codpayment" value="cod" class="p-4">&nbsp;&nbsp;
                 <label for="codpayment"><b>Cash On Delivery (COD)</b></label><br>
         
-                <input type="radio" name="paymethod" id="walletpayment" value="wallet" class="p-2">
+                <input type="radio" name="paymethod" id="walletpayment" value="wallet" class="p-4">&nbsp;&nbsp;
                 <label for="walletpayment"><b>Wallet Payment</b></label><br>
 
 
-                <button type="submit" class="btn btn-primary m-3 float-end">Place Order</button>
+                <button type="submit" class="btn btn-primary m-3 float-end" onclick="placeorder(event)"><small>Place Order</small> </button>
             </div>
         
             <!-- Alternative content if address length is 0 -->
@@ -143,98 +151,11 @@
 
 <!-- modal       -------------------------------------------  -->
 
-
-
-
-
-
-
-
-  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Address </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="p-5" method="post" action="/addaddress">
-            <div class="container">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" name="name" id="recipient-name">
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Phone no:</label>
-                    <input type="number" class="form-control"   name="mobile" id="recipient-name">
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Email:</label>
-                    <input type="email" class="form-control" name="email" id="recipient-name">
-                  </div>
-              </div>
-            
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Pincode:</label>
-                    <input type="text" class="form-control" name="pincode" id="recipient-name">
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Locality:</label>
-                    <input type="text" class="form-control" name="locality" id="recipient-name">
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">City:</label>
-                    <input type="text" class="form-control" name="city" id="recipient-name">
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">District:</label>
-                    <input type="text" class="form-control" name="district" id="recipient-name">
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">state:</label>
-                    <input type="text" class="form-control" name="state" id="recipient-name">
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="message-text" class="col-form-label">Address:</label>
-              <textarea class="form-control" id="message-text" name="address" placeholder="house name,post office"></textarea>
-                  </div>
-              </div>
-            </div>
-        </div>
-           
-         
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </form>
-      </div>
-    </div>
-  </div> -->
-
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Address</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel"><small>Add Address</small></h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -308,8 +229,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Submit</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><small>Close</small></button>
+            <button type="submit" class="btn btn-primary" id="submitBtn" disabled><small>Submit</small></button>
           </div>
         </form>
       </div>

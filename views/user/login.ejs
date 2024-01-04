@@ -44,12 +44,18 @@
       >
         <form action="/login" method="post">
           <h2><i class="fa-solid fa-cart-shopping"></i>aceCart</h2>
-          <br />
+          <% if (locals.msg) {  %>
+            <div class="alert alert-dismissible fade show alert- text-success" role="alert">
+              <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+              <strong><%= msg %></strong>
+          </div>
+          <% } %>
+          
           <h4 class="float-start p-3">Login</h4>
           <br />
-          <label for="" class="text-center" style="color: greenyellow"
+          <!-- <label for="" class="text-center" style="color: greenyellow"
             ><%-locals.msg?msg:""-%></label
-          ><br />
+          ><br /> -->
           <small for="" style="color: red"><%-locals.err?err:""-%></small><br />
 
           <input
@@ -72,9 +78,10 @@
           /><br />
           <label for="">Password</label><br />
           
-
-          <a href="/send-otp" style="float: right">I Dont have account</a
-          ><br /><br />
+         
+          <a href="/send-otp" style="float: right">I Dont have account</a ><br>
+            <a href="/forgotpass" class="float-right">forgot password</a>
+          <br /><br />
 
           <input type="submit" class="btn" value="submit" id="signupButton" />
         </form>

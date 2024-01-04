@@ -44,7 +44,7 @@ module.exports={
            sendEmail(email)
         
  
-        //     },120000)
+        
 
            res.redirect('/getSignup')
            }

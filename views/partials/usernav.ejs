@@ -10,7 +10,7 @@
   border: none !important;
 }
 .navbar-light .navbar-toggler-icon{
-  background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e)
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")
 }
 .navbar{
   --bs-navbar-toggler-focus-width:0px !important;
@@ -24,7 +24,7 @@
 
 
 <!-- nav bar start  ---------------------------------------------------------------->
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm bg-light">
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm " style="background-color: white !important;">
     <div class="container-fluid">
       <a class="navbar-brand p-2" href="#"><h3 >aceCart</h3></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
        
         <form class="d-flex" action="/search" method="post">
             <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-dark" type="submit">Search</button>
+            <button class="btn btn-dark" type="submit"><small>Search</small></button>
           </form>
           
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 firstul" >
@@ -46,20 +46,26 @@
             <a class=" active" aria-current="page" href="/userhome/products"><i class="fa-brands fa-shopify"></i></a>
           </li>
           <li class="nav-item">
-            <a class=" active" aria-current="page" href="/login"><i class="fa fa-heart" aria-hidden="true"></i></a>
+            <a class=" active" aria-current="page" href="/wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
           </li>
           <li class="nav-item">
-            <a class="" href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            <a class="" href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+              <% if (locals.cartCount>=0) { %>
+                <span id="cart-count" class="badge bg-danger" style="position: absolute; top:7px;"><%=locals.cartCount%></span>
+              <% } %>
+             
+            </a>
           </li>
+      
           <% if(locals.user){ %>
             <li class="nav-item dropdown ">
                 <a class=" dropdown-toggle " href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
                   <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px"><%= user%></button>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/orderlist">View orders</a></li>
-                  <li><a class="dropdown-item" href="/userprofile">Profile</a></li>
-                  <li><a class="dropdown-item" href="/logoutuser">Logout</a></li>
+                  <li><a class="dropdown-item" href="/orderlist"><small>View orders</small></a></li>
+                  <li><a class="dropdown-item" href="/userprofile"><small>Profile</small></a></li>
+                  <li><a class="dropdown-item" href="/logoutuser"><small>Logout</small></a></li>
                  
                 </ul>
               </li>
@@ -70,8 +76,8 @@
                   <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px">login</button>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/login">Login</a></li>
-                  <li><a class="dropdown-item" href="/send-otp">Signup</a></li>
+                  <li><a class="dropdown-item" href="/login"><small>Login</small></a></li>
+                  <li><a class="dropdown-item" href="/send-otp"><small>Signup</small> </a></li>
                  
                 </ul>
               </li>
@@ -98,7 +104,7 @@
           <% if(locals.user){ %>
             <li class="nav-item dropdown ">
                 <a class=" dropdown-toggle " href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
-                  <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px"><%= user%></button>
+                  <!-- <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px"><%= user%></button> -->
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="/login">settings</a></li>

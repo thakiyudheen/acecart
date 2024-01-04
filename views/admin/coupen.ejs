@@ -1,0 +1,202 @@
+<%- include("../layout/admin/header") -%>
+<%- include("../partials/adminnav") -%>
+<style>
+  body{background-color: #eee}.card{border:none;position: relative}.off{font-size: 60px;margin-top: -16px !important;color: blue}.flat{font-size: 20px}.star{margin-top: 25px !important;font-size: 28px}.line{padding-right: 8rem!important;padding-left: 8rem!important}.line hr{height: 2px}
+</style>
+
+<div class="container">
+  <div class="d-flex col-md-12 justify-content-end">
+    <button type="button" class="btn btn-primary m-3" style="width: 20%;" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add Coupon</button>
+  </div>
+
+  <form action="/confirmAddress" method="post">
+    <div class="row d-flex">
+      <div class="col-12 col-md-12">
+        <div class="card border shadow mt-3">
+          <div class="m-4">
+            <div class="col-12 d-flex rounded-lg" style="background-color: rgb(255, 255, 255); color: black;">
+              <div class="container">
+              <div class="row">
+               
+                <div class="col-md-12 mb-5">
+                  <h5 class="card-title mb-2 mt-2">Coupons</h5>
+                </div>
+                 <!-- for each  -->
+                 <% coupon.forEach(el=> { %>
+                  
+                
+                <div class="col-md-6  mb-5">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card border shadow">
+                                <div class="text-right p-2"> <b><i class="fa-solid fa-cart-shopping"></i>aceCart </b> </div>
+                                <div class="text-center"> <small class="text-uppercase flat">Flat</small> </div>
+                                <div class="d-flex justify-content-center px-2">
+                                    <div class="d-flex flex-row">
+                                        <h3 class="mt-0 off"><%-el.discountAmount-%>- OFF</h3> <sup class="mt-2 text-primary star">*</sup>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <hr>
+                                </div>
+                                <div class="text-center mb-1"> <span class="text-uppercase">Valid till <%-el.expiryDate-%> </span> </div>
+                                <div class="text-center mb-2"> <span class="text-uppercase border p-1"><%-el.couponCode-%> </span> </div>
+                                
+                                <div class="float-end p-3"><a href="/admin/editcoupon/<%-el._id-%>"><i class="fa-solid fa-pen-to-square float-end p-2"  style="color:rgb(118, 118, 118);"></i></a>&nbsp; <i class="fa-solid fa-trash float-end p-2" onclick="removecoupon('<%-el._id-%>')" style="color:grey; "></i> </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+
+                  <% }) %>
+                <!-- for each  -->
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header bg-white text-dark">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Coupon</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="p-5" method="post" action="/admin/addcoupon" id="couponform">
+          <div class="mb-3">
+            <label for="coupon-type" class="col-form-label">Coupon CODE:</label>
+            <input type="text" class="form-control" name="couponCode" id="coupon-type" required>
+            <small class="text-danger" id="couponTypeError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="coupon-description" class="col-form-label">Description:</label>
+            <input type="text" class="form-control" name="description" id="coupon-description" required>
+            <small class="text-danger" id="couponDescriptionError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="min-purchase" class="col-form-label">Min Purchase Amount:</label>
+            <input type="number" class="form-control" name="minPurchaseAmount" id="min-purchase" required>
+            <small class="text-danger" id="minPurchaseAmountError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="discount-amount" class="col-form-label">Discount Amount:</label>
+            <input type="number" class="form-control" name="discountAmount" id="discount-amount" required>
+            <small class="text-danger" id="discountAmountError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="start-date" class="col-form-label">Start Date:</label>
+            <input type="date" class="form-control" name="startDate" id="start-date" required>
+            <small class="text-danger" id="startDateError"></small>
+          </div>
+          <div class="mb-3">
+            <label for="expiry-date" class="col-form-label">Expiry Date:</label>
+            <input type="date" class="form-control" name="expiryDate" id="expiry-date" required>
+            <small class="text-danger" id="expiryDateError"></small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" onclick="addcoupon(event)" id="submitBtn" disabled>Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('couponform').addEventListener('input', function () {
+    validateForm();
+  });
+
+  function validateForm() {
+    // Reset error messages
+    clearErrors();
+
+    // Get form fields
+    const startDate = document.getElementById('start-date').value;
+    const expiryDate = document.getElementById('expiry-date').value;
+    const discountAmount = parseFloat(document.getElementById('discount-amount').value);
+    const minPurchaseAmount = parseFloat(document.getElementById('min-purchase').value);
+    const couponType = document.getElementById('coupon-type').value.trim();
+    const description = document.getElementById('coupon-description').value.trim();
+
+    // Check for empty or spaces-only fields
+    if (isFieldEmptyOrSpaces(startDate)) {
+      showError('startDateError', 'Start date cannot be empty or contain only spaces.');
+    }
+
+    if (isFieldEmptyOrSpaces(expiryDate)) {
+      showError('expiryDateError', 'Expiry date cannot be empty or contain only spaces.');
+    }
+
+    if (isFieldEmptyOrSpaces(couponType)) {
+      showError('couponTypeError', 'Coupon type cannot be empty or contain only spaces.');
+    }
+
+    if (isFieldEmptyOrSpaces(description)) {
+      showError('couponDescriptionError', 'Description cannot be empty or contain only spaces.');
+    }
+
+    // Check if coupon type starts with space
+    if (couponType[0] === ' ') {
+      showError('couponTypeError', 'Coupon type cannot start with a space.');
+    }
+
+    // Validate date range
+    if (new Date(startDate) >= new Date(expiryDate)) {
+      showError('startDateError', 'Start date must be smaller than the expiry date.');
+    }
+
+    // Validate discount and minPurchaseAmount
+    if (isNaN(discountAmount) || discountAmount < 0) {
+      showError('discountAmountError', 'Discount must be a non-negative number.');
+    }
+
+    if (isNaN(minPurchaseAmount) || minPurchaseAmount < 0) {
+      showError('minPurchaseAmountError', 'Min Purchase Amount must be a non-negative number.');
+    }
+
+    if (discountAmount >= minPurchaseAmount) {
+      showError('discountAmountError', 'Discount must be less than Min Purchase Amount.');
+    }
+
+    // Check for leading and trailing spaces
+    checkForLeadingAndTrailingSpaces('start-date', 'startDateError');
+    checkForLeadingAndTrailingSpaces('expiry-date', 'expiryDateError');
+
+    // Disable or enable the submit button based on errors
+    const submitBtn = document.getElementById('submitBtn');
+    const hasErrors = document.querySelectorAll('.text-danger:not(:empty)').length > 0;
+    submitBtn.disabled = hasErrors;
+  }
+
+  function isFieldEmptyOrSpaces(value) {
+    return value.trim() === '';
+  }
+
+  function checkForLeadingAndTrailingSpaces(fieldName, errorId) {
+    const field = document.getElementById(fieldName);
+    if (field.value.trim() !== field.value) {
+      showError(errorId, 'Leading or trailing spaces are not allowed.');
+    }
+  }
+
+  function showError(errorId, message) {
+    document.getElementById(errorId).innerText = message;
+  }
+
+  function clearErrors() {
+    const errorElements = document.querySelectorAll('.text-danger');
+    errorElements.forEach((error) => {
+      error.innerText = '';
+    });
+  }
+</script>
+
+<%- include("../layout/admin/footer") -%>

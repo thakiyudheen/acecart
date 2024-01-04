@@ -7,6 +7,120 @@ const mongoose = require('mongoose');
 const order = require("../model/orderModel");
 
 module.exports={
+  confirmAddress:async (req,res)=>{
+    console.log(req.body);
+   req.session.confirm=req.body
+    if(req.body.paymethod=="cod"){
+       
+        res.json({method:"cod"})
+
+
+    }else if(req.body.paymethod=="online"){
+
+      console.log(req.session.confirm.paymethod)
+      try{
+        const addressId=req.session.confirm.adressId
+        const paymethod=req.session.confirm.paymethod
+        const totelAmount=req.session.subtotel
+        const totelprice=req.session.totelprice
+        console.log( totelAmount,totelprice)
+        let discountAmount=totelprice-totelAmount
+       
+
+     //    find user----------------------------------------
+         const user=await User.findOne({email:req.session.email})
+        
+        console.log("okkk aan ithhh");
+     //    find data address and cart -----------------------
+         const[address,cart]= await Promise.all([
+             Address.findOne({_id:addressId}),
+             Cart.findOne({userid:user._id})
+         ])
+        
+
+     // date setting------------------------------------------
+     const currentDate=new Date().toLocaleString("en-US", {
+         timeZone: "Asia/Kolkata",
+       });
+      
+     // delivery date ----------------------------------------  
+     const deliveryDate= new Date(
+         Date.now() + 4 * 24 * 60 * 60 * 1000
+       ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });  
+
+     //   if not coupen code ---------------------------------
+
+       let couponCode = "";
+       let couponDiscount = 0;
+
+
+     //   if coupen code--------------------------------------
+       if (req.session.couponDiscount && req.session.couponCode) {
+         couponDiscount = req.session.couponDiscount;
+         couponCode = req.session.couponCode;
+         discountAmount=discountAmount-couponDiscount;
+       }  
+        console.log("cartttttttttttttttttttt",cart.products);
+     //   add details in database ----------------------------
+           let  orderlist=
+
+             
+                await Order.create({
+                     userid: user._id,
+                     products: cart.products,
+                     address: {
+                     name:address.name,  
+                     address: address.address,
+                     locality: address.locality,
+                     city: address.city,
+                     district: address.district,
+                     state: address.state,
+                     pincode: address.pincode,
+                     },
+                     orderDate: currentDate,
+                     expectedDeliveryDate:deliveryDate,
+                     paymentMethod: req.session.confirm.paymethod,
+                     PaymentStatus: "Pending",
+                     orderStatus: "Order Processing",
+                     couponCode: couponCode,
+                     couponDiscount: couponDiscount,
+                     totalAmount: totelAmount,
+                     discountAmount: discountAmount,
+                 })
+
+                 // coupen cosde reset ------------------------------
+                 req.session.couponCode = "";
+                 req.session.couponDiscount = 0;
+
+                 const products=cart.products;
+
+                 // to change qty ------------------------------------
+                 for (const ele of products) {
+                   const proid = ele.productid;
+                   const quantity = ele.quantity;
+                   
+                   const product = await Product.findOne({ _id: proid });
+                   const stock = product.AvailableQuantity;
+                   const newstock = stock - quantity;
+               
+                   product.AvailableQuantity = newstock;
+                   await product.save();
+                 }
+                
+                   // orderid:orderlist._id
+                   const cartDetails = await Cart.findByIdAndDelete(cart._id);
+               
+                   res.json({method:"online"})
+
+
+     }catch(err){    
+         console.log(err)
+     }
+        
+    }else{
+        res.json({method:"wallet"})
+    }
+},
     cashOndelivery:async (req,res)=>{
         
         try{
@@ -59,6 +173,7 @@ module.exports={
                         userid: user._id,
                         products: cart.products,
                         address: {
+                        name:address.name,  
                         address: address.address,
                         locality: address.locality,
                         city: address.city,
@@ -70,7 +185,7 @@ module.exports={
                         expectedDeliveryDate:deliveryDate,
                         paymentMethod: "COD",
                         PaymentStatus: "Pending",
-                        orderStatus: "Order Processed",
+                        orderStatus: "Order Processing",
                         couponCode: couponCode,
                         couponDiscount: couponDiscount,
                         totalAmount: totelAmount,
@@ -84,24 +199,18 @@ module.exports={
                     const products=cart.products;
 
                     // to change qty ------------------------------------
-                    products.forEach(async ele=>{
-                      proid=ele.productid;
-                      quantity=ele.quantity;
-                      const product=await Product.findOne({_id:proid})
-                      stock=product.AvailableQuantity;
-                      newstock=stock-quantity;
-                      await Product.updateOne(
-                      {
-                        _id:proid
-                      },
-                        {
-                          $set:
-                          {
-                            AvailableQuantity:newstock
-                          }
-                        }
-                      )
-                    })
+                    for (const ele of products) {
+                      const proid = ele.productid;
+                      const quantity = ele.quantity;
+                      
+                      const product = await Product.findOne({ _id: proid });
+                      const stock = product.AvailableQuantity;
+                      const newstock = stock - quantity;
+                  
+                      product.AvailableQuantity = newstock;
+                      await product.save();
+                    }
+                   
                       // orderid:orderlist._id
                       const cartDetails = await Cart.findByIdAndDelete(cart._id);
                   
@@ -151,7 +260,12 @@ module.exports={
         const currentDate=new Date().toLocaleString("en-US", {
           timeZone: "Asia/Kolkata",
         });
-         await Order.updateOne({_id:req.params.orderid.trim()},{$set:{orderStatus:req.params.status.trim(),deliveryDate:currentDate}})
+        if(req.params.Delivered){
+          await Order.updateOne({_id:req.params.orderid.trim()},{$set:{orderStatus:req.params.status.trim(),deliveryDate:currentDate}})
+        }else{
+          await Order.updateOne({_id:req.params.orderid.trim()},{$set:{orderStatus:req.params.status.trim()}})
+        }
+         
         
 
         console.log("its mmmmmmmmmmmmmmmmmmmmmmmm")
@@ -189,6 +303,13 @@ module.exports={
         res.render('admin/orderdetails',{orderData,user:user.name,email:user.email})
       }catch(err){
         console.log(err);
+      }
+    },
+    getorderSuccess:(req,res)=>{
+      try{
+        res.render('user/ordersuccess')
+      }catch(err){
+
       }
     }
 }

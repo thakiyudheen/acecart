@@ -2,6 +2,7 @@ const User= require("../model/userModel");
 const Product= require("../model/productModel");
 const Address= require("../model/addressModel");
 const {sendEmail}=require('../auth/nodemailer')
+const Otp = require("../model/otpModel");
 const {getSignupOtp, generateOTP}=require('../util/generateotp')
 const { hashData,verifyHashedData}=require('../util/bcrypt')
 module.exports={
@@ -27,9 +28,13 @@ module.exports={
    },
    getProductpage:async(req,res)=>{
       try{
-         const product=await Product.find({status:"Active"})
-         console.log(product)
-         res.render('user/producthome',{user:req.session.user,product})
+         const [products, count ,categories, brands] = await Promise.all([
+            Product.find({ status: 'Active' }),
+            Product.find({ status: 'Active' }).count(),
+            Product.aggregate([{ $group: { _id: '$Category', count: { $sum: 1 } } }]),
+            Product.aggregate([{ $group: { _id: '$BrandName', count: { $sum: 1 } } }])
+          ]);
+         res.render('user/productpage',{user:req.session.user,products,categories,brands,count})
       }catch(err){
          console.log(err)
       }
@@ -63,6 +68,8 @@ module.exports={
          const product=await Product.find({
             ProductName:{ $regex: "^" + req.body.search, $options: "i"},status:"Active"
          })
+
+        
          res.render('user/producthome',{product,user:req.session.user})
       }catch(err){
          console.log(err);
@@ -117,7 +124,106 @@ module.exports={
       }catch(err){
          console.log(err);
       }
-   }
+   },
+
+   // get forget password----------------------------------------
+   getForgotpass:(req,res)=>{
+      try{
+        
+         res.render('user/forgotpass')
+      }catch(err){
+         console.log(err)
+      }
+    } ,
+    
+   postForgotpass:async (req,res)=>{
+      try{
+
+         const user=User.findOne({email:req.body.email})
+         if(user ){
+            console.log("1sr thissk",req.body.email)
+            await sendEmail(req.body.email)
+            res.render('user/setnewpass',{email:req.body.email})
+         }else{
+            res.render('user/forgotpass',{err:"email not exist "})
+         }
+      }catch(err){
+         console.log(err)
+      }
+   },
+   
+   // postOtpforgot:async (req,res)=>{
+   //    try{
+   //       console.log("......................................",req.body)
+   //       if(req.body.email){
+   //          const arr=[];
+   //          const {num1,num2,num3,num4}=req.body
+   //          arr.push(num1)
+   //          arr.push(num2)
+   //          arr.push(num3)
+   //          arr.push(num4)
+   //          const userotp=arr.join("").toString()
+            
+            
+    
+   //          const otp_=await Otp.findOne({email:req.body.email})
+   //          console.log(otp_)
+   //          if(otp_?.otp==userotp&&otp_!=null){
+   //                 res.render('user/setnewpass',{email:req.body.email})
+   //          }else{
+   //              res.render('user/otpforgot',{err:"Incorrect OTP"})
+   //          }
+           
+   //           res.render()
+   //       }else{
+   //          res.redirect('/login')
+   //       }
+
+       
+   //    }catch(err){
+   //       console.log(err);
+   //    }
+   // },
+   putForgotpass:async (req,res)=>{
+      try{
+         const userotp=req.body.otp;
+         const otp_=await Otp.findOne({email:req.body.email})
+                  console.log(otp_)
+                  if(otp_?.otp==userotp&&otp_!=null){
+                     let user= await User.findOne({email:req.body.email})
+                     const hashed= await hashData(req.body.newPassword)
+                     user.password=hashed;
+                     await user.save()
+                     console.log("...........>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+                     if(req.session.userlogged){
+                        res.json({user:true,otp:true})
+                       }else{
+                        res.json({user:false,otp:true})
+                       }
+                  }else{
+                      res.json({otp:false})
+                  }
+         
+        
+         
+        
+         
+      }catch(err){
+         console.log(err);
+      }
+   },
+   resendOtpforgot:async (req,res)=>{
+      console.log("okkkkkkkkkkkkkkkkkkkkkkk",req.params.email);
+      try{
+         await sendEmail(req.params.email)
+         res.json(true)
+         // res.render('user/otpforgot',{status:"OTP resend successfully",email:req.params.email })
+      }catch(err){
+         console.log(err);
+      }
+   },
+ 
 
 
 
@@ -125,8 +231,6 @@ module.exports={
 
 
 
-
-   ,
    // logout user --------------------------------------------------
    logOut:(req,res)=>{
       req.session.destroy(function(err){

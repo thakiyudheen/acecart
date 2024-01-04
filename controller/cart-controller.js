@@ -61,7 +61,10 @@ module.exports={
             }
             //   data store in session -------------------------------
                 req.session.subtotel=subtotel
-                req.session.totelprice= totelprice
+                req.session.subtotelbefore=subtotel
+                req.session.totelprice= totelprice;
+                req.session.couponDiscount=0;
+                req.session.couponCode='';
               console.log(products)
                res.render('user/cart',{products,user:req.session.user,subtotel,totelqty,toteldiscount,totelprice})
             }
@@ -139,28 +142,7 @@ module.exports={
     updateCart:async(req,res)=>{
         try{
            
-          
-
-           if(req.params.qty==1&&req.params.no==-1){
-            
-            await Cart.updateOne({
-                _id:req.params.cartid
-            },
-            {
-                $pull:
-                {
-                    products:
-                    {
-                        productid: req.params.proid.trim()
-                    }
-                }
-            })
-             res.json({msg:"succes"})
-           
-
-           }else{
-            
-            await Cart.updateOne({
+             await Cart.updateOne({
                 _id:req.params.cartid,'products.productid':req.params.proid.trim()
             },
             {
@@ -173,7 +155,7 @@ module.exports={
 
 
             res.json({msg:"success "})
-           }
+        // }
 
 
         }catch(err){
@@ -183,18 +165,23 @@ module.exports={
 
     },
     removeCart:async (req,res)=>{
-        await Cart.updateOne({
-            _id:req.params.cartid
-        },
-        {
-            $pull:
+        try{
+            await Cart.updateOne({
+                _id:req.params.cartid
+            },
             {
-                products:
+                $pull:
                 {
-                    productid: req.params.proid.trim()
+                    products:
+                    {
+                        productid: req.params.proid.trim()
+                    }
                 }
-            }
-        })
-        res.json({msg:true})
+            })
+            res.json({msg:true})
+        }catch(err){
+            console.log(err);
+        }
+        
     }
 }

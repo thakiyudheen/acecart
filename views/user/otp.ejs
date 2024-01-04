@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #4070f4;
+    background: #ffffff;
   }
 
   :where(.container, form, .input-field, header) {
@@ -115,7 +115,7 @@
 </style>
 
 <body class="body"  >
-  <div class="container" >
+  <div class="container shadow" >
     <header>
       <i class="bx bxs-check-shield"></i>
     </header>
@@ -133,11 +133,12 @@
         <input name="num4" type="number" disabled />
       </div>
       <!-- <input type="hidden" name="status" value="Active"> -->
-      <div class="d-flex "> <p class="text-danger">FOR OTP RESEND:- <p id="timer">02:00</p></p></div>
+      <br>
+      <div class="d-flex "> <p class="text-danger"><small>FOR OTP RESEND:</small> <small id="timer">02:00</samll></p></div>
       <div id="resendOtp" style="display: none;">
         <a style="text-decoration: none;" href="/resendOtp">Resend OTP</a>
       </div>
-      <button>Verify OTP</button>
+      <button class="btn btn-success">Verify OTP</button>
     </form>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

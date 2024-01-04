@@ -6,14 +6,15 @@
 
 
 nav ul li a{
- color: black;
- padding: 10px;
+ color:grey;
+ padding: 15px;
  text-decoration: none;
 
 
  
  
 }
+
 .navbar{
     position: sticky !important;
     top: 0px !important;
@@ -53,7 +54,7 @@ nav .secondul{
     display:none;
 }
 nav .firstul{
-    margin-left: 40%;
+    margin-left: 33%;
     display:flex;
 }
 

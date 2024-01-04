@@ -7,6 +7,7 @@ const upload = require("../middleware/multer");
 const usercontroller = require('../controller/usercontroller')
 const orderController = require('../controller/order-controller')
 const brandController = require('../controller/brand-controller')
+const coupenController = require('../controller/coupen-controller')
 
 
 
@@ -79,7 +80,16 @@ router.get('/updatestatus/:orderid/:status',orderController.updateOrderstatus)
 router.get('/orderView/:orderid',login.verifyAdmin,orderController.getOrderdetails)
 
 
-
+// get  coupen----------------------------------------------------------
+router.get('/getCoupon',login.verifyAdmin,coupenController.getCoupen)
+// add coupen ----------------------------------------------------------
+router.post('/addcoupon',coupenController.postAddcoupon)
+// get edit coupon------------------------------------------------------
+router.get('/editcoupon/:cid',login.verifyAdmin,coupenController.getCouponedit)
+// put edit the coupon--------------------------------------------------
+router.put('/editcoupon',coupenController.putEditcoupon)
+// delete coupon -------------------------------------------------------
+router.get('/removecoupon/:couponid',coupenController.removeCoupon)
 
 
 

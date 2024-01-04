@@ -1,10 +1,10 @@
 <%-include("../layout/user/header")-%>
 <%-include("../partials/usernav")-%> 
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
-            <table class="table mt-5 p-3">
+            <table class="table mt-5 p-3" id="example">
                 <thead>
                   <tr>
                     <th scope="col">no</th>
@@ -31,7 +31,7 @@
                     <% }%>
 
                     
-                    <td><a href="/orderdetails/<%-ele._id-%>" class="btn btn-primary">view order</a></td>
+                    <td><a href="/orderdetails/<%-ele._id-%>" class="btn btn-primary">view </a></td>
                    
                   </tr>
                   <% }) %>
@@ -42,9 +42,15 @@
     </div>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+        let table = new DataTable('#example');
+      });
+ </script> 
+
   <!-- footer start ------------ -->
 <%-include("../partials/footernav")-%>
 <!-- footer end ------------ -->
 <%-include("../layout/user/footer")-%>
-  <!-- Footer -->
+
   

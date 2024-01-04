@@ -13,9 +13,16 @@ module.exports={
         const user=await User.findOne({email:req.session.email})
         
         const address=await Address.find({userId:user._id})
+        console.log(req.session.couponCode);
         if(address){
             console.log(address)
-            res.render('user/checkout',{address,subtotel:req.session.subtotel})
+            res.render('user/checkout',{
+                address,
+                subtotelbefore: req.session.subtotelbefore,
+                subtotel:req.session.subtotel,
+                coupondiscount:req.session.couponDiscount,
+                couponCode:req.session.couponCode
+            })
         }
 
            
@@ -38,13 +45,7 @@ module.exports={
             console.log(err);
         }
     },
-    confirmAddress:(req,res)=>{
-       req.session.confirm=req.body
-        if(req.body.paymethod=="cod"){
-            console.log("readyyyyyy");
-            res.redirect('/cashondelivery')
-        }
-    },
+    
     deleteAddress:async(req,res)=>{
         try{
             await Address.deleteOne({_id:req.params.id})

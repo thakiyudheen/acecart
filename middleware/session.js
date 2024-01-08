@@ -1,18 +1,36 @@
+const User=require('../model/userModel')
 // after login----------------------------
-const verifyUser = (req, res, next) => {
+const verifyUser = async  (req, res, next) => {
   
     if (req.session.userlogged) {
-      next();
+     const users=await User.findOne({email:req.session.email})
+     console.log(">>>>>>>>>>>>>>>>>>>>>>>",users );
+      if(users.status=='blocked'){
+        req.session.email=false;
+        res.redirect("/");
+      }else{
+        res.locals.user=users.name
+        next();
+      }
+     
     } else {
       res.redirect("/");
     }
   };
 
   // after login for navbar----------------------------
-const verifyUsernav = (req, res, next) => {
-  
+const verifyUsernav = async (req, res, next) => {
+ 
   if (req.session.userlogged) {
-    next();
+    const users= await User.findOne({email:req.session.email})
+    console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<",users );
+      if(users.status=='blocked'){
+        req.session.userlogged=false;
+        res.redirect("/");
+      }else{
+        res.locals.user=users.name
+        next();
+      }
   } else {
     res.redirect("/login");
   }

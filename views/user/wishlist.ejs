@@ -10,9 +10,9 @@
                     <table cellpadding="0" cellspacing="0" border="0" width="100%" >
                         <thead>
                             <tr>
-                                <th width="45%" class="p-2">Product Name</th>
-                                <th width="15%" class="p-2">Unit Price</th>
-                                <th width="15%"class="p-2">Stock Status</th>
+                                <th width="45%" class="p-2"><b>Product Name</b></th>
+                                <th width="15%" class="p-2"><b>Unit Price</b></th>
+                                <th width="15%"class="p-2"><b>Stock Status</b></th>
                                 <th width="15%"class="p-2"></th>
                                 <th width="10%" class="p-2"></tr>
                             </tr>
@@ -29,15 +29,15 @@
                                             <img src="/product-images/<%= ele.productid.images[0] %>" alt="" class="mCS_img_loaded">
                                         </div>
                                         <div class="name-product">
-                                            <%-ele.productid.ProductName-%>
+                                          <small><%-ele.productid.ProductName-%></small>  
                                         </div>
                                     </div>
                                 </td>
-                                <td width="15%" class="price"><%-ele.productid.DiscountAmount-%></td>
+                                <td width="15%" class=""> ₹ <%-ele.productid.DiscountAmount-%></td>
                                 <% if (ele.productid.AvailableQuantity>=10) { %>
-                                    <td width="15%"><span class="in-stock-box" style="background-color: rgb(6, 185, 0) !important;">In Stock</span></td>
+                                    <td width="15%"><span class="in-stock-box" style="background-color: rgb(6, 185, 0) !important;"><small>In Stock</small></span></td>
                                 <% }else if(ele.productid.AvailableQuantity>0){ %>
-                                    <td width="15%"><span class="in-stock-box">Only <%-ele.productid.AvailableQuantity-%> left</span></td>
+                                    <td width="15%"><span class="in-stock-box"><small>Only <%-ele.productid.AvailableQuantity-%> left</small></span></td>
 
                                 <%}else{%>
                                     <td width="15%"><span class="in-stock-box">Out of stock</span></td>
@@ -45,11 +45,11 @@
                                <% if (ele.productid.AvailableQuantity==0) { %>
                                 <td width="15%"><button class="round-black-btn small-btn disabled"><small>Add to Cart</small></button></td>
                                <% }else{ %>
-                                <td width="15%"><button class="round-black-btn small-btn"><small>Add to Cart</small></button></td>
+                                <td width="15%"><button class="round-black-btn small-btn" onclick="addTocart('<%-ele.productid._id-%>')"><small>Add to Cart</small></button></td>
                                 <% } %>
                                 
                                 
-                                <td width="10%" class="text-center"><a onclick="removewishlist('<%-ele.productid._id-%>','<%-wishid-%>')" class="trash-icon"><i class="far fa-trash-alt"></i></a></td>
+                                <td width="10%" class="text-center"><a onclick="removewishlist('<%-ele.productid._id-%>','<%-wishid-%>')" ><i class="fa-solid fa-xmark"></i></a></td>
                             </tr>
                             <% }) %>
                            

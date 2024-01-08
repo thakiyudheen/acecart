@@ -1,78 +1,138 @@
-<%-include("../layout/admin/header")-%>
-<%-include("../partials/adminnav")-%>
+<%- include("../layout/admin/header") -%>
+<%- include("../partials/adminnav") -%>
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table" id="example">
-                <thead>
-                    <tr>
-                      <th scope="col">No</th>
-                      <th scope="col">Order Id</th>
-                      <th scope="col">User Id</th>
-                      <th scope="col">Purchased On</th>
-                      <th scope="col">Payment Method</th>
-                      <th scope="col">Total Price</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">View</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <% if (orderData.length > 0) { %>
-                    <% orderData.forEach((x, index) => { %>
-                      <tr>
-                        <th scope="row"><%= index + 1 %></th>
-                        <td><%= x._id %></td>
-                         <td><%= x.userid %></td>
-                         <td>
-                            <%= x.orderDate.toLocaleDateString()%>
-                            <%= x.orderDate.toLocaleTimeString()%>
-                        </td>
-                        <td><%= x.paymentMethod %></td>
-                        <td><%= x.totalAmount %></td>
-                        <td>
-                           
-                            <% if (x.orderStatus !== 'Cancelled') { %>
-                              <% const currentStatus = x.orderStatus || 'Order processed'; %>
-                              <select class="form-select" id="statusSelect<%= x %>" onchange="updateOrderStatus('<%= x._id %>', this.value)">
-                                <option value="Order Processing" <%= currentStatus === 'Order Processing' ? 'selected' : '' %>>Order Processing</option>
-                                <option value="Order Placed" <%= currentStatus === 'Order Placed' ? 'selected' : '' %>>Order Placed</option>
-                                <option value="Shipped" <%= currentStatus === 'Shipped' ? 'selected' : '' %>>Shipped </option>
-                                <option value="Delivered" <%= currentStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
-                                
-                              </select>
-                            <% } else { %>
-                              Cancelled
-                            <% } %>
-                            
-              
-                        </td>
-                        <td><a href="/admin/orderView/<%=x._id%>"><button type="button" class="btn btn-primary">View</button></a></td>
-                      </tr>
-                    <% }) %>
-                  <% } else { %>
-                    <tr>
-                      <td colspan="8">
-                        <h4>No Any Orders</h4>
-                      </td>
-                    </tr>
-                  <% } %>
-                </tbody>
-              </table>
+ <div class="container-fluid" >
+ 
             
-        </div>
+             
 
-    </div>
+  <div class="row my-5">
+    <table id="example" class="table  text-center mt-5" style="width: 100%;">
+      <thead class="thead-dark text-center">
+        <tr>
+          <th class="text-center" scope="col">Si.No</th>
+          <th class="text-center" scope="col">User Name</th>
+          <th class="text-center" scope="col">Order Id</th>
+          <th class="text-center" scope="col">Purchase Date</th>
+          <th class="text-center" scope="col">Payment Method</th>
+          <th class="text-center" scope="col">Total Price</th>
+          <th class="text-center" scope="col">Order Status</th>
+          <th class="text-center" scope="col">Update Status</th>
+          <th class="text-center" scope="col">View</th>
+        </tr>
+      </thead>
+      <tbody>
+
+     
+    <% orders.forEach((data, index) => { %>                
+          
+        <tr>
+          <td class="text-center" scope="row"><%= index + 1%></td>
+          <td class="text-center"><%-data.username-%></td>
+          <td class="text-center"><%-data._id-%></td>
+          <td class="text-center"><%- data.orderDate.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' }) %></td>
+          <td class="text-center"><%-data.paymentMethod-%></td>
+          <td class="text-center">₹  <%-data.totalAmount-%></td>
+          
+
+          <td class="text-center">
+              <% if (data.orderStatus === 'Order Processing') { %>
+                  <span class="badge rounded-pill bg-warning" style="font-weight: 400;"><%= data.orderStatus %></span>
+              <% } else if (data.orderStatus === 'Order Placed') { %>
+                  <span class="badge rounded-pill bg-primary" style="font-weight: 400;"><%= data.orderStatus %></span>
+              <% } else if (data.orderStatus === 'Shipped') { %>
+                  <span class="badge rounded-pill bg-info" style="font-weight: 400;"><%= data.orderStatus %></span>
+              <% } else if (data.orderStatus === 'Delivered') { %>
+                  <span class="badge rounded-pill bg-success" style="font-weight: 400;"><%= data.orderStatus %></span>
+              <% } else if (data.orderStatus === 'Order Rejected'){ %>
+                  <span class="badge rounded-pill bg-danger" style="font-weight: 400;"><%= data.orderStatus %></span>
+              <% } else if (data.orderStatus === 'Cancelled'){ %>
+                  <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+          
+              <% } else if (data.orderStatus === 'Requested'){ %>
+                  <span class="badge rounded-pill bg-info text-white" style="font-weight: 400;">Return </span>
+              <% }else if(data.orderStatus ==='return accepted'){ %>
+              <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: blue;">Return accepted</span>
+              <%}else if(data.orderStatus ==='return rejected'){%>
+                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: rgb(102, 102, 102);">Return rejected</span>
+                <%}%>
+            </td>
+
+          
+
+
+            <td class="text-center">
+              <% if (data.orderStatus !== 'Cancelled') { %>
+
+                  <% if (data.orderStatus === 'Order Processing') { %>
+                  <select class="form-select" id="statusSelect<%= data._id %>" onchange="updateOrderStatus('<%= data._id %>', this.value)">
+                      <option value="" selected disabled>Select</option>
+                      <option value="Order Placed">Order Placed</option>
+                      <option value="Order Rejected">Order Rejected</option>
+                  </select>
+                  <% } else if (data.orderStatus === 'Order Placed') { %>
+                  <select class="form-select" id="statusSelect<%= data._id %>" onchange="updateOrderStatus('<%-data._id-%>', this.value)">
+                      <option value="" selected disabled>Select</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Order Rejected">Order Rejected</option>
+                  </select>
+                  <% } else if (data.orderStatus === 'Shipped') { %>
+                  <select class="form-select" id="statusSelect<%= data._id %>" onchange="updateOrderStatus('<%= data._id %>', this.value)">
+                      <option value="" selected disabled>Select</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Order Rejected">Order Rejected</option>
+                  </select>
+                  <% } else if (data.orderStatus === 'Delivered') { %>
+                      <span  style="font-weight: 400;color: green;">Delivered</span>
+                  <% } else if (data.orderStatus === 'Order Rejected') { %>
+                      <span  style="font-weight: 400;color: red;">Rejected</span>
+                  <% }else if(data.orderStatus === 'Requested') { %>
+                    <a href="/admin/viewReturn/<%=data._id%>" class="btn btn-info text-white"><small>Requested</small></a>     
+                  <%}else if(data.orderStatus ==='return accepted'){%>
+                    <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: blue;">Return accepted</span>
+
+                    <%}else if(data.orderStatus ==='return rejected'){%>
+                    <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: rgb(102, 102, 102);">Return rejected</span>
+                    <%}%>
+                
+                 
+                <% }else{%>
+
+                <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+                <% }%>
+            </td>
+
+          <td>
+
+              <a href="/admin/orderView/<%=data._id%>" class="btn btn-success"><small>view</small></a>                                                                                 
+
+            <!-- <a href=""><i class="fa-solid fa-trash fa-lg mx-1 text-danger" onclick=""></i></a> -->
+          </td>
+        </tr>
+
+  <% }) %> 
+
+      </tbody>
+    </table>
+  </div>
 </div>
 
-
-
-
-</div>
-</div>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
         let table = new DataTable('#example');
-      });
+
+        // Event listener for status selection
+        $('.status-select').on('change', function () {
+            let selectedStatus = $(this).val();
+            let orderId = $(this).data('order-id');
+
+            // Hide all options
+            $(`#statusSelect${orderId} option`).hide();
+
+            // Show the selected option
+            $(`#statusSelect${orderId} option[value="${selectedStatus}"]`).show();
+        });
+    });
 </script>
-<%-include("../layout/admin/footer")-%>
+
+<%- include("../layout/admin/footer") -%>

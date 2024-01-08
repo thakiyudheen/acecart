@@ -79,6 +79,11 @@ router.get('/updatestatus/:orderid/:status',orderController.updateOrderstatus)
 // order details--------------------------------------------------------
 router.get('/orderView/:orderid',login.verifyAdmin,orderController.getOrderdetails)
 
+// get return order details---------------------------------------------
+router.get('/viewReturn/:orderid',login.verifyAdmin,orderController.getReturnorder)
+// accept or reject return ---------------------------------------------
+router.get('/returnrequest/:orderid/:returnid/:type',orderController.returnRequest)
+
 
 // get  coupen----------------------------------------------------------
 router.get('/getCoupon',login.verifyAdmin,coupenController.getCoupen)

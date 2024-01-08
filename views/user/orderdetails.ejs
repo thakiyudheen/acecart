@@ -328,9 +328,12 @@
               <div class="card-footer border-0 rounded-0 p-3" style="background-color:white; color: black;">
                 <!-- ... Your existing code for Cancel Order button and Total Price ... -->
                  <!-- Display Cancel Order button based on conditions -->
-                 <% if (orderData[0].orderStatus!="Cancelled"&&orderData[0].orderStatus!="Delivered") { %>
-                  <button class="btn btn-outline-danger float-left" id="cancelOrder"onclick="cancelOrder('<%-orderData[0]._id-%>','Cancelled')" data-item-id=""
+                 <% if (orderData[0].orderStatus!="Cancelled"&&orderData[0].orderStatus!="Delivered"&&orderData[0].orderStatus!="Requested") { %>
+                  <button class="btn btn-danger float-left" id="cancelOrder"onclick="cancelOrder('<%-orderData[0]._id-%>','Cancelled')" data-item-id=""
                       data-order-id="">Cancel Order</button>
+                <% } %>
+                <% if (orderData[0].orderStatus=="Delivered") { %>
+                  <button class="btn btn-dark w-100 mt-2"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><small>Return</small></button>
                 <% } %>
                 
 
@@ -353,34 +356,74 @@
 
 
       <!-- Return Order Modal -->
-      <!--
-      <div class="modal fade" id="returnOrderModal" tabindex="-1" role="dialog" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="returnOrderModalLabel">Return Order</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+      
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel"><small>Return Order</small></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="returnForm">
+                        <div class="mb-3">
+                            <label for="return-reason" class="col-form-label"><small>Reason:</small></label>
+                            <input type="text" class="form-control" id="return-reason" name="returnReason" required pattern="^\S.*$" title="Cannot start with space" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid reason.
+                            </div>
+                        </div>
+                        <input type="hidden" name="orderid" value="<%-orderData[0]._id-%>">
+                        <div class="mb-3">
+                            <label for="return-description" class="col-form-label"><small>Description:</small></label>
+                            <textarea class="form-control" id="return-description" name="description" required pattern="^\S.*$" title="Cannot start with space"  required></textarea>
+                            <div class="invalid-feedback">
+                                Please provide a valid description.
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><small>Close</small></button>
+                    <button type="button" class="btn btn-dark" id="send-return-btn" onclick="returnorder(event)" disabled><small>Return Order</small></button>
+                </div>
+              </form>
             </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="returnReason">Reason:</label>
-                <input type="text" class="form-control" id="returnReason" placeholder="Enter reason" required>
-              </div>
-              <div class="form-group">
-                <label for="returnDescription">Description:</label>
-                <textarea class="form-control" id="returnDescription" placeholder="Enter description" required></textarea>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="confirmReturnBtn">Confirm Return</button>
-            </div>
-          </div>
         </div>
-      </div>
-      -->
+    </div>
+    
+    <script>
+        document.getElementById('return-reason').addEventListener('input', toggleButtonState);
+        document.getElementById('return-description').addEventListener('input', toggleButtonState);
+    
+        function toggleButtonState() {
+            var reasonInput = document.getElementById('return-reason');
+            var descriptionInput = document.getElementById('return-description');
+            var submitButton = document.getElementById('send-return-btn');
+    
+            var isReasonValid = reasonInput.validity.valid && reasonInput.value.trim() !== '';
+            var isDescriptionValid = descriptionInput.validity.valid && descriptionInput.value.trim() !== '';
+    
+            submitButton.disabled = !(isReasonValid && isDescriptionValid);
+    
+            // Show/hide error messages
+            showHideError(reasonInput, isReasonValid);
+            showHideError(descriptionInput, isDescriptionValid);
+        }
+    
+        function showHideError(inputElement, isValid) {
+            var errorDiv = inputElement.parentElement.querySelector('.invalid-feedback');
+            if (!isValid) {
+                errorDiv.style.display = 'block';
+            } else {
+                errorDiv.style.display = 'none';
+            }
+        }
+    </script>
+    
+    
+    
+    
     
 
 <!-- External script and library links -->

@@ -1,0 +1,45 @@
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+<div class="container">
+
+
+<div class="row d-flex">
+    <div class="col-12 col-md-12 mt-5">
+      <div class="card border shadow mt-3">
+        <div class="m-4">
+          <div class="col-12 d-flex rounded-lg" style="background-color: rgb(255, 255, 255); color: black;">
+            <div class="container">
+            <div class="row">
+             
+              <div class="col-md-12 mb-5 float-end " style="position: relative;">
+                <h5 class="card-title mb-2 mt-2 ">Return Order</h5>
+                <i class="fa-solid fa-xmark float-end p-3" style="font-size:18px; position: absolute; top: 0px; right: 0px; color: grey;"></i>
+              </div>
+              <div class="col-md-6 mb-5 ">
+                <h7 class="card-title mb-2 mt-2 text-center">Reason of Return:</h7>
+                <p><small><%-returns.returnReason-%></small></p>
+              </div>
+              <div class="col-md-6 mb-5">
+                <h7 class="card-title mb-2 mt-2 text-center">Description :</h7>
+                <p><small><%- returns.description-%></small></p>
+              </div>
+              <hr>
+
+              <div class=" col-md-12 mb-5 float-end d-flex">
+                <a onclick="returnrequest('<%-returns.orderid-%>','<%-returns._id-%>','reject')" class="btn  p-2 m-2 float-end" style="background-color: red; color: white;"><small>reject</small> </a>
+                <a onclick="returnrequest('<%-returns.orderid-%>','<%-returns._id-%>','accept')" class="btn p-2 m-2 float-end" style="background-color: rgb(0, 163, 8); color: white;">Accept </a>
+              </div>
+              
+          
+              
+              
+             
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <%- include("../layout/admin/footer") -%>

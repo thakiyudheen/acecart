@@ -12,7 +12,7 @@ module.exports={
 
         try{
             console.log(req.body)
-            const data= await ADMIN.findOne({email:req.email})
+            const data= await ADMIN.findOne({email:req.body.email})
     
             if(data){
                 

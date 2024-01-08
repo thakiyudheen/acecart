@@ -36,7 +36,7 @@
                 Address</a>
             </div> -->
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-primary m-3" style="width: 20%;" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><small>add address</small></button>
+                <button type="button" class="btn  m-3" style="width: 20%; background-color:blue; color: white ;"  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><small>add address</small></button>
             </div>
            
         
@@ -62,8 +62,8 @@
                       id="coupon" aria-describedby="button-addon2" />
                       
                  
-                      <button class="btn btn-primary border shadow-0" onclick="checkcoupon(event)" type="button"
-                        id="button-addon2" data-mdb-ripple-color="dark" <%-coupondiscount>0?"disabled":''-%>>
+                      <button class="btn  border shadow-0" onclick="checkcoupon(event)" type="button"
+                        id="button-addon2" style="background-color: blue; z-index: 0; color: white; border:2px solid blue" data-mdb-ripple-color="dark" <%-coupondiscount>0?"disabled":''-%>>
                        <small>Apply</small> 
                       </button>
                     
@@ -132,7 +132,7 @@
                 <label for="walletpayment"><b>Wallet Payment</b></label><br>
 
 
-                <button type="submit" class="btn btn-primary m-3 float-end" onclick="placeorder(event)"><small>Place Order</small> </button>
+                <button type="submit" class="btn  m-3 float-end" style="background-color:green; color: white; border: none;" onclick="placeorder(event)"><small>Place Order</small> </button>
             </div>
         
             <!-- Alternative content if address length is 0 -->

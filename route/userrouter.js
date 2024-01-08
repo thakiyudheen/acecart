@@ -89,8 +89,10 @@ router.get('/removewishlist/:proid/:wishid',wishlistController.removeWishlist)
 
 // coupen check------------------------------------------------------
 router.post('/checkcoupon',couponController.checkCoupon )
-// end 
-
+// add coupon -------------------------------------------------------
+router.get('/coupons',login.verifyUser,couponController.getCoupons)
+// get  wallet
+router.get('/getwallet',login.verifyUser,usercontroller.getWallet)
 
 
 // filetr 
@@ -118,6 +120,13 @@ router.get('/orderdetails/:orderid',login.verifyUser,orderController.OrderDetail
 router.get('/cancelorder/:orderid/:status',orderController.cancelOrder)
 // order succcessfully! -----------------------------------------------
 router.get('/ordersuccess',login.verifyUser,orderController.getorderSuccess)
+
+// verify online payment-----------------------------------------------
+router.post('/verifyPayment',login.verifyUser,orderController.verifyPayment)
+
+// return order
+router.post('/returnorder',orderController.postreturnOrder)
+
 
 
 // logout user --------------------------------------------------

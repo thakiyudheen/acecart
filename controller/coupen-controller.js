@@ -79,6 +79,14 @@ module.exports={
         }catch(err){
             console.log(err);
         }
+    },
+    getCoupons:async (req,res)=>{
+        try{
+            const coupons=await Coupon.find()
+            res.render('user/coupons',{coupons})
+        }catch(err){
+            console.log(err);
+        }
     }
    
 }

@@ -1,0 +1,115 @@
+<%-include("../layout/user/header")-%>
+<%-include("../partials/usernav")-%> 
+
+<style>
+    body {
+        background: #efeeee;
+    }
+
+    .card {
+        width: 350px;
+        padding: 10px;
+        border-radius: 20px;
+        background: rgb(255, 255, 255);
+        border: none;
+        color: blue;
+        height: 350px;
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        height: 100vh;
+    }
+
+    .card h1 {
+        font-size: 48px;
+        margin-bottom: 0px;
+    }
+
+    .card span {
+        font-size: 17px;
+    }
+
+    .image {
+        position: absolute;
+        opacity: .1;
+        left: 0;
+        top: 0;
+    }
+
+    .image2 {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        opacity: .1;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <% coupons.forEach(el => { %>
+
+            <div class="col-md-4">
+                <div class="d-flex justify-content-center align-items-center container">
+                    <div class="d-flex card text-center shadow border">
+                        <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+                        <div class="image2"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+                        <h1>₹<%-el.discountAmount-%> OFF</h1>
+                        <span class="d-block"><small><%-el.description-%></small></span>
+                        <span class="d-block"><small>Expires On:<%-el.expiryDate-%></small></span>
+                        <span class="d-block"><small>Min purchase:₹ <%-el.minPurchaseAmount-%></small></span>
+
+                        <div class="mt-4 btn btn-primary" style="background-color: blue;" onclick="copyCouponCode('<%-el.couponCode-%>')">
+                            <small><%-el.couponCode-%></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+<!-- Add this script section at the end of your HTML file -->
+<script>
+    function copyCouponCode(couponCode) {
+        // Create a temporary textarea element
+        var tempTextarea = document.createElement('textarea');
+
+        // Set the value of the textarea to the coupon code
+        tempTextarea.value = couponCode;
+
+        // Append the textarea to the document
+        document.body.appendChild(tempTextarea);
+
+        // Select the text inside the textarea
+        tempTextarea.select();
+
+        // Execute the 'copy' command to copy the selected text to the clipboard
+        document.execCommand('copy');
+
+        // Remove the temporary textarea
+        document.body.removeChild(tempTextarea);
+
+        // Provide user feedback (optional)
+        Toastify({
+            text:"couponcode copied successfully!",
+            duration: 800,
+            close: false,
+            gravity: "top",
+            position: 'center',
+            style: {
+              background: "rgba(0, 0, 255, 0.7)", // Set the background color with opacity
+              color: "#fff",
+              borderRadius: "15px",
+            }
+          }).showToast();
+    }
+</script>
+<!-- footer start ------------ -->
+<%-include("../partials/footernav")-%>
+<!-- footer end ------------ -->
+<%-include("../layout/user/footer")-%>
+
+

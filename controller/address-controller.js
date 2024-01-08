@@ -13,8 +13,9 @@ module.exports={
         const user=await User.findOne({email:req.session.email})
         
         const address=await Address.find({userId:user._id})
+        const cart = await Cart.findOne({userid:user._id})
         console.log(req.session.couponCode);
-        if(address){
+        if(cart){
             console.log(address)
             res.render('user/checkout',{
                 address,
@@ -23,6 +24,8 @@ module.exports={
                 coupondiscount:req.session.couponDiscount,
                 couponCode:req.session.couponCode
             })
+        }else{
+           res.redirect('/userhome')
         }
 
            

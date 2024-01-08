@@ -1,6 +1,8 @@
 const User= require("../model/userModel");
 const Product= require("../model/productModel");
 const Address= require("../model/addressModel");
+const Wallet= require("../model/walletModel");
+const Wallethistory= require("../model/wallethistoryModel");
 const {sendEmail}=require('../auth/nodemailer')
 const Otp = require("../model/otpModel");
 const {getSignupOtp, generateOTP}=require('../util/generateotp')
@@ -223,7 +225,20 @@ module.exports={
          console.log(err);
       }
    },
- 
+   getWallet:async (req,res)=>{
+      try{
+         const user=await User.findOne({email:req.session.email})
+         const [wallet,wallethistory]=await Promise.all([
+            Wallet.findOne({userid:user._id}),
+            Wallethistory.findOne({userid:user._id})
+
+         ])
+        
+         res.render('user/wallet',{wallet,wallethistory})
+      }catch(err){
+         console.log(err);
+      }
+   } ,
 
 
 

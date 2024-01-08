@@ -280,7 +280,7 @@ body{
                   <p class="card-text"> <small><%-el.ProductName-%></small></p>
                   <div class="card-footer d-flex align-items-end pt-1 px-0 pb-0 mt-auto">
 
-                    <% if (el.AvailableQuantity==0) { %>
+                    <% if (el.AvailableQuantity<=0) { %>
                       <a href="#!" class="btn btn-primary shadow-0 me-1 disabled" onclick="addTocart('<%-el._id-%>')">Add to cart</a>
                       
                     <% }else{ %>

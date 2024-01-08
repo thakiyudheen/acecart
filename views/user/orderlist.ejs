@@ -1,56 +1,66 @@
-<%-include("../layout/user/header")-%>
-<%-include("../partials/usernav")-%> 
+<%- include("../layout/user/header") -%>
+<%- include("../partials/usernav") -%> 
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <table class="table mt-5 p-3" id="example">
                 <thead>
-                  <tr>
-                    <th scope="col">no</th>
-                    <th scope="col">orderId </th>
-                    <th scope="col">NO of Products</th>
-                    <th scope="col">Orderd date</th>
-                    <th scope="col">status</th>
-                    <th scope="col">View Order</th>
-                  </tr>
+                    <tr>
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col" class="text-center">Order ID</th>
+                        <th scope="col" class="text-center">No of Products</th>
+                        <th scope="col" class="text-center">Ordered Date & Time</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center">Total Amount</th>
+                        <th scope="col" class="text-center">View Order</th>
+                    </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                <% orders.forEach((ele,index) => { %>
-                  <tr>
-                    <th scope="row"><%-index+1-%></th>
-                    <td><%-ele._id-%></td>
-                    <td><%-ele.products.length-%></td>
-                    <td><%-ele.orderDate-%></td>
-                    <% if (ele.orderStatus=="Pending") { %>
-                        <td style="color:red;"><%-ele.orderStatus-%></td>
-                    <% }else if(ele.orderStatus=="Delivered"){%>
-                        <td style="color:green ;"><%-ele.orderStatus-%></td>
-                    <% }else {%>
-                        <td style="color:blue ;"><%-ele.orderStatus-%></td>
-                    <% }%>
-
-                    
-                    <td><a href="/orderdetails/<%-ele._id-%>" class="btn btn-primary">view </a></td>
-                   
-                  </tr>
-                  <% }) %>
-                 
+                    <% orders.forEach((ele, index) => { %>
+                        <tr>
+                            <td class="text-center"><%- index + 1 -%></td>
+                            <td class="text-center"><%- ele._id -%></td>
+                            <td class="text-center"><%- ele.products.length -%></td>
+                            <td class="text-center"><%- ele.orderDate.toLocaleString() -%></td>
+                           
+                            <td class="text-center">
+                              <% if (ele.orderStatus === 'Order Processing') { %>
+                                <span class="badge rounded-pill bg-warning" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Order Placed') { %>
+                                <span class="badge rounded-pill bg-primary" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Shipped') { %>
+                                <span class="badge rounded-pill bg-info" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Delivered') { %>
+                                <span class="badge rounded-pill bg-success" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Order Rejected'){ %>
+                                <span class="badge rounded-pill bg-danger" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Cancelled'){ %>
+                                <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+                            <% } else if (ele.orderStatus === 'Requested'){ %>
+                                <span class="badge rounded-pill bg-info text-white" style="font-weight: 400;">Return </span>
+                            <% } else if(ele.orderStatus ==='return accepted'){ %>
+                                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: blue;">Return accepted</span>
+                            <%}else if(ele.orderStatus ==='return rejected'){%>
+                                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: rgb(102, 102, 102);">Return rejected</span>
+                            <%}%>
+                            
+                            </td>
+                            <td class="text-center"><%- ele.totalAmount -%></td>
+                            <td class="text-center"><a href="/orderdetails/<%- ele._id -%>" class="btn btn-primary">View</a></td>
+                        </tr>
+                    <% }) %>
                 </tbody>
-              </table>
+            </table>
         </div>
     </div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
         let table = new DataTable('#example');
-      });
- </script> 
+    });
+</script> 
 
-  <!-- footer start ------------ -->
-<%-include("../partials/footernav")-%>
-<!-- footer end ------------ -->
-<%-include("../layout/user/footer")-%>
-
-  
+<%- include("../partials/footernav") -%>
+<%- include("../layout/user/footer") -%>

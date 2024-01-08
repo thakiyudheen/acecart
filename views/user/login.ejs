@@ -51,13 +51,11 @@
           </div>
           <% } %>
           
-          <h4 class="float-start p-3">Login</h4>
-          <br />
-          <!-- <label for="" class="text-center" style="color: greenyellow"
-            ><%-locals.msg?msg:""-%></label
-          ><br /> -->
-          <small for="" style="color: red"><%-locals.err?err:""-%></small><br />
-
+          <h4 class="float-start mt-2 ">Login</h4>
+          <br><br>
+          
+          <small for=""  style="color: red ;"><%-locals.err?err:""-%></small><br />
+          <br>
           <input
             type="text"
             placeholder="Enter your email"
@@ -79,8 +77,8 @@
           <label for="">Password</label><br />
           
          
-          <a href="/send-otp" style="float: right">I Dont have account</a ><br>
-            <a href="/forgotpass" class="float-right">forgot password</a>
+          <a href="/send-otp" style="float: right; text-decoration: none; color: black;"><small>Dont have account</small></a ><br>
+            <a href="/forgotpass" class="float-right;" style="float: right; text-decoration: none; color: black;"><small>forgot password</small></a>
           <br /><br />
 
           <input type="submit" class="btn" value="submit" id="signupButton" />

@@ -112,7 +112,7 @@ module.exports={
                    product.AvailableQuantity = newstock;
                    await product.save();
                  }                   
-                 
+                   console.log("realmeeeeeeeeeeeeeeeeeeeeeeeeee",orderlist)
                    createOrder(req,res,orderlist._id+"")
                    console.log(order);
                    
@@ -380,11 +380,12 @@ module.exports={
     OrderDetails:async (req,res)=>{
        try{
         const orderData =await Order.find({_id:req.params.orderid}).populate("products.productid")
-        console.log(".......>>>>>>>>>>>>>>>>>",orderData[0].products)
+        console.log(".......>>>>>>>>>>>>>>>>>",orderData[0])
         // Arry.toArray(orderData[0].products)
         
+        
 
-       res.render('user/orderdetails',{orderData,user:req.session.user,email:req.session.email})
+       res.render('user/orederdetnew',{orderData,user:req.session.user,email:req.session.email})
        
        }catch(err){
         console.log(err);
@@ -441,7 +442,7 @@ module.exports={
         const currentDate=new Date().toLocaleString("en-US", {
           timeZone: "Asia/Kolkata",
         });
-        if(req.params.Delivered){
+        if(req.params.status=='Delivered'){
           await Order.updateOne({_id:req.params.orderid.trim()},{$set:{orderStatus:req.params.status.trim(),deliveryDate:currentDate}})
         }else{
           await Order.updateOne({_id:req.params.orderid.trim()},{$set:{orderStatus:req.params.status.trim()}})
@@ -468,14 +469,15 @@ module.exports={
           if (walletRecord) {
             
             await Wallet.updateOne({userid:user._id},{$inc:{wallet:orders.totalAmount}})
-            
+            await Order.updateOne({userid:user._id},{$set:{orderStatus:"return accepted",PaymentStatus:"refunded"}})
           } else {
             await Wallet.create({
               userid: user._id,
               wallet: orders.totalAmount,
             });
+            await Order.updateOne({userid:user._id},{$set:{orderStatus:"return accepted",PaymentStatus:"refunded"}})
           }
-          if(orders.paymentMethod =='wallet'){
+          if(orders.paymentMethod =='wallet'||orders.paymentMethod == 'online'&&orders.PaymentStatus=='Paid'){
             const wallethistory = await Wallethistory.findOne({ userid: user._id });
             if (wallethistory) {
               let amount = orders.totalAmount;

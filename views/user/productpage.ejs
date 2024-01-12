@@ -1,7 +1,7 @@
 
 <%-include("../layout/user/header")-%>
 <%-include("../partials/usernav")-%>
-<style>
+<!-- <style>
 .icon-hover:hover {
   border-color: #3b71ca !important;
   background-color: white !important;
@@ -24,9 +24,13 @@ body{
   color:white !important;
   background-color: black;
 } 
-</style>
+</style> -->
 
-  
+  <style>
+    body{
+      background-color: white;
+    }
+  </style>
   <!-- sidebar + content -->
   <section class=" mt-5">
     <div class="container-fluid">
@@ -126,9 +130,7 @@ body{
                 </h2>
                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
                   <div class="accordion-body">
-                    <div class="range">
-                      <input type="range" class="form-range" id="customRange1" />
-                    </div>
+                   
                     <div class="row mb-3">
                       <div class="col-6">
                         <p class="mb-0">
@@ -136,7 +138,7 @@ body{
                         </p>
                         <div class="form-outline">
                           <input type="number" id="typeNumber"  name="min" class="form-control" />
-                          <label class="form-label" for="typeNumber">$0</label>
+                          <label class="form-label" for="typeNumber">₹ 0</label>
                         </div>
                       </div>
                       <div class="col-6">
@@ -145,7 +147,7 @@ body{
                         </p>
                         <div class="form-outline">
                           <input type="number" id="typeNumber" name="max" class="form-control" />
-                          <label class="form-label" for="typeNumber" >$1,0000</label>
+                          <label class="form-label" for="typeNumber" >₹ 1,000000</label>
                         </div>
                       </div>
                     </div>
@@ -155,32 +157,7 @@ body{
                   </div>
                 </div>
               </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                  <button
-                          class="accordion-button text-dark bg-light"
-                          type="button"
-                          data-mdb-toggle="collapse"
-                          data-mdb-target="#panelsStayOpen-collapseFour"
-                          aria-expanded="false"
-                          aria-controls="panelsStayOpen-collapseFour"
-                          >
-                    Size
-                  </button>
-                </h2>
-                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingThree">
-                  <div class="accordion-body">
-                    <input type="checkbox" class="btn-check border justify-content-center" id="btn-check1" checked autocomplete="off" />
-                    <label class="btn btn-white mb-1 px-1" style="width: 60px;" for="btn-check1">XS</label>
-                    <input type="checkbox" class="btn-check border justify-content-center" id="btn-check2" checked autocomplete="off" />
-                    <label class="btn btn-white mb-1 px-1" style="width: 60px;" for="btn-check2">SM</label>
-                    <input type="checkbox" class="btn-check border justify-content-center" id="btn-check3" checked autocomplete="off" />
-                    <label class="btn btn-white mb-1 px-1" style="width: 60px;" for="btn-check3">LG</label>
-                    <input type="checkbox" class="btn-check border justify-content-center" id="btn-check4" checked autocomplete="off" />
-                    <label class="btn btn-white mb-1 px-1" style="width: 60px;" for="btn-check4">XXL</label>
-                  </div>
-                </div>
-              </div>
+             
               <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
                   <button
@@ -262,9 +239,10 @@ body{
           <div class="row p-3" id="proview">
             <% products.forEach(el => { %>
             <div class="col-lg-3 col-md-3 col-sm-6 d-flex">
-              <div class="card w-100 my-1 shadow-2-strong">
+              <div class="card w-100 my-1 shadow" style="border: none;">
                 <a href="/userhome/products/productdetails/<%-el._id-%>">
-                <img src="/product-images/<%-el.images[0]-%>" class="card-img-top p-3" />
+                <img src="/product-images/<%-el.images[0]-%>" class="card-img-top p-4" />
+                 
               </a>
                 <div class="card-body d-flex flex-column">
                   <div class="d-flex flex-row">
@@ -278,17 +256,17 @@ body{
                    
                   </div>
                   <p class="card-text"> <small><%-el.ProductName-%></small></p>
-                  <div class="card-footer d-flex align-items-end pt-1 px-0 pb-0 mt-auto">
+                  <div class="card-footer d-flex align-items-end pt-0 px-0 pb-0 mt-auto">
 
                     <% if (el.AvailableQuantity<=0) { %>
-                      <a href="#!" class="btn btn-primary shadow-0 me-1 disabled" onclick="addTocart('<%-el._id-%>')">Add to cart</a>
+                      <a href="#!" class="btn  shadow-0 me-1 disabled" style="background-color: blue !important; color: white;" onclick="addTocart('<%-el._id-%>')"><small>Add to cart</small></a>
                       
                     <% }else{ %>
-                      <a href="#!" class="btn shadow-0 me-1 btnn " style="background-color:white; border: 1px solid black; color: black; border-redius:0px !important; " onclick="addTocart('<%-el._id-%>')">Add to cart</a>
+                      <a href="#!" class="btn shadow-0 me-1 btnn " style="background-color: blue !important;  color: white; border-redius:0px !important; " onclick="addTocart('<%-el._id-%>')"><small>Add to cart</small></a>
                       
                       <%}%>
                     
-                    <a  onclick="addTowishlist('<%-el._id-%>')" class="btn px-2 pt-2 btnn " style="background-color:white; border: 1px solid grey; color: black; border-redius:0px !important;"><i id="hurt" class="fas fa-heart fa-lg text-secondary px-1"></i></a>
+                    <a  onclick="addTowishlist('<%-el._id-%>')" class="btn px-2 pt-2 btnn " style="background-color:white;  color: black; border-redius:0px !important;"><small><i id="hurt" class="fas fa-heart fa-lg text-secondary px-1"></i></small></a>
                     <!-- <a href="#!" class="btn btn-primary shadow-0 me-1">view </a> -->
                   </div>
                 </div>

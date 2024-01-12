@@ -4,15 +4,18 @@
 <div class="container-xl px-4 mt-4">
     <!-- Account page navigation-->
     <nav class="nav nav-borders">
-         <h4><a class="nav-link active ms-0"><b>Profile</b></a></h4>
-        
-    </nav>
+      <a class="nav-link active ms-0" href="/userprofile" target="__blank">Profile</a>
+      <a class="nav-link" href="/getwallet" target="__blank">Wallet</a>
+      <a class="nav-link" href="/resetpassword" target="__blank">Security</a>
+      <a class="nav-link" href="/coupons"  target="__blank">Coupons</a>
+      <a class="nav-link" href="/address"  target="__blank">Address</a>
+  </nav>
     <hr class="mt-0 mb-4">
     <div class="row">
-        <div class="col-xl-4">
+        <div class="col-xl-4 mb-3">
             <!-- Profile picture card-->
-            <div class="card mb-4 mb-xl-0 shadow" style="border: none !important;">
-                <div class="card-header " style="background-color:black; color: white ;">Profile Picture</div>
+            <div class="card mb-4 mb-xl-0 " style="border: none !important;">
+                <div class="card-header " style=" color: black ; background-color: white;">Profile Picture</div>
                 <div class="card-body text-center">
                     <!-- Profile picture image-->
                     <img class="img-account-profile rounded-circle mb-2" src="/profile.png" alt="">
@@ -20,34 +23,34 @@
                     <div class="small text-dark  mt-4"><b><%-user1.name%></b></div>
                     <div class="small text-dark "><%-user1.email%></div>
                     <br>
-                    <a class="btn btn-dark w-100" href="/resetpassword"><small>Reset Password</small></a>
-                    <button class="btn btn-dark w-100 mt-2"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModaladd" data-bs-whatever="@getbootstrap"><small>Add Address</small></button>
-                    <a href="/coupons" class="btn btn-dark mt-2 w-100"><small>Coupons</small></a>
-                    <a href="/getwallet" class="btn btn-dark mt-2 w-100"><small>Wallet</small></a>
+                    <!-- <a class="btn btn-dark w-100" href="/resetpassword"><small>Reset Password</small></a> -->
+                    <button class="btn btn-dark w-100 mt-2"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModalReff" data-bs-whatever="@getbootstrap"><small>Refferal</small></button>
+                    <!-- <a href="/coupons" class="btn btn-dark mt-2 w-100"><small>Coupons</small></a>
+                    <a href="/getwallet" class="btn btn-dark mt-2 w-100"><small>Wallet</small></a> -->
                     <!-- Profile picture upload button-->
                     <!-- <button class="btn btn-primary" type="button">Upload new image</button> -->
                 </div>
             </div>
         </div>
-        <div class="col-xl-8 shadow">
+        <div class="col-xl-8 ">
             <!-- Account details card-->
             <div class="card mb-4">
-                <div class="card-header" style="background-color: black; color: white;">Account Details</div>
+                <div class="card-header" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">Account Details</div>
                 <div class="card-body">
                     <form>
                       
-                        <div class="row gx-3 mb-3 d-flex flex-column">
+                        <div class="row gx-3 mb-3 d-flex flex-column p-4">
                             <!-- Form Group (first name)-->
                             <div class="col-md-12">
                                 <label class="small mb-1" for="inputFirstName">Name</label>
-                                <input class="form-control" id="inputFirstName" type="text"  value="<%-user1.name-%>" disabled>
+                                <input class="form-control" id="inputFirstName" type="text"  style="background-color: white;font-size: 14px;"  value="<%-user1.name-%>" disabled>
                                
                                <i class="fa-solid fa-pen-to-square float-end"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" onclick="edituser('/edituser/')" style="color:rgb(118, 118, 118); padding:10px"></i>
                             </div>
                             <!-- Form Group (last name)-->
                             <div class="col-md-12">
                                 <label class="small mb-1" for="inputLastName">Email</label>
-                                <small><input class="form-control" id="inputLastName" type="email"  value="<%-user1.email-%>" disabled style="font-size: 14px;"></small>
+                                <small><input class="form-control" id="inputLastName" type="email"  style="background-color: white;font-size: 14px;" value="<%-user1.email-%>" disabled></small>
                                
                             </div>
                           
@@ -57,34 +60,7 @@
                       
                     </form>
                 </div>
-                <h4 class=" p-3 "> <b>Address:</b></h4>
-                <div class="address border" style="height:200px; overflow-x: scroll;">
-                    <div class="container ">
-                       
-                        <div class="row">
-                          <% addresses.forEach(function(x,index) { %>
-                            <div class="col-md-12 mb-3">
-                              <div class="form-check border  px-5 py-5">
-                                <p>ADDRESS-<%=index+1 %></p>
-                                <label class="form-check-label text-dark" for="<%- 'flexRadioDefault' + x._id %>" style="font-size: small;">
-                                  <%= x.name %>, <%= x.mobile %> <br>
-                                  <%= x.address %>, <%= x.locality %>,<br>
-                                  <%= x.city %>, <%= x.district %>, <%= x.state %>,<br>
-                                  <%= x.pincode %>
-                                </label>
-                                <div class="float-end d-flex flex-row justify-content-between">
-                                    <a href="/editaddress/<%-x._id-%>"><i class="fa-solid fa-pen-to-square float-end"  style="color:rgb(118, 118, 118);"></i></a>&nbsp;&nbsp;
-                                <i&nbsp; class="fa-solid fa-trash float-end" style="color: rgb(0, 0, 0); " onclick="deleteaddress('<%-x._id-%>')"></i>
-                                </div>
-                                
-                              </div>
-                            </div>
-                           
-                          <% }) %>
-                        </div>
-                      </div>
-                      
-                </div>
+               
             </div>
         </div>
     </div>
@@ -97,8 +73,8 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Address</h1>
+        <div class="modal-header ">
+          <h4 class="modal-title fs-5" id="exampleModalLabel">Edit name</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -116,35 +92,101 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="submitBtn1" onclick="edituser(event)" disabled>Submit</button>
+            <button type="button" class="btn " style="background-color:black;color: white;" data-bs-dismiss="modal"><small>Close</small></button>
+            <button type="submit" class="btn "  style="background-color:blue;color: white;" id="submitBtn1" onclick="edituser(event)"><small>Submit</small></button>
           </div>
         </form>
       </div>
     </div>
   </div>
   
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const nameInput = document.getElementById('recipient-name1');
-      const nameError1 = document.getElementById('nameError1');
-      const submitBtn = document.getElementById('submitBtn1');
-  
-      nameInput.addEventListener('input', function () {
-        const nameValue = nameInput.value.trim();
-  
-        if (nameValue === '') {
-          nameError1.textContent = 'Name is required';
-          submitBtn.disabled = true;
-        } else if (/^\s/.test(nameValue) || /\s$/.test(nameValue)) {
-          nameError.textContent = 'Name cannot start or end with spaces';
-          submitBtn.disabled = true;
-        } else {
-          nameError.textContent = '';
-          submitBtn.disabled = false;
+<!-- refferal modal -->
+<div class="modal fade" id="exampleModalReff" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Referral</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="referralCode" class="mt-2  p-1" style="border: 1px dashed black;">http://localhost:3001/send-otp/?reff=<%-user1._id-%></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" style="background-color: white; color: blue; border: 1px solid blue;" data-bs-dismiss="modal"><small>Close</small></button>
+        <button type="button" class="btn" style="background-color: blue; color: white;" id="copyBtn" onclick="copyCouponCode()"><small>Copy</small></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyCouponCode() {
+    const referralCode = document.getElementById('referralCode');
+    
+    // Create a range object
+    const range = document.createRange();
+    range.selectNode(referralCode);
+
+    // Create a selection object
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    try {
+      // Execute the "copy" command
+      document.execCommand('copy');
+      
+      // Show a toast or alert indicating that the code has been copied
+      Toastify({
+        text: "Referral code copied successfully!",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: 'center',
+        style: {
+          background: "rgba(0, 0, 255, 0.7)",
+          color: "#fff",
+          borderRadius: "15px",
         }
-      });
+      }).showToast();
+    } catch (error) {
+      console.error('Unable to copy', error);
+    } finally {
+      // Clear the selection
+      selection.removeAllRanges();
+    }
+  }
+</script>
+
+  
+  
+  
+
+
+
+
+
+  <!-- end  -->
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  
+    const nameInput = document.getElementById('recipient-name1');
+    const nameError1 = document.getElementById('nameError1');
+    const submitBtn = document.getElementById('submitBtn1');
+
+    nameInput.addEventListener('input', function () {
+        const nameValue = nameInput.value.trim();
+
+        if (nameValue.startsWith(" ") || nameValue === "") {
+            nameError1.textContent = 'Name cannot start or end with spaces';
+            submitBtn.disabled = true;
+        } else {
+            nameError1.textContent = '';
+            submitBtn.disabled = false;
+        }
     });
+});
+
   </script>
   
 
@@ -153,126 +195,7 @@
 <!-- end -->
 
 
-<!-- add address modal  -->
-<div class="modal fade" id="exampleModaladd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-dark text-white">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Address</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="p-5" method="post" action="/addaddressprofile" id="addressForm2">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" name="name" id="recipient-name" required>
-                    <small class="text-danger" id="nameError"></small>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="recipient-phone" class="col-form-label">Phone no:</label>
-                    <input type="number" class="form-control" name="mobile" id="recipient-phone" required>
-                    <small class="text-danger" id="phoneError"></small>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="recipient-email" class="col-form-label">Email:</label>
-                    <input type="email" class="form-control" name="email" id="recipient-email" required>
-                    <small class="text-danger" id="emailError"></small>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="recipient-pincode" class="col-form-label">Pincode:</label>
-                    <input type="text" class="form-control" name="pincode" id="recipient-pincode" required>
-                    <small class="text-danger" id="pincodeError"></small>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="recipient-locality" class="col-form-label">Locality:</label>
-                    <input type="text" class="form-control" name="locality" id="recipient-locality" required>
-                    <small class="text-danger" id="localityError"></small>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="recipient-city" class="col-form-label">City:</label>
-                    <input type="text" class="form-control" name="city" id="recipient-city" required>
-                    <small class="text-danger" id="cityError"></small>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="recipient-district" class="col-form-label">District:</label>
-                    <input type="text" class="form-control" name="district" id="recipient-district" required>
-                    <small class="text-danger" id="districtError"></small>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="recipient-state" class="col-form-label">State:</label>
-                    <input type="text" class="form-control" name="state" id="recipient-state" required>
-                    <small class="text-danger" id="stateError"></small>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="message-text" class="col-form-label">Address:</label>
-                    <textarea class="form-control" id="message-text" name="address" placeholder="house name, post office" required></textarea>
-                    <small class="text-danger" id="addressError"></small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="submitBtn" >Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
 
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("addressForm2");
-      const submitButton = document.getElementById("submitBtn");
-  
-      submitButton.disabled = true;
-  
-      form.addEventListener("input", function (event) {
-        const input = event.target;
-        const errorElement = document.getElementById(`${input.name}Error`);
-        
-        const value = input.value.trim();
-  
-        if (/^[a-zA-Z0-9].*$/.test(value) && !value.startsWith(' ')) {
-          errorElement.textContent = ''; // Clear error message
-        } else {
-          errorElement.textContent = 'Must start with a number or letter and cannot start with a space';
-        }
-  
-        // Check all input fields for validation
-        const inputs = form.querySelectorAll("input[type='text'], input[type='number'], input[type='email'], textarea");
-        const isValid = Array.from(inputs).every(input => {
-          const value = input.value.trim();
-          return /^[a-zA-Z0-9].*$/.test(value) && !value.startsWith(' ');
-        });
-  
-        submitButton.disabled = !isValid;
-      });
-    });
-  </script>
-<!-- end add address  -->
 
 <!-- footer start ------------ -->
 <%-include("../partials/footernav")-%>

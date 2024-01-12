@@ -3,7 +3,7 @@
     console.log("working ")
 
     // Additional validation if needed
-    var addressForm = $('#addressForm');
+    var addressForm = $('#addressForm1');
     console.log(addressForm.serialize());
     // AJAX POST request
     $.ajax({
@@ -11,6 +11,7 @@
       url:"/edituser",
       data: addressForm.serialize(),
       success: function (response) {
+        
            window.location.reload()
         
       },

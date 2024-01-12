@@ -33,19 +33,20 @@ router.get('/',login.userExist,usercontroller.getGustpage)
 // home page----------------------------------------------------
 router.get('/userhome',login.verifyUser,cartCount,usercontroller.getHomepage)
 // get user profile --------------------------------------------
-router.get('/userprofile',login.verifyUser,usercontroller.getuserProfile)
+router.get('/userprofile',login.verifyUser,cartCount,usercontroller.getuserProfile)
 // edit user---------------------------------------------------
 router.put('/edituser',usercontroller.editUser)
 // delete address----------------------------------------------
 router.get('/deleteaddress/:id',addressController.deleteAddress)
-
+// get address page
+router.get('/address',login.verifyUser,addressController.getAddress)
 
 
 
 // reset password----------------------------------------------
-router.get('/resetpassword',login.verifyUser,usercontroller.getresetPassword)
+router.get('/resetpassword',login.verifyUser,cartCount,usercontroller.getresetPassword)
 // reset password post ----------------------------------------
-router.put('/resetpassword',login.verifyUser,usercontroller.postresetPassword)
+router.put('/resetpassword',login.verifyUser,cartCount,usercontroller.postresetPassword)
 
 
 
@@ -60,17 +61,17 @@ router.put('/putforgotpassword',usercontroller.putForgotpass)
 
 
 // product page--------------------------------------------------
-router.get('/userhome/products',login.verifyUsernav,usercontroller.getProductpage)
+router.get('/userhome/products',login.verifyUsernav,cartCount,usercontroller.getProductpage)
 // product details---------------------------------------------------
 router.get('/userhome/products/productdetails/:id/',login.verifyUsernav,usercontroller.getProductDetails)
 // get branded product ------------------------------------------
-router.get('/userhome/brandpage/:brandname',login.verifyUsernav,usercontroller.getBrandpage)
+router.get('/userhome/brandpage/:brandname',login.verifyUsernav,cartCount,usercontroller.getBrandpage)
 // search product ------------------------------------------------------
 router.post('/search',usercontroller.postSearch )
 
 
 // cart listing--------------------------------------------------------
-router.get("/cart",login.verifyUsernav,cartcontroller.getCart)
+router.get("/cart",login.verifyUsernav,cartCount,cartcontroller.getCart)
 // add to cart --------------------------------------------------------
 router.get('/addTocart/:id',login.verifyUser,cartcontroller.addTocart)
 // Update count -------------------------------------------------------
@@ -80,7 +81,7 @@ router.get('/removecart/:cartid/:proid',login.verifyUser,cartcontroller.removeCa
 
 
 // get wish list------------------------------------------------------
-router.get('/wishlist',login.verifyUsernav,wishlistController.getWishlist)
+router.get('/wishlist',login.verifyUsernav,cartCount,wishlistController.getWishlist)
 // add to wishlist ---------------------------------------------------
 router.get('/addtowishlist/:proid',wishlistController.addTowishlist)
 // remove wishlist----------------------------------------------------
@@ -113,7 +114,7 @@ router.post('/confirmAddress',login.verifyUser,orderController.confirmAddress)
 // cash on delivery----------------------------------------------------
 router.get('/cashondelivery',login.verifyUser,orderController.cashOndelivery)
 // order list ---------------------------------------------------------
-router.get('/orderlist',login.verifyUser,orderController.OrderList)
+router.get('/orderlist',login.verifyUser,cartCount,orderController.OrderList)
 // get order details --------------------------------------------------
 router.get('/orderdetails/:orderid',login.verifyUser,orderController.OrderDetails)
 // cancel order -------------------------------------------------------

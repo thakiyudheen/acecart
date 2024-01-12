@@ -111,8 +111,13 @@ function checkcoupon(event) {
     data: couponForm.serialize(),
     success: function (res) {
       if(res.status){
-        
-
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 800
+        });
         document.getElementById('totalPrice').innerHTML=`${res.subtotel}`
         document.getElementById('discountAmount').innerHTML=`${res.coupondiscount}`
         document.getElementById('button-addon2').disabled=true ;

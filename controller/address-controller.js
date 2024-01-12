@@ -87,5 +87,14 @@ module.exports={
         }catch(err){
             console.log(err);
         }
+    },
+    getAddress:async (req,res)=>{
+        try{
+            const user1=await User.findOne({email:req.session.email})
+            const addresses=await Address.find({userId:user1._id})
+            res.render('user/address',{ addresses})
+        }catch(err){
+            console.log(err);
+        }
     }
 }

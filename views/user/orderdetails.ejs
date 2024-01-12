@@ -332,8 +332,16 @@
                   <button class="btn btn-danger float-left" id="cancelOrder"onclick="cancelOrder('<%-orderData[0]._id-%>','Cancelled')" data-item-id=""
                       data-order-id="">Cancel Order</button>
                 <% } %>
-                <% if (orderData[0].orderStatus=="Delivered") { %>
-                  <button class="btn btn-dark w-100 mt-2"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><small>Return</small></button>
+                  <%
+                  var deliveryDate = new Date(orderData[0].deliveryDate);
+                  var sevenDaysLater = new Date(deliveryDate.setDate(deliveryDate.getDate() + 7));
+
+                  // Current date
+                  var currentDate = new Date();
+                  var isSevenDaysNotPassed = currentDate <= sevenDaysLater;
+                   %>
+                  <% if (orderData[0].orderStatus=="Delivered"&&  isSevenDaysNotPassed ) { %>
+                  <button class="btn btn-dark  mt-2"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><small>Return</small></button>
                 <% } %>
                 
 

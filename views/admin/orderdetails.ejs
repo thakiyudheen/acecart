@@ -1,129 +1,489 @@
+<%- include("../layout/user/header") -%>
+<%- include("../partials/usernav") -%>
+<style>
+  /* body{
+    background: #ddd3;
+    height: 100vh;
+    vertical-align: middle;
+    display: flex;
+    font-family: Muli;
+    font-size: 14px;    
+} */
+.card1{
+    margin: auto;
+    /* width: 38%; */
+    /* max-width:600px; */
+    padding: 4vh 0;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   
+    border-left: none;
+    border-right: none;
+}
+ @media(max-width:768px){
+    .card{
+        width: 90%;
+    }
+} 
+.title{
+    color: black;
+    font-weight: 400;
+    margin-bottom: 2vh;
+    padding: 0 8%;
+    
+}
+#details{
+    font-weight: 400;
+}
+.info{
+    padding: 5% 8%;
+}
+.info .col-5{
+    padding: 0;
+}
+#heading{
+    color: grey;
+    line-height: 6vh;
+}
+.pricing{
+    background-color: #ddd3;
+    padding: 2vh 8%;
+    font-weight: 400;
+    line-height: 2.5;
+}
+.pricing .col-3{
+    padding: 0;
+}
+.total{
+    padding: 2vh 8%;
+    color: rgb(252, 103, 49);
+    font-weight: bold;
+}
+.total .col-3{
+    padding: 0;
+}
+.footer{
+    padding: 0 8%;
+    font-size: x-small;
+    color: black;
+}
+.footer img{
+    height: 5vh;
+    opacity: 0.2;
+}
+.footer a{
+    color: rgb(252, 103, 49);
+}
+.footer .col-10, .col-2{
+    display: flex;
+    padding: 3vh 0 0;
+    align-items: center;
+}
+.footer .row{
+    margin: 0;
+}
+#progressbar {
+    margin-bottom: 3vh;
+    overflow: hidden;
+    color: rgb(252, 103, 49);
+    padding-left: 0px;
+    margin-top: 3vh
+}
 
-<%-include("../layout/admin/header")-%>
-<%-include("../partials/adminnav")-%>
+#progressbar li {
+    list-style-type: none;
+    font-size: x-small;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400;
+    color: rgb(160, 159, 159);
+}
 
-<div class="container rounded  position-relative" style="background-color: white !important;">
-  <div class="row">
-    <div class="col-md-12 offset ">
-      <div class="container py-5 h-100 ">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="">
-            <div class="card  rounded-0 shadow-lg" style="background-color: white;">
-              <div class="card-header px-4 py-4" style="background-color:black; color: white;">
-                <h5 class=" mb-0">Order Details</h5>
-              </div>
+#progressbar #step1:before {
+    content: "";
+    color: rgb(252, 103, 49);
+    width: 5px;
+    height: 5px;
+    margin-left: 0px !important;
+    /* padding-left: 11px !important */
+}
 
-              <div class="card-body rounded-0">
-                <!-- Order details and items -->
-                <div class="card mb-4 px-2" style="border: none !important; box-shadow: none !important;">
-                  <div class="card-body p-5" >
-                    <% if (orderData && orderData[0].products && Array.isArray(orderData[0].products)) { %>
-                      <% orderData[0].products.forEach((x) => { %>
-                        <div class="row">
-                          <div class="col-md-2 mb-4">
-                            <img src="/product-images/<%= x.productid.images[0] %>" class="img-fluid" alt="Phone">
-                          </div>
-                          <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
-                            <p class="text-muted mb-0"><b><%= x.productid.ProductName %></b></p>
-                          </div>
-                          <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                            <p class="text-muted mb-0 small"><b>Qty: <%= x.quantity %></b></p>
-                          </div>
-                          <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                            <p class="text-muted mb-0 small"> <b>₹ <%= x.productid.DiscountAmount %></b></p>
-                          </div>
-                          <% if (x.status == "Return") { %>
-                            <h5 style="color: brown;">item returned</h5>
-                          <% } else if (orderData[0].Status == "Delivered") { %>
-                            <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <button class="btn small btn-danger"
-                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                id="returnOrderBtn" data-item-id="<%= x._id %> " data-order-id="<%=orderData[0]._id%>">
-                                Return
-                              </button>
-                            </div>
-                          <% } else if (x.status == "Cancelled") { %>
-                            <h5 style="color: brown;">item Cancelled</h5>
-                          <% } else if (orderData[0].Status !== "Cancelled") { %>
-                            <!-- <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                              <button class="btn small btn-dark mb-3" style="--bs-btn-font-size: .75rem;"
-                                id="cancelOrderBtn" data-item-id="<%= x._id %> " data-order-id="<%=orderData[0]._id%>">
-                                Cancel item
-                              </button>
-                            </div>
-                          </div> -->
-                          <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
-                        <% } %>
-                      <% }) %>
-                    <% } else { %>
-                      <h3>No data available</h3>
-                    <% } %>
-                  </div>
-                </div>
-               <div class="container">
-                <div class="row">
-                  <!-- Address, Name, Email, and Payment Method -->
-                  <div class="col-md-6 ">
-                    
-                    <div class="d-flex flex-column mt-3 p-4 ">
-                      <p class=" mb-0"><b>Order ID: <%= orderData[0]._id %></b></p>
-                      <p class=" mb-0">
-                        <b>Order Status:
-                          <% if(orderData[0].orderStatus === "Cancelled") { %>
-                            <span class="text-danger"><%= orderData[0].orderStatus %></span>
-                          <% } else { %>
-                            <span><%= orderData[0].orderStatus %></span>
-                          <% } %>
-                        </b>
-                      </p>
-                      <!-- Adjust the date formatting based on your data structure -->
-                      <% let orderDate=new Date(orderData[0].orderDate) %>
-                      <p class="card-text"><b>Ordered Date and Time: </b><%= orderDate.toLocaleDateString() || 'N/A' %></p>
-                      <p class="card-text"><b>Expected Delivery Date and Time:</b> <%= orderData[0].expectedDeliveryDate || 'N/A' %></p>
-                    </div>
+#progressbar #step2:before {
+    content: "";
+    color: #fff;
+    width: 5px;
+    height: 5px;
+    margin-left: 32%;
+}
 
+#progressbar #step3:before {
+    content: "";
+    color: #fff;
+    width: 5px;
+    height: 5px;
+    margin-right: 32% ; 
+    /* padding-right: 11px !important */
+}
 
-                    
-                  </div>
+#progressbar #step4:before {
+    content: "";
+    color: #fff;
+    width: 5px;
+    height: 5px;
+    margin-right: 0px !important;
+    /* padding-right: 11px !important */
+}
 
-                  <!-- Order IDs and Dates -->
-                  <div class="col-md-6 ">
-                    <div class="d-flex flex-column mt-3 p-4 ">
-                      <p class="mb-0"><strong>Name: </strong><%= user %></p>
-                      <p class="mb-0"><strong>Email:</strong> <%= email %></p>
-                      <p class="mb-0"><strong>Payment Method:</strong> <%= orderData[0].paymentMethod %></p>
-                      <p class="mt-2 ">
-                        <span class="">
-                          <b>Address</b> : <%=orderData[0].address.address%>,
-                          <%=orderData[0].address.locality%>,<br>
-                          <%=orderData[0].address.city%>,<%=orderData[0].address.district%>,
-                          <%=orderData[0].address.state%>,<br>
-                          <%=orderData[0].address.pincode%>
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+#progressbar li:before {
+    line-height: 29px;
+    display: block;
+    font-size: 12px;
+    background: #ddd;
+    border-radius: 50%;
+    margin: auto;
+    z-index: -1;
+    margin-bottom: 1vh;
+}
 
-            <!-- order status  -->
-            
-            <!-- end  -->
+#progressbar li:after {
+    content: '';
+    height: 2px;
+    background: #ddd;
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    margin-bottom: 2vh;
+    top: 1px;
+    z-index: 1;
+}
+.progress-track{
+    padding: 0 8%;
+}
+#progressbar li:nth-child(2):after {
+    margin-right: auto;
+}
 
-              <div class="card-footer border-0 rounded-0 p-3" style="background-color:white; color: black;">
+#progressbar li:nth-child(1):after {
+    margin: auto;
+}
+
+#progressbar li:nth-child(3):after {
+    float: left;
+    width: 68%;
+}
+#progressbar li:nth-child(4):after {
+    margin-left: auto;
+    width: 132%;
+}
+
+#progressbar  li.active{
+    color: black;
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background:blue;
+}
+</style>
+<div class="container">
+  <div class="row d-flex">
+    <div class="col-md-8">
+      <div class="main-heading mb-10 p-3">My wishlist</div>
+      <div class="table-wishlist shadow " style="padding: 20px !important;" >
+          <table cellpadding="0" cellspacing="0" border="0" width="100%" >
+              <thead>
+                  <tr>
+                      <th width="45%" class="p-2"><b>Product Name</b></th>
+                      <th width="15%" class="p-2"><b>Unit Price</b></th>
+                      <th width="15%"class="p-2"><b>quantity</b></th>
+                     
+                  </tr>
+              </thead>
+              <tbody>
                 
+                <% orderData[0].products.forEach((x) => { %>
+                
+                  <tr  >
 
-                <!-- Display total price -->
-                <h5 class="d-flex align-items-center justify-content-end  text-uppercase mb-0 p-3">Total
-                  <span class="h2 mb-0 ms-2 float-right"> ₹ <%=orderData[0].totalAmount%></span>
-                </h5>
-              </div>
-            </div>
+                      <td width="45%" class="text-center">
+                          <div class="display-flex align-center">
+                              <div class="img-product">
+                                  <img src="/product-images/<%= x.productid.images[0] %>" alt="" class="mCS_img_loaded">
+                              </div>
+                              <div class="name-product">
+                                <small><%= x.productid.ProductName %></small>  
+                              </div>
+                          </div>
+                      </td>
+                      <td width="15%" class="text-center"> ₹ <%= x.productid.DiscountAmount %> </td>
+                      <td width="10%" class="text-center"><a  ><%= x.quantity %></a></td>
+                  </tr>
+                  <% }) %>
+                 
+              </tbody>
+          </table>
+      </div>
+      <!-- <div class="shadow mt-5 p-2"> -->
+        <!-- atrst -->
+        <div class="card1 mt-5 shadow">
+          <div class="title">
+          
+          <p class=" mb-0 p-1"><b>Order ID: <%= orderData[0]._id %></b></p>
+          <p class=" mb-0 p-1">
+            <b>Order Status:
+              <% if (orderData[0].orderStatus === 'Order Processing') { %>
+                <span class="badge rounded-pill bg-warning" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Order Placed') { %>
+                <span class="badge rounded-pill bg-primary" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Shipped') { %>
+                <span class="badge rounded-pill bg-info" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Delivered') { %>
+                <span class="badge rounded-pill bg-success" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Order Rejected'){ %>
+                <span class="badge rounded-pill bg-danger" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Cancelled'){ %>
+                <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+            <% } else if (orderData[0].orderStatus === 'Requested'){ %>
+                <span class="badge rounded-pill bg-info text-white" style="font-weight: 400;">Return </span>
+            <% } else if (orderData[0].orderStatus === 'return accepted'){ %>
+                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: blue;">Return accepted</span>
+            <% } else if (orderData[0].orderStatus === 'return rejected'){ %>
+                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: rgb(102, 102, 102);">Return rejected</span>
+            <% } %>
+            
+            </b>
+          </p></div>
+          <div class="info">
+            
+          </div>
+          <div class="progress-track">
+            <ul id="progressbar">
+                <% if (orderData[0].orderStatus === 'Order Processing') { %>
+                    <li class="step0 active" id="step1">Order Processing</li>
+                    <li class="step0 text-center" id="step2">Order Placed</li>
+                    <li class="step0 text-right" id="step3">Shipped</li>
+                    <li class="step0 text-right" id="step4">Delivered</li>
+                <% } else if(orderData[0].orderStatus === 'Order Placed') { %>
+                    <li class="step0 active" id="step1">Order Processing</li>
+                    <li class="step0 active text-center" id="step2">Order Placed</li>
+                    <li class="step0 text-right" id="step3">Shipped</li>
+                    <li class="step0 text-right" id="step4">Delivered</li>
+                <% } else if (orderData[0].orderStatus === 'Shipped') { %>
+                    <li class="step0 active" id="step1">Order Processing</li>
+                    <li class="step0 active text-center" id="step2">Order Placed</li>
+                    <li class="step0 active text-right" id="step3">Shipped</li>
+                    <li class="step0 text-right" id="step4">Delivered</li>
+                <% } else if (orderData[0].orderStatus === 'Delivered') { %>
+                    <li class="step0 active" id="step1">Order Processing</li>
+                    <li class="step0 active text-center" id="step2">Order Placed</li>
+                    <li class="step0 active text-right" id="step3">Shipped</li>
+                    <li class="step0 active text-right" id="step4">Delivered</li>
+                <% } %>
+            </ul>
+        </div>
+        
+      </div>
+      
+
+        <!-- end  -->
+        
+      <!-- </div> -->
+  </div>
+    <div class="col-12 col-md-4">
+     
+      <div class="card shadow border mt-3">
+        <div class="card-body">
+          <div id="subtotal" class="d-flex justify-content-between">
+            <p class="mb-2"><b>Subtotal :</b></p>
+            <b>
+              <p>₹ <span id="subtotalAmount"><%= parseFloat(orderData[0].discountAmount) + parseFloat(orderData[0].totalAmount) + parseFloat(orderData[0].couponDiscount) %>
+
+              </span></p>
+            </b>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="mb-2"><b>Discount:</b></p>
+            <b>
+              <p><span id="discountAmount" style="color: red;"><del>₹ <%=orderData[0].discountAmount%></del></span></p>
+            </b>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="mb-2"><b>Coupon(Discount) :</b></p>
+            <b>
+              <p>₹<span id="discountAmount"><%=orderData[0].couponDiscount%></span></p>
+            </b>
+          </div>
+          <hr />
+          <div class="d-flex justify-content-between">
+            <p class="mb-2">Total price :</p>
+            <h7 class="mb-2" style="color: rgb(47, 129, 207);"><span id="totalPrice">₹ <%=orderData[0].totalAmount%></span></h7>
           </div>
         </div>
       </div>
+      <div class="card shadow border p-3 mt-3 mb-3">
+        <h5 class=" text-center"><b>Address</b></h5>
+        <hr>
+        <div class="mt-3">
+          <p class="mt-2 ">
+            
+              <b>Address</b> : <br> <%=orderData[0].address.address%>,
+              <%=orderData[0].address.locality%>,<br>
+              <%=orderData[0].address.city%>,<%=orderData[0].address.district%>,
+              <%=orderData[0].address.state%>,<br>
+              <%=orderData[0].address.pincode%>
+            
+          </p>
+          <br>
+         
+        </div>
+      </div>
+      
+      <div class="card shadow border p-3  mb-5">
+        <h5 class=" text-center"><b>order Details</b></h5>
+        <hr>
+        <div class="mt-2">
+       
+          <p class="mb-0 p-1"><strong>Name: </strong><%= user %></p>
+          <p class=" mb-0 p-1"><b>Order ID: <%= orderData[0]._id %></b></p>
+          <% let orderDate=new Date(orderData[0].orderDate) %>
+          <p class="card-text p-1"><b>Ordered Date and Time: </b><%= orderDate.toLocaleDateString() || 'N/A' %></p>
+          <% if (orderData[0].orderStatus=="Delivered") { %>
+            <p class="card-text p-1"><b>Delivered Date and Time:</b> <%= orderData[0].deliveryDate || 'N/A' %></p>
+          <% }else{ %>
+            <p class="card-text"><b>Expected Delivered Date and Time:</b> <%= orderData[0].expectedDeliveryDate.toLocaleDateString() || 'N/A' %></p>
+            <%}%>
+          <p class=" mb-0 p-1">
+            <b>Order Status:
+              <% if (orderData[0].orderStatus === 'Order Processing') { %>
+                <span class="badge rounded-pill bg-warning" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Order Placed') { %>
+                <span class="badge rounded-pill bg-primary" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Shipped') { %>
+                <span class="badge rounded-pill bg-info" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Delivered') { %>
+                <span class="badge rounded-pill bg-success" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Order Rejected'){ %>
+                <span class="badge rounded-pill bg-danger" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+            <% } else if (orderData[0].orderStatus === 'Cancelled'){ %>
+                <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+            <% } else if (orderData[0].orderStatus === 'Requested'){ %>
+                <span class="badge rounded-pill bg-info text-white" style="font-weight: 400;">Return </span>
+            <% } else if (orderData[0].orderStatus === 'return accepted'){ %>
+                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: blue;">Return accepted</span>
+            <% } else if (orderData[0].orderStatus === 'return rejected'){ %>
+                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: rgb(102, 102, 102);">Return rejected</span>
+            <% } %>
+            
+            </b>
+          </p>
+                      <p class="mb-0 p-1"><strong>Email:</strong> <%= email %></p>
+                      <p class="mb-0 p-1"><strong>Payment Method:</strong> <%= orderData[0].paymentMethod %></p>
+                      <% if (orderData[0].PaymentStatus=='Pending') { %>
+                        <p class="mb-0 p-1"><strong>Payment Status:&nbsp;&nbsp</strong><span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: blue;">Pending</span></p>
+                      <% }else if(orderData[0].PaymentStatus=='Paid'){ %>
+                        <p class="mb-0 p-1"><strong>Payment Status:&nbsp;&nbsp</strong><span class="badge rounded-pill  text-white" style="font-weight: 400; background-color:green;">Paid</span></p>
+
+                      <%}else{%>
+                        <p class="mb-0 p-1"><strong>Payment Status:&nbsp;&nbsp;</strong><span class="badge rounded-pill  text-white " style="font-weight: 400; background-color:orange;">Refunded</span></p>
+                      <%}%>
+
+                          <% if (orderData[0].orderStatus!="Cancelled"&&orderData[0].orderStatus!="Delivered"&&orderData[0].orderStatus!="Order Rejected") { %>
+                          <a   class="btn w-100 mt-3 p-1" style="background-color: red; color: white;" onclick="updateOrderStatus('<%-orderData[0]._id-%>','Order Rejected')"><small>Reject Order</small> </a>
+                          <% } %>
+
+                         
+                        
+        </div>
+      </div>
+
+      
     </div>
   </div>
 </div>
-<%-include("../layout/admin/footer")-%>
+
+<!-- modal -->
+ <!-- Return Order Modal -->
+      
+ <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel"><small>Return Order</small></h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="returnForm">
+                  <div class="mb-3">
+                      <label for="return-reason" class="col-form-label"><small>Reason:</small></label>
+                      <input type="text" class="form-control" id="return-reason" name="returnReason" required pattern="^\S.*$" title="Cannot start with space" required>
+                      <div class="invalid-feedback">
+                          Please provide a valid reason.
+                      </div>
+                  </div>
+                  <input type="hidden" name="orderid" value="<%-orderData[0]._id-%>">
+                  <div class="mb-3">
+                      <label for="return-description" class="col-form-label"><small>Description:</small></label>
+                      <textarea class="form-control" id="return-description" name="description" required pattern="^\S.*$" title="Cannot start with space"  required></textarea>
+                      <div class="invalid-feedback">
+                          Please provide a valid description.
+                      </div>
+                  </div>
+              
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><small>Close</small></button>
+              <button type="button" class="btn btn-dark" id="send-return-btn" onclick="returnorder(event)" disabled><small>Return Order</small></button>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('return-reason').addEventListener('input', toggleButtonState);
+  document.getElementById('return-description').addEventListener('input', toggleButtonState);
+
+  function toggleButtonState() {
+      var reasonInput = document.getElementById('return-reason');
+      var descriptionInput = document.getElementById('return-description');
+      var submitButton = document.getElementById('send-return-btn');
+
+      var isReasonValid = reasonInput.validity.valid && reasonInput.value.trim() !== '';
+      var isDescriptionValid = descriptionInput.validity.valid && descriptionInput.value.trim() !== '';
+
+      submitButton.disabled = !(isReasonValid && isDescriptionValid);
+
+      // Show/hide error messages
+      showHideError(reasonInput, isReasonValid);
+      showHideError(descriptionInput, isDescriptionValid);
+  }
+
+  function showHideError(inputElement, isValid) {
+      var errorDiv = inputElement.parentElement.querySelector('.invalid-feedback');
+      if (!isValid) {
+          errorDiv.style.display = 'block';
+      } else {
+          errorDiv.style.display = 'none';
+      }
+  }
+</script>
+
+<!-- end  -->
+
+<!-- Bootstrap 5.2 JS libraries -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add any script logic if needed
+  });
+
+  // Function to cancel an item
+  function cancelItem(itemId) {
+    // Implement your cancel item logic here
+    console.log("Item canceled:", itemId);
+  }
+</script>
+
+<%- include("../layout/user/footer") -%>

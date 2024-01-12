@@ -1,6 +1,12 @@
 <%-include("../layout/user/header")-%>
 <%-include("../partials/usernav")-%> 
-
+<style>
+  .custom-swal-button-class {
+    background-color: orangered;
+    color:white;
+    /* Add any other styles you want to customize */
+  }
+</style>
 
 <div class="container">
     <form action="/confirmAddress" method="post" id="checkoutform">

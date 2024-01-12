@@ -1,18 +1,27 @@
 <%- include("../layout/user/header") -%>
 <%- include("../partials/usernav") -%> 
+<style>
+    .form-select-sm{
+        margin-top: 30px !important;
+    }
+    .form-control-sm{
+        margin-top: 30px !important;
+
+    }
+</style>
 
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table mt-5 p-3" id="example">
+    <div class="row ">
+        <div class="col-md-12  shadow">
+            <table class="table mt-5 p-5  " id="example">
                 <thead>
-                    <tr>
+                    <tr class="p-5">
                         <th scope="col" class="text-center">No</th>
                         <th scope="col" class="text-center">Order ID</th>
                         <th scope="col" class="text-center">No of Products</th>
                         <th scope="col" class="text-center">Ordered Date & Time</th>
-                        <th scope="col" class="text-center">Status</th>
                         <th scope="col" class="text-center">Total Amount</th>
+                        <th scope="col" class="text-center">Status</th>
                         <th scope="col" class="text-center">View Order</th>
                     </tr>
                 </thead>
@@ -23,7 +32,7 @@
                             <td class="text-center"><%- ele._id -%></td>
                             <td class="text-center"><%- ele.products.length -%></td>
                             <td class="text-center"><%- ele.orderDate.toLocaleString() -%></td>
-                           
+                            <td class="text-center"><%- ele.totalAmount -%></td>
                             <td class="text-center">
                               <% if (ele.orderStatus === 'Order Processing') { %>
                                 <span class="badge rounded-pill bg-warning" style="font-weight: 400;"><%= ele.orderStatus %></span>
@@ -46,8 +55,8 @@
                             <%}%>
                             
                             </td>
-                            <td class="text-center"><%- ele.totalAmount -%></td>
-                            <td class="text-center"><a href="/orderdetails/<%- ele._id -%>" class="btn btn-primary">View</a></td>
+                            
+                            <td class="text-center"><a href="/orderdetails/<%- ele._id -%>" class="btn " style="background-color: blue; color: white;"><small>View</small></a></td>
                         </tr>
                     <% }) %>
                 </tbody>

@@ -121,12 +121,12 @@
 
 <div class="container justify-content-center shadow">
 
-    <h3><small> Add products</small></h3><br><br>
-    <form onsubmit="return validateForm()" id="productForm" action="/admin/addproduct" method="post"
+    <h3><small> Edit products</small></h3><br><br>
+    <form onsubmit="return validateForm()" id="productForm" action="/admin/editproduct/<%-product._id-%>" method="post"
         enctype="multipart/form-data">
         <div class="form-group">
             <label for="productName">Product Name</label>
-            <input type="text" id="ProductName" placeholder="Do not exceed 50 characters" name="ProductName"
+            <input type="text" id="ProductName" placeholder="Do not exceed 50 characters"  value="<%-product.ProductName -%>" name="ProductName"
                 required maxlength="50" oninput="validateProductName()">
             <div class="error-message text-danger" id="productNameError"></div>
         </div>
@@ -134,7 +134,7 @@
         <div class="form-group">
             <label for="description">Description</label>
             <textarea id="description" placeholder="Gender Do not exceed 500 characters. Male"
-                name="Description" required maxlength="500" oninput="validateDescription()"></textarea>
+                name="Description" required maxlength="500" oninput="validateDescription()"  value="<%= product.Description %>"><%= product.Description %></textarea>
             <div class="error-message text-danger" id="descriptionError"></div>
         </div>
           <input type="hidden" name="status" value="Active">
@@ -142,13 +142,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="specification1">Specification 1</label>
-                    <input type="text" id="specification1" placeholder="Specification 1" name="Specification1"
+                    <input type="text" id="specification1" placeholder="Specification 1" name="Specification1" value="<%= product.Specification1%>"
                         maxlength="150" oninput="validateSpecifications()">
                     <div class="error-message text-danger" id="specificationError1"></div>
                 </div>
                 <div class="form-group">
                     <label for="specification2">Specification 2</label>
-                    <input type="text" id="specification2" placeholder="Specification 2" name="Specification2"
+                    <input type="text" id="specification2" placeholder="Specification 2" name="Specification2" value="<%= product.Specification2%>"
                         maxlength="150" oninput="validateSpecifications()">
                     <div class="error-message text-danger" id="specificationError2"></div>
                 </div>
@@ -156,13 +156,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="specification3">Specification 3</label>
-                    <input type="text" id="specification3" placeholder="Specification 3" name="Specification3"
+                    <input type="text" id="specification3" placeholder="Specification 3" name="Specification3" value="<%= product.Specification3%>"
                         maxlength="150" oninput="validateSpecifications()">
                     <div class="error-message text-danger" id="specificationError3"></div>
                 </div>
                 <div class="form-group">
                     <label for="specification4">Specification 4</label>
-                    <input type="text" id="specification4" placeholder="Specification 4" name="Specification4"
+                    <input type="text" id="specification4" placeholder="Specification 4" name="Specification4" value="<%= product.Specification4%>"
                         maxlength="150" oninput="validateSpecifications()">
                     <div class="error-message text-danger" id="specificationError4"></div>
                 </div>
@@ -173,10 +173,9 @@
             <div class="dropdown">
                 <label for="category">Category</label>
                 <select id="category" name="Category" required oninput="validateCategory()">
-                    <option value="" selected disabled>Select a category</option>
-                    <%  category.forEach(ele=> { %>
-                        <option><small><%-ele.categoryname-%></small></option>
-                        <% }) %>
+                    <% category.forEach(ele=> { %>
+                        <option  <%product.Category==ele.categoryname?'selected':""%>  ><%-ele.categoryname-%></option>
+                    <% }) %>
                 </select>
                 
                 <div class="error-message text-danger" id="categoryError"></div>
@@ -185,9 +184,8 @@
             <div class="dropdown">
                 <label for="brand">Brand</label>
                 <select id="brand" name="BrandName" required oninput="validateBrand()">
-                    <option value="" selected disabled>Select a Brand</option>
                     <% brand.forEach(ele=> { %>
-                        <option ><small><%-ele.brandname-%></small></option>
+                        <option  <%product.BrandName==ele.brandname?'selected':""%> ><%-ele.brandname-%></option>
                     <% }) %>
                   
                 </select>
@@ -197,29 +195,29 @@
 
         <div class="form-group">
             <label for="price">Price</label>
-            <input type="number" id="price" placeholder="Enter the price in rupees" name="Price" required
+            <input type="number" id="price" placeholder="Enter the price in rupees" name="Price" required value="<%-product.Price-%>" 
                 min="0" oninput="validatePrice()">
             <div class="error-message text-danger" id="priceError"></div>
         </div>
 
         <div class="form-group">
             <label for="discountPrice">Discount Price</label>
-            <input type="number" id="discountPrice" placeholder="Enter the discount price in rupees"
+            <input type="number" id="discountPrice" placeholder="Enter the discount price in rupees" value="<%-product.DiscountAmount-%>"
                 name="DiscountAmount" required min="0" oninput="validateDiscountPrice()">
             <div class="error-message text-danger" id="discountPriceError"></div>
         </div>
 
         <div class="form-group">
             <label for="stock">Stock</label>
-            <input type="number" id="stock" placeholder="Enter the stock quantity" name="AvailableQuantity" required
+            <input type="number" id="stock" placeholder="Enter the stock quantity" name="AvailableQuantity" required value="<%-product.AvailableQuantity-%>"
                 min="0" oninput="validateStock()">
-            <div class="error-message text-danger" id="stockError"></div>
+            <small class="error-message text-danger" id="stockError"></small>
         </div>
 
         <div class="form-group">
             <label for="tags">Tags</label>
-            <textarea id="tags" placeholder="Tags Do not exceed 50 characters" name="Tags" maxlength="50"
-                oninput="validateTags()"></textarea>
+            <textarea id="tags" placeholder="Tags Do not exceed 50 characters" value="<%=product.Tags%>" name="Tags" maxlength="50"
+                oninput="validateTags()"><%=product.Tags%></textarea>
             <div class="error-message text-danger" id="tagsError"></div>
         </div>
 
@@ -228,31 +226,31 @@
             <div class="dropzone">
                 <input type="file" id="productImage1" accept="image/*" name="image1"
                     onchange="displayImage(this)">
-                <img id="previewImage1" class="preview-image" alt="Drag & drop or click to select image-1">
+                <img id="previewImage1" class="preview-image" src="/product-images/<%=product?.images[0]%>" alt="Drag & drop or click to select image-1">
             </div>
             <div class="dropzone">
                 <input type="file" id="productImage2" accept="image/*" name="image2"
                     onchange="displayImage(this)">
-                <img id="previewImage2" class="preview-image" alt="Drag & drop or click to select image-2">
+                <img id="previewImage2" class="preview-image" src="/product-images/<%=product?.images[1]%>" alt="Drag & drop or click to select image-2">
             </div>
             <div class="dropzone">
                 <input type="file" id="productImage3" accept="image/*" name="image3"
                     onchange="displayImage(this)">
-                <img id="previewImage3" class="preview-image" alt="Drag & drop or click to select image-3">
+                <img id="previewImage3" class="preview-image" src="/product-images/<%=product?.images[2]%>" alt="Drag & drop or click to select image-3">
             </div>
             <div class="dropzone">
                 <input type="file" id="productImage4" accept="image/*" name="image4"
                     onchange="displayImage(this)">
-                <img id="previewImage4" class="preview-image" alt="Drag & drop or click to select image-4">
+                <img id="previewImage4" class="preview-image" src="/product-images/<%=product?.images[3]%>" alt="Drag & drop or click to select image-4">
             </div>
         </div>
 
-        <div id="allImagesError" class="error-message text-danger"></div>
+        <small id="allImagesError" class="error-message text-danger"></small>
 
 
 
         <div class="form-group d-grid gap-2">
-            <button class="btn btn-primary" type="submit" id="submitButton" disabled>Add Produts</button>
+            <button class="btn btn-primary" type="submit" id="submitButton" disabled>Upadate edits</button>
         </div>
     </form>
 </div>
@@ -320,6 +318,8 @@ function validateImageFormat(file, input) {
 
     return isValidFormat;
 }
+
+
 function checkAllImagesInputted() {
 const imageInputs = ['productImage1', 'productImage2', 'productImage3', 'productImage4'];
 
@@ -443,14 +443,16 @@ function updateSubmitButton() {
     submitButton.disabled = !isValid;
 }
 function validateTags() {
-    
+    console.log("newwww");
     const tagsInput = document.getElementById('tags');
     const tags = tagsInput.value.trim();
     const tagsError = document.getElementById('tagsError');
-
-    if (tags.length > 50 || /\s/.test(tags) || tags.startsWith(' ')) {
+    console.log(tags);
+    if (tags.length > 50 || tags.startsWith(' ')||tags=="") {
+        console.log("hiiii")
         tagsError.textContent = 'Tags should not exceed 50 characters, and spaces are not allowed at the beginning or in between tags.';
     } else {
+        // console.log("errrr");
         tagsError.textContent = '';
     }
 

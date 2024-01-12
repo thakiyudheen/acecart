@@ -1,0 +1,166 @@
+<%-include("../layout/user/header")-%>
+<%-include("../partials/usernav")-%> 
+<div class="container">
+    <div class="row">
+        <nav class="nav nav-borders mt-4">
+            <a class="nav-link  ms-0" href="/userprofile" target="__blank">Profile</a>
+            <a class="nav-link" href="/getwallet" target="__blank">Wallet</a>
+            <a class="nav-link" href="/resetpassword" target="__blank">Security</a>
+            <a class="nav-link" href="/coupons"  target="__blank">Coupons</a>
+            <a class="nav-link active " href="/address"  target="__blank">Address</a>
+        </nav>
+        <hr class="mt-0 mb-4">
+        <div class="col-md-12"><button class="btn float-end mt-2" style="background-color: blue; color: white;" data-bs-toggle="modal" class="btn" data-bs-target="#exampleModaladd" data-bs-whatever="@getbootstrap"><small>Add Address</small></button></div>
+        <div class="col-md-12 ms-3 mt-3">
+            <h5>Address</h5>
+        </div>
+        <div class="col-md-12 mt-3">
+            <% addresses.forEach(function(x,index) { %>
+                <div class="col-md-12 mb-2">
+                  <div class="form-check shadow rounded  px-5 py-5">
+                    <p>ADDRESS-<%=index+1 %></p>
+                    <label class="form-check-label text-dark" for="<%- 'flexRadioDefault' + x._id %>" style="font-size: small;">
+                      <%= x.name %>, <%= x.mobile %> <br>
+                      <%= x.address %>, <%= x.locality %>,<br>
+                      <%= x.city %>, <%= x.district %>, <%= x.state %>,<br>
+                      <%= x.pincode %>
+                    </label>
+                    <div class="p-2 d-flex float-end p-3 ">
+                        <a href="/editaddress/<%-x._id-%>" class="btn float-end" style="background-color: green;color: white;"><small>Edit</small></a>&nbsp;&nbsp;
+                    <a class="btn" style="color:white; background-color: red; " onclick="deleteaddress('<%-x._id-%>')"><small> delete</small></a>
+                    </div>
+                    
+                  </div>
+                </div>
+               
+              <% }) %>
+        </div>
+    </div>
+</div>
+
+
+<!-- add address modal  -->
+<div class="modal fade" id="exampleModaladd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Address</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-5" method="post" action="/addaddressprofile" id="addressForm2">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" name="name" id="recipient-name" required>
+                    <small class="text-danger" id="nameError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-phone" class="col-form-label">Phone no:</label>
+                    <input type="number" class="form-control" name="mobile" id="recipient-phone" required>
+                    <small class="text-danger" id="phoneError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-email" class="col-form-label">Email:</label>
+                    <input type="email" class="form-control" name="email" id="recipient-email" required>
+                    <small class="text-danger" id="emailError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-pincode" class="col-form-label">Pincode:</label>
+                    <input type="text" class="form-control" name="pincode" id="recipient-pincode" required>
+                    <small class="text-danger" id="pincodeError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-locality" class="col-form-label">Locality:</label>
+                    <input type="text" class="form-control" name="locality" id="recipient-locality" required>
+                    <small class="text-danger" id="localityError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-city" class="col-form-label">City:</label>
+                    <input type="text" class="form-control" name="city" id="recipient-city" required>
+                    <small class="text-danger" id="cityError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-district" class="col-form-label">District:</label>
+                    <input type="text" class="form-control" name="district" id="recipient-district" required>
+                    <small class="text-danger" id="districtError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="recipient-state" class="col-form-label">State:</label>
+                    <input type="text" class="form-control" name="state" id="recipient-state" required>
+                    <small class="text-danger" id="stateError"></small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Address:</label>
+                    <textarea class="form-control" id="message-text" name="address" placeholder="house name, post office" required></textarea>
+                    <small class="text-danger" id="addressError"></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn " style="background-color:black; color: white;" data-bs-dismiss="modal"> <small>Close</small></button>
+            <button type="submit" class="btn" style="background-color: blue; color: white ;" id="submitBtn" ><small>Submit</small></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("addressForm2");
+      const submitButton = document.getElementById("submitBtn");
+  
+      submitButton.disabled = true;
+  
+      form.addEventListener("input", function (event) {
+        const input = event.target;
+        const errorElement = document.getElementById(`${input.name}Error`);
+        
+        const value = input.value.trim();
+  
+        if (/^[a-zA-Z0-9].*$/.test(value) && !value.startsWith(' ')) {
+          errorElement.textContent = ''; // Clear error message
+        } else {
+          errorElement.textContent = 'Must start with a number or letter and cannot start with a space';
+        }
+  
+        // Check all input fields for validation
+        const inputs = form.querySelectorAll("input[type='text'], input[type='number'], input[type='email'], textarea");
+        const isValid = Array.from(inputs).every(input => {
+          const value = input.value.trim();
+          return /^[a-zA-Z0-9].*$/.test(value) && !value.startsWith(' ');
+        });
+  
+        submitButton.disabled = !isValid;
+      });
+    });
+  </script>
+<!-- end add address  -->
+
+  <!-- footer start ------------ -->
+  <%-include("../partials/footernav")-%>
+  <!-- footer end ------------ -->
+  <%-include("../layout/user/footer")-%>

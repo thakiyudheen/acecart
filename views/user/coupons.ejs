@@ -1,9 +1,9 @@
-<%-include("../layout/user/header")-%>
-<%-include("../partials/usernav")-%> 
+<%- include("../layout/user/header") -%>
+<%- include("../partials/usernav") -%>
 
 <style>
     body {
-        background: #efeeee;
+        background: white ;
     }
 
     .card {
@@ -46,12 +46,48 @@
         right: 0;
         opacity: .1;
     }
+
+    .coupon-code-container {
+        text-align: center;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .coupon-code {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+        border: 1px solid grey;
+        display: inline-block;
+        padding: 8px 12px; /* Adjust padding for better appearance */
+        margin-bottom: 5px; /* Add margin for spacing between code and button */
+    }
+
+    .copy-btn {
+        font-size: 12px;
+        background-color: white;
+        
+        padding: 8px 12px; /* Adjust padding for better appearance */
+        border-radius: 5px;
+        display: inline-block;
+        color: white;
+    }
 </style>
+</head>
+
+<body>
 
 <div class="container">
     <div class="row">
+        <nav class="nav nav-borders mt-2">
+            <a class="nav-link  ms-0" href="/userprofile" target="__blank">Profile</a>
+            <a class="nav-link" href="/getwallet" target="__blank">Wallet</a>
+            <a class="nav-link " href="/resetpassword" target="__blank">Security</a>
+            <a class="nav-link active" href="/coupons"  target="__blank">Coupons</a>
+            <a class="nav-link  " href="/address"  target="__blank">Address</a>
+        </nav>
+        <hr class="mt-0 mb-3">
         <% coupons.forEach(el => { %>
-
             <div class="col-md-4">
                 <div class="d-flex justify-content-center align-items-center container">
                     <div class="d-flex card text-center shadow border">
@@ -60,10 +96,20 @@
                         <h1>₹<%-el.discountAmount-%> OFF</h1>
                         <span class="d-block"><small><%-el.description-%></small></span>
                         <span class="d-block"><small>Expires On:<%-el.expiryDate-%></small></span>
-                        <span class="d-block"><small>Min purchase:₹ <%-el.minPurchaseAmount-%></small></span>
+                        <span class="d-block"><small>Min purchase: ₹<%-el.minPurchaseAmount-%></small></span>
 
-                        <div class="mt-4 btn btn-primary" style="background-color: blue;" onclick="copyCouponCode('<%-el.couponCode-%>')">
-                            <small><%-el.couponCode-%></small>
+                        <!-- Display the Coupon Code and Copy Button -->
+                        <div class="coupon-code-container mt-2" id="coupon-code-<%-el._id-%>">
+                            <small class="coupon-code" style="
+                            height: 36px;
+                        "><%-el.couponCode-%></small>
+                            <button class="mt-2 btn  copy-btn" style="
+                            position: relative;
+                            top: -6px;
+                            background-color: blue;
+                        " onclick="copyCouponCode('<%-el.couponCode-%>', '<%-el._id-%>')">
+                                Copy
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -71,45 +117,34 @@
         <% }) %>
     </div>
 </div>
-<!-- Add this script section at the end of your HTML file -->
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 <script>
-    function copyCouponCode(couponCode) {
-        // Create a temporary textarea element
+    function copyCouponCode(couponCode, couponId) {
         var tempTextarea = document.createElement('textarea');
-
-        // Set the value of the textarea to the coupon code
         tempTextarea.value = couponCode;
-
-        // Append the textarea to the document
         document.body.appendChild(tempTextarea);
-
-        // Select the text inside the textarea
         tempTextarea.select();
-
-        // Execute the 'copy' command to copy the selected text to the clipboard
         document.execCommand('copy');
-
-        // Remove the temporary textarea
         document.body.removeChild(tempTextarea);
 
-        // Provide user feedback (optional)
         Toastify({
-            text:"couponcode copied successfully!",
-            duration: 800,
-            close: false,
+            text: "Coupon code copied successfully!",
+            duration: 3000,
+            close: true,
             gravity: "top",
             position: 'center',
             style: {
-              background: "rgba(0, 0, 255, 0.7)", // Set the background color with opacity
-              color: "#fff",
-              borderRadius: "15px",
+                background: "rgba(0, 0, 255, 0.7)",
+                color: "#fff",
+                borderRadius: "15px",
             }
-          }).showToast();
+        }).showToast();
     }
 </script>
+
 <!-- footer start ------------ -->
-<%-include("../partials/footernav")-%>
+<%- include("../partials/footernav") -%>
 <!-- footer end ------------ -->
-<%-include("../layout/user/footer")-%>
-
-
+<%- include("../layout/user/footer") -%>

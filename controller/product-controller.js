@@ -14,7 +14,7 @@ module.exports={
                 Brand.find()
             ])
 
-            res.render('admin/addproduct',{category,brand})
+            res.render('admin/addpronew',{category,brand})
         }catch(err){
             console.log(err)
         }
@@ -82,7 +82,7 @@ module.exports={
             ])
             
            
-            res.render('admin/editproduct',{product:products[0],category,brand})
+            res.render('admin/editpronew',{product:products[0],category,brand})
         }catch(err){
             console.log(err);
         }

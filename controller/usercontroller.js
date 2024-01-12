@@ -90,10 +90,10 @@ module.exports={
     },
     editUser:async (req,res)=>{
       try{
-        console.log(req.body)
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",req.body)
       
-        await User.updateOne({email:req.session.email},{$set:req.body})
-        
+         const user= await User.updateOne({email:req.session.email},{$set:req.body})
+        res.locals.user=user.name;
         res.json({msg:"changed successfully"})
       }catch(err){
          console.log(err);
@@ -139,19 +139,21 @@ module.exports={
     } ,
     
    postForgotpass:async (req,res)=>{
-      try{
-
-         const user=User.findOne({email:req.body.email})
-         if(user ){
-            console.log("1sr thissk",req.body.email)
-            await sendEmail(req.body.email)
-            res.render('user/setnewpass',{email:req.body.email})
-         }else{
-            res.render('user/forgotpass',{err:"email not exist "})
+      try {
+         const user = await User.find({ email: req.body.email });
+         console.log("ready", user);
+       
+         if (user.length > 0) {
+           console.log("1st thissk", req.body.email);
+           await sendEmail(req.body.email);
+           res.render('user/setnewpass', { email: req.body.email });
+         } else {
+           res.render('user/forgotpass', { err: "Email does not exist" });
          }
-      }catch(err){
-         console.log(err)
-      }
+       } catch (err) {
+         console.log(err);
+       }
+       
    },
    
    // postOtpforgot:async (req,res)=>{

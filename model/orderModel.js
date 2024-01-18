@@ -10,6 +10,7 @@ const orderSchema=new Schema({
         {
             productid:{type: Schema.Types.ObjectId,ref:'product'},
             quantity: { type: Number },
+            
         },
     ],
     address: {
@@ -20,6 +21,7 @@ const orderSchema=new Schema({
         district: String,
         state: String,
         pincode: String,
+        mobile:Number,
       },
       orderDate: {
         type: Date,
@@ -31,10 +33,10 @@ const orderSchema=new Schema({
       totalAmount: Number,
       deliveryDate: Date,
       orderStatus: String,
-      couponDiscount: String,
+      couponDiscount:Number,
       couponCode: String,
-      discountAmount: String,
-      
+      discountAmount: Number,
+      rejectReason:String,
 })
 const order = mongoose.model("order", orderSchema);
 module.exports = order;

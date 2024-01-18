@@ -24,7 +24,7 @@
                     <div class="small text-dark "><%-user1.email%></div>
                     <br>
                     <!-- <a class="btn btn-dark w-100" href="/resetpassword"><small>Reset Password</small></a> -->
-                    <button class="btn btn-dark w-100 mt-2"  data-bs-toggle="modal" class="btn" data-bs-target="#exampleModalReff" data-bs-whatever="@getbootstrap"><small>Refferal</small></button>
+                    <button class="btn w-100 mt-2 shadow" style="background-color: blue; color: white;" data-bs-toggle="modal" class="btn"  data-bs-target="#exampleModalReff" data-bs-whatever="@getbootstrap"><small>Refferal</small></button>
                     <!-- <a href="/coupons" class="btn btn-dark mt-2 w-100"><small>Coupons</small></a>
                     <a href="/getwallet" class="btn btn-dark mt-2 w-100"><small>Wallet</small></a> -->
                     <!-- Profile picture upload button-->
@@ -41,7 +41,7 @@
                       
                         <div class="row gx-3 mb-3 d-flex flex-column p-4">
                             <!-- Form Group (first name)-->
-                            <div class="col-md-12">
+                            <div class="col-md-12" >
                                 <label class="small mb-1" for="inputFirstName">Name</label>
                                 <input class="form-control" id="inputFirstName" type="text"  style="background-color: white;font-size: 14px;"  value="<%-user1.name-%>" disabled>
                                
@@ -108,8 +108,11 @@
         <h5 class="modal-title" id="exampleModalLabel">Referral</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <p id="referralCode" class="mt-2  p-1" style="border: 1px dashed black;">http://localhost:3001/send-otp/?reff=<%-user1._id-%></p>
+      <div class="modal-body " style="background-image: url('/reffer.jpg');background-size: cover; height: 300px;">
+        <h3 class="text-center">
+          <small>Reffer And Earn Rs-100/-</small>
+        </h3>
+        <p id="referralCode" class="mt-5  p-1" style="border: 1px solid black; background-color: white; border-radius: 5px;">http://localhost:3001/send-otp/?reff=<%-user1._id-%></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" style="background-color: white; color: blue; border: 1px solid blue;" data-bs-dismiss="modal"><small>Close</small></button>

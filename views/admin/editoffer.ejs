@@ -1,0 +1,48 @@
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+<!-- editOfferModalPage.ejs -->
+<div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header bg-white text-dark">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"><small>Edit Offer</small></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="p-5" method="post" id="editofferForm">
+                <!-- Existing fields -->
+                <small class="text-danger" id="commonError11"></small>
+                <!-- New Category Select Field -->
+                <div class="mb-3">
+                    <label for="coupon-category" class="col-form-label">Category:</label>
+                    <select class="form-control" name="Category" id="coupon-category" required></select>
+                    <small class="text-danger" id="couponCategoryError"></small>
+                </div>
+                <input type="hidden" name="oldCategory" value="">
+                <input type="hidden" name="_id" value="">
+                <!-- Modified Discount Amount Field -->
+                <div class="mb-3">
+                    <label for="discount-amount" class="col-form-label">Discount Percentage:</label>
+                    <input type="number" class="form-control" name="discount" id="discount-amount" required oninput="validateDiscount(this)">
+                    <small class="text-danger" id="discountAmountError"></small>
+                </div>
+                <!-- Existing fields -->
+                <div class="mb-3">
+                    <label for="expiry-date" class="col-form-label">Expiry Date:</label>
+                    <input type="date" class="form-control" name="expiryDate" id="expiry-date" required>
+                    <small class="text-danger" id="expiryDateError"></small>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn" style="background-color:white; color: blue; border: 1px solid blue;" data-bs-dismiss="modal"><small>Close</small></button>
+            <button type="button" class="btn" style="background-color: blue; color: white;" id="submitBtn" onclick="editoffer(event)"><small>Submit</small></button>
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+</div>
+<%- include("../layout/admin/footer") -%>

@@ -1,480 +1,55 @@
-<%-include("../layout/admin/header")-%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <title>Image Upload Banner</title>
+</head>
+<body>
 
-<%-include("../partials/adminnav")-%>
+  <div class="container banner-container">
+    <h1 class="text-center">Image Upload Banner</h1>
 
-<style>
-    /* body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-} */
+    <div class="row image-container">
+      <div class="col-md-4 image-section" id="imageSection1">
+        <img id="imagePreview1" class="img-fluid image-preview" src="" alt="Image 1">
+        <input type="file" class="form-control image-input" accept="image/*" onchange="previewImage(1)">
+        <textarea class="form-control description" placeholder="Enter description for Image 1"></textarea>
+      </div>
 
-.container {
-    width: 100%;
-    /* max-width: 800px; */
-    margin: 0 auto;
-    padding: 60px;
-    background-color: #fff;
-    border-radius: 8px;
-   
-}
+      <div class="col-md-4 image-section" id="imageSection2">
+        <img id="imagePreview2" class="img-fluid image-preview" src="" alt="Image 2">
+        <input type="file" class="form-control image-input" accept="image/*" onchange="previewImage(2)">
+        <textarea class="form-control description" placeholder="Enter description for Image 2"></textarea>
+      </div>
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-}
-
-.form-group textarea {
-    resize: vertical;
-}
-
-.form-group .button {
-    display: inline-block;
-    background-color: #007BFF;
-    color: #fff;
-    padding: 10px 20px;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.form-group .button:hover {
-    background-color: #0056b3;
-}
-
-.dropzone {
-    border: 2px dashed #ccc;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.dropzone input[type="file"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.dropzone p {
-    margin: 0;
-}
-
-.size-dropdown {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.size-dropdown .dropdown {
-    width: 48%;
-}
-
-.size-dropdown .dropdown select {
-    width: 100%;
-    padding: 8px 12px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.image-upload {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.image-upload .dropzone {
-    flex: 1;
-    margin-bottom: 0;
-}
-
-.image-upload img {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-</style>
-
-<div class="container justify-content-center shadow">
-
-    <h3><small> Add products</small></h3><br><br>
-    <form onsubmit="return validateForm()" id="productForm" action="/admin/addproduct" method="post"
-        enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="productName">Product Name</label>
-            <input type="text" id="ProductName" placeholder="Do not exceed 50 characters" name="ProductName"
-                required maxlength="50" oninput="validateProductName()">
-            <div class="error-message text-danger" id="productNameError"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" placeholder="Gender Do not exceed 500 characters. Male"
-                name="Description" required maxlength="500" oninput="validateDescription()"></textarea>
-            <div class="error-message text-danger" id="descriptionError"></div>
-        </div>
-          <input type="hidden" name="status" value="Active">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="specification1">Specification 1</label>
-                    <input type="text" id="specification1" placeholder="Specification 1" name="Specification1"
-                        maxlength="150" oninput="validateSpecifications()">
-                    <div class="error-message text-danger" id="specificationError1"></div>
-                </div>
-                <div class="form-group">
-                    <label for="specification2">Specification 2</label>
-                    <input type="text" id="specification2" placeholder="Specification 2" name="Specification2"
-                        maxlength="150" oninput="validateSpecifications()">
-                    <div class="error-message text-danger" id="specificationError2"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="specification3">Specification 3</label>
-                    <input type="text" id="specification3" placeholder="Specification 3" name="Specification3"
-                        maxlength="150" oninput="validateSpecifications()">
-                    <div class="error-message text-danger" id="specificationError3"></div>
-                </div>
-                <div class="form-group">
-                    <label for="specification4">Specification 4</label>
-                    <input type="text" id="specification4" placeholder="Specification 4" name="Specification4"
-                        maxlength="150" oninput="validateSpecifications()">
-                    <div class="error-message text-danger" id="specificationError4"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="size-dropdown">
-            <div class="dropdown">
-                <label for="category">Category</label>
-                <select id="category" name="Category" required oninput="validateCategory()">
-                    <option value="" selected disabled>Select a category</option>
-                    <%  category.forEach(ele=> { %>
-                        <option><small><%-ele.categoryname-%></small></option>
-                        <% }) %>
-                </select>
-                
-                <div class="error-message text-danger" id="categoryError"></div>
-            </div>
-
-            <div class="dropdown">
-                <label for="brand">Brand</label>
-                <select id="brand" name="BrandName" required oninput="validateBrand()">
-                    <option value="" selected disabled>Select a Brand</option>
-                    <% brand.forEach(ele=> { %>
-                        <option ><small><%-ele.brandname-%></small></option>
-                    <% }) %>
-                  
-                </select>
-                <div class="error-message text-danger" id="brandError"></div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" id="price" placeholder="Enter the price in rupees" name="Price" required
-                min="0" oninput="validatePrice()">
-            <div class="error-message text-danger" id="priceError"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="discountPrice">Discount Price</label>
-            <input type="number" id="discountPrice" placeholder="Enter the discount price in rupees"
-                name="DiscountAmount" required min="0" oninput="validateDiscountPrice()">
-            <div class="error-message text-danger" id="discountPriceError"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="stock">Stock</label>
-            <input type="number" id="stock" placeholder="Enter the stock quantity" name="AvailableQuantity" required
-                min="0" oninput="validateStock()">
-            <div class="error-message text-danger" id="stockError"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="tags">Tags</label>
-            <textarea id="tags" placeholder="Tags Do not exceed 50 characters" name="Tags" maxlength="50"
-                oninput="validateTags()"></textarea>
-            <div class="error-message text-danger" id="tagsError"></div>
-        </div>
-
-        <label for="brand">Upload Images</label><br><br>
-        <div class="image-upload">
-            <div class="dropzone">
-                <input type="file" id="productImage1" accept="image/*" name="image1"
-                    onchange="displayImage(this)">
-                <img id="previewImage1" class="preview-image" alt="Drag & drop or click to select image-1">
-            </div>
-            <div class="dropzone">
-                <input type="file" id="productImage2" accept="image/*" name="image2"
-                    onchange="displayImage(this)">
-                <img id="previewImage2" class="preview-image" alt="Drag & drop or click to select image-2">
-            </div>
-            <div class="dropzone">
-                <input type="file" id="productImage3" accept="image/*" name="image3"
-                    onchange="displayImage(this)">
-                <img id="previewImage3" class="preview-image" alt="Drag & drop or click to select image-3">
-            </div>
-            <div class="dropzone">
-                <input type="file" id="productImage4" accept="image/*" name="image4"
-                    onchange="displayImage(this)">
-                <img id="previewImage4" class="preview-image" alt="Drag & drop or click to select image-4">
-            </div>
-        </div>
-
-        <div id="allImagesError" class="error-message text-danger"></div>
-
-
-
-        <div class="form-group d-grid gap-2">
-            <button class="btn btn-primary" type="submit" id="submitButton" disabled>Add Produts</button>
-        </div>
-    </form>
-</div>
-
-</div>
-
-<script>
-function displayImage(input) {
-    const previewId = input.id.replace('productImage', 'previewImage');
-    const previewImage = document.getElementById(previewId);
-
+      <div class="col-md-4 image-section" id="imageSection3">
+        <img id="imagePreview3" class="img-fluid image-preview" src="" alt="Image 3">
+        <input type="file" class="form-control image-input" accept="image/*" onchange="previewImage(3)">
+        <textarea class="form-control description" placeholder="Enter description for Image 3"></textarea>
+      </div>
+    </div>
+  </div>
+  <script>function previewImage(imageNumber) {
+    const input = document.querySelector(`#imageSection${imageNumber} .image-input`);
+    const preview = document.querySelector(`#imageSection${imageNumber} .image-preview`);
+  
     const file = input.files[0];
-
     if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            previewImage.src = e.target.result;
-        };
-
-        reader.readAsDataURL(file);
-
-        // Call validateImageFormat to check the file format
-        const isValidFormat = validateImageFormat(file, input);
-
-        if (!isValidFormat) {
-            // Clear the preview if the file format is invalid
-            previewImage.src = '';  // Resetting source to an empty string
-        }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     } else {
-        // Clear the preview if no file is selected
-        previewImage.src = '';  // Resetting source to an empty string
-
-        // Clear any existing error message
-        const errorElement = document.getElementById(input.id + 'Error');
-        errorElement.textContent = '';
-
-        // Update submit button status
-        updateSubmitButton();
+      preview.src = ""; // Reset preview if no image is selected
     }
-}
+  }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
 
-function validateImageFormat(file, input) {
-    const allowedFormats = ['jpg', 'jpeg', 'png', 'gif','webp'];
-    const fileFormat = file.name.split('.').pop().toLowerCase();
-    const submitButton = document.getElementById('submitButton');
-    console.log(fileFormat);
-    const isValidFormat = allowedFormats.includes(fileFormat);
-
-    const errorElement = document.getElementById('allImagesError');
-
-    if(!isValidFormat){
-        errorElement.textContent = 'Invalid file format. Supported formats: ' + allowedFormats.join(', ');
-        submitButton.disabled=true
-
-
-    }else{
-        errorElement.textContent = ' ' ;
-        submitButton.disabled=false
-    }
-
-   
-
-    // updateSubmitButton();
-
-    return isValidFormat;
-}
-function checkAllImagesInputted() {
-const imageInputs = ['productImage1', 'productImage2', 'productImage3', 'productImage4'];
-
-const allImagesInputted = imageInputs.every(inputId => {
-    const fileInput = document.getElementById(inputId);
-    return fileInput.files.length > 0;
-});
-
-const allImagesError = document.getElementById('allImagesError');
-allImagesError.textContent = allImagesInputted ? '' : 'Please upload all four images.';
-
-updateSubmitButton();
-}
-
-
-
-</script>
-
-<script>
-
-
-function validateProductName() {
-    const productName = document.getElementById('ProductName').value.trim();
-    const productNameError = document.getElementById('productNameError');
-
-    if (!productName || productName.length > 50 || productName === '' || /^\s+$/.test(productName)) {
-        productNameError.textContent = 'Product Name is required and should not exceed 50 characters.';
-    } else {
-        productNameError.textContent = '';
-    }
-
-    updateSubmitButton();
-}
-function validateProductName() {
-    const productNameInput = document.getElementById('ProductName');
-    const productName = productNameInput.value.trim();
-    const productNameError = document.getElementById('productNameError');
-
-    if (!productName || productName.length > 50 || productName.startsWith(' ')) {
-        productNameError.textContent = 'Product Name is required, should not exceed 50 characters, and must not start with a space.';
-    } else {
-        productNameError.textContent = '';
-    }
-
-    updateSubmitButton();
-}
-
-function validateDescription() {
-    const description = document.getElementById('description').value.trim();
-    const descriptionError = document.getElementById('descriptionError');
-    if (!description || description.length > 500||description=='') {
-        descriptionError.textContent = 'Description is required and should not exceed 100 characters.';
-    } else {
-        descriptionError.textContent = '';
-    }
-    updateSubmitButton()
-}
-
-function validateCategory() {
-    const category = document.getElementById('category').value;
-    const categoryError = document.getElementById('categoryError');
-    categoryError.textContent = !category ? 'Category is required.' : '';
-    updateSubmitButton()
-}
-
-function validateBrand() {
-    const brand = document.getElementById('brand').value;
-    const brandError = document.getElementById('brandError');
-    brandError.textContent = !brand ? 'Brand is required.' : '';
-    updateSubmitButton()
-}
-function validatePrice() {
-    const priceInput = document.getElementById('price');
-    const discountPriceInput = document.getElementById('discountPrice');
-    const price = parseFloat(priceInput.value);
-    const discountPrice = parseFloat(discountPriceInput.value);
-
-    const priceError = document.getElementById('priceError');
-
-    if (isNaN(price) || price < 0 || /\s/.test(price)) {
-        priceError.textContent = 'Price should be a non-negative number without spaces.';
-    } else if (isNaN(discountPrice) || discountPrice < 0 || /\s/.test(discountPrice) || discountPrice > price) {
-        priceError.textContent = 'Price should be greater than discount price';
-    } else {
-        priceError.textContent = '';
-    }
-
-    updateSubmitButton();
-}
-
-
-function validateDiscountPrice() {
-    const priceInput = document.getElementById('price');
-    const originalPrice = parseFloat(priceInput.value);
-    
-    const discountPriceInput = document.getElementById('discountPrice');
-    const discountPrice = parseFloat(discountPriceInput.value);
-    
-    const discountPriceError = document.getElementById('discountPriceError');
-
-    if (isNaN(discountPrice) || discountPrice < 0 || /\s/.test(discountPrice) || discountPrice > originalPrice) {
-        discountPriceError.textContent = 'Discount Price should be a non-negative number less than the original price.';
-    } else {
-        discountPriceError.textContent = '';
-    }
-
-    updateSubmitButton();
-}
-
-
-function validateStock() {
-    const stock = document.getElementById('stock').value;
-    const stockError = document.getElementById('stockError');
-    stockError.textContent = isNaN(stock) || stock < 0 || /\s/.test(stock) ? 'Stock should be a non-negative number without spaces.' : '';
-    updateSubmitButton()
-}
-
-function updateSubmitButton() {
-    const isValid = validateForm();
-    const submitButton = document.getElementById('submitButton');
-    submitButton.disabled = !isValid;
-}
-function validateTags() {
-    
-    const tagsInput = document.getElementById('tags');
-    const tags = tagsInput.value.trim();
-    const tagsError = document.getElementById('tagsError');
-
-    if (tags.length > 50 || /\s/.test(tags) || tags.startsWith(' ')) {
-        tagsError.textContent = 'Tags should not exceed 50 characters, and spaces are not allowed at the beginning or in between tags.';
-    } else {
-        tagsError.textContent = '';
-    }
-
-    updateSubmitButton();
-}
-
-
-function validateForm() {
-    const isValidProductName = document.getElementById('productNameError').textContent.trim() === '';
-    const isValidDescription = document.getElementById('descriptionError').textContent.trim() === '';
-    const isValidSpecification1 = document.getElementById('specificationError1').textContent.trim() === '';
-    const isValidSpecification2 = document.getElementById('specificationError2').textContent.trim() === '';
-    const isValidSpecification3 = document.getElementById('specificationError3').textContent.trim() === '';
-    const isValidSpecification4 = document.getElementById('specificationError4').textContent.trim() === '';
-    const isValidCategory = document.getElementById('categoryError').textContent.trim() === '';
-    const isValidBrand = document.getElementById('brandError').textContent.trim() === '';
-    const isValidPrice = document.getElementById('priceError').textContent.trim() === '';
-    const isValidDiscountPrice = document.getElementById('discountPriceError').textContent.trim() === '';
-    const isValidStock = document.getElementById('stockError').textContent.trim() === '';
-    const isValidTags = document.getElementById('tagsError').textContent.trim() === '';
-
-
-    return isValidProductName && isValidDescription && isValidSpecification1 && isValidSpecification2 && isValidSpecification3 && isValidSpecification4 && isValidCategory && isValidBrand && isValidPrice && isValidDiscountPrice && isValidStock && isValidTags;
-}
-</script>
-
-<%-include("../layout/admin/footer")-%>

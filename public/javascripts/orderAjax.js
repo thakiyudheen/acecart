@@ -8,9 +8,16 @@ function updateOrderStatus(orderid,status){
         url:"/admin/updateStatus/"+`${orderid}/${status}`,
         
         method:"get",
-        success:function (response){
+        success:async function (response){
+          await  Swal.fire({
+            position: "center",
+            icon: "success",
+            title:response.msg,
+            showConfirmButton: false,
+            timer: 1200
+          });
             window.location.reload()
-            alert(response.msg)
+            
            
             
         },
@@ -250,4 +257,29 @@ function returnrequest(orderid,returnid,type ){
   
       }
   })
+}
+
+// rejetc order and reason 
+function rejectorder(e) {
+  e.preventDefault(e);
+  console.log("working ")
+
+  // Additional validation if needed
+  var addressForm = $('#rejectForm');
+  console.log(addressForm.serialize());
+  // AJAX POST request
+  $.ajax({
+    type: 'POST',  // Use PUT method
+    url:"/admin/rejectorder",
+    data: addressForm.serialize(),
+    success: function (response) {
+      
+         window.location.reload()
+      
+    },
+    error: function (error) {
+      // Handle error response
+      console.error(error);
+    }
+  });
 }

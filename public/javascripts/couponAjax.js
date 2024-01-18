@@ -12,8 +12,15 @@ function addcoupon(e) {
     url: "/admin/addcoupon",
     method: 'post',
     data: couponForm.serialize(),
-    success: function (response) {
-      window.location.reload();
+    success: function (res) {
+      if(res.status){
+        window.location.reload();
+      }else{
+        
+        document.getElementById('couponTypeError').innerHTML="coupen code exist!!"
+       
+      }
+     
     },
     error: function (error) {
       console.error(error);
@@ -36,18 +43,25 @@ function editcoupon(e) {
     url: "/admin/editcoupon",
     method: 'put',
     data: couponForm.serialize(),
-    success: function (response) {
-      Toastify({
-        text: response.msg,
-        duration: 1500,
-        gravity: 'top',
-        position: 'center',
-        backgroundColor: 'black',
-        style: {
-            borderRadius: '10px',
-        },
-    }).showToast();
-      window.location.href='/admin/getCoupon';
+    success: function (res) {
+      if(res.status){
+        Toastify({
+          text: res.msg,
+          duration: 1500,
+          gravity: 'top',
+          position: 'center',
+          backgroundColor: 'black',
+          style: {
+              borderRadius: '10px',
+          },
+      }).showToast();
+        window.location.href='/admin/getCoupon';
+      }else{
+        console.log(res.oldCode);
+        document.getElementById('noError').innerHTML="Coupon code  exist!!"
+        document.getElementById('coupon-type').value=res.oldCode
+      }
+     
     },
     error: function (error) {
       console.error(error);

@@ -185,10 +185,12 @@
     background:blue;
 }
 </style>
-<div class="container">
+<div class="container mt-4">
   <div class="row d-flex">
     <div class="col-md-8">
-      <div class="main-heading mb-10 p-3">Order Details</div>
+      <div class="main-heading mb-10 p-3">Order Details <% if(orderData[0].orderStatus === 'Delivered'){%>
+        <p class=" mb-0 p-1 float-end btn" style="background-color: grey; color: white; "onclick="generateAndDownloadInvoice('<%= orderData[0]._id %>')"><small> <i class="fa-regular fa-file-lines"></i>  Invoice</small></p>
+        <%}%></div>
       <div class="table-wishlist shadow " style="padding: 20px !important;" >
           <table cellpadding="0" cellspacing="0" border="0" width="100%" >
               <thead>
@@ -252,7 +254,13 @@
             <% } %>
             
             </b>
-          </p></div>
+          </p>
+          <% if(orderData[0].orderStatus === 'Order Rejected'){%>
+            <p class=" mb-0 p-1"><b>Rerject Reason: <%= orderData[0]?.rejectReason %></b></p>
+            <%}%>
+           
+
+        </div>
           <div class="info">
             
           </div>
@@ -383,7 +391,7 @@
             <% } %>
             
             </b>
-          </p>
+          </p>         <p class="mb-0 p-1"><strong>Coupons Used:</strong> <%= orderData[0].couponCode==''?'NONE':orderData[0].couponCode %></p>
                       <p class="mb-0 p-1"><strong>Email:</strong> <%= email %></p>
                       <p class="mb-0 p-1"><strong>Payment Method:</strong> <%= orderData[0].paymentMethod %></p>
                       <% if (orderData[0].PaymentStatus=='Pending') { %>
@@ -395,7 +403,7 @@
                         <p class="mb-0 p-1"><strong>Payment Status:&nbsp;&nbsp;</strong><span class="badge rounded-pill  text-white " style="font-weight: 400; background-color:orange;">Refunded</span></p>
                       <%}%>
 
-                          <% if (orderData[0].orderStatus!="Cancelled"&&orderData[0].orderStatus!="Delivered"&&orderData[0].orderStatus!="Requested"&&orderData[0].orderStatus!="return accepted") { %>
+                          <% if (orderData[0].orderStatus!="Cancelled"&&orderData[0].orderStatus!="Delivered"&&orderData[0].orderStatus!="Requested"&&orderData[0].orderStatus!="return accepted"&&orderData[0].orderStatus!="Order Rejected") { %>
                           <a  onclick="cancelOrder('<%-orderData[0]._id-%>','Cancelled')"  class="btn w-100 mt-3 p-1" style="background-color: red; color: white;"><small>Cancel Order</small> </a>
                           <% } %>
 
@@ -501,6 +509,49 @@
     // Implement your cancel item logic here
     console.log("Item canceled:", itemId);
   }
+</script>
+
+<script>
+async function generateAndDownloadInvoice(orderId) {
+  console.log("ok aaaan ");
+  let timerInterval
+Swal.fire({
+title: 'Download Started!',
+html: 'I will close in <b></b> milliseconds.',
+timer: 4000,
+timerProgressBar: true,
+didOpen: () => {
+  Swal.showLoading()
+  const b = Swal.getHtmlContainer().querySelector('b')
+  timerInterval = setInterval(() => {
+    b.textContent = Swal.getTimerLeft()
+  }, 100)
+},
+willClose: () => {
+  clearInterval(timerInterval)
+}
+}).then((result) => {
+if (result.dismiss === Swal.DismissReason.timer) {
+  console.log('I was closed by the timer')
+}
+})
+
+    try {
+        const response = await fetch(`/downloadinvoice/${orderId}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json', 
+            },
+           
+        });
+        if (response.ok) {
+          console.log("ral");
+            window.location.href = `/downloadinvoice1/${orderId}`;
+        }
+    } catch (error) {
+        console.error('Error in downloading the invoice:', error);
+    }
+}
 </script>
 
 <%- include("../layout/user/footer") -%>

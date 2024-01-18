@@ -8,6 +8,7 @@ const usercontroller = require('../controller/usercontroller')
 const orderController = require('../controller/order-controller')
 const brandController = require('../controller/brand-controller')
 const coupenController = require('../controller/coupen-controller')
+const offerController = require('../controller/offer-controller')
 
 
 
@@ -15,6 +16,8 @@ const coupenController = require('../controller/coupen-controller')
 // admin login ------------------------------------------------------
 router.get('/',login.adminExist,adminhelper.getlogin)
 router.post('/login',adminhelper.postLogin)
+// get admin dash bord-----------------------------------------------
+router.get('/dashbord',login.verifyAdmin,adminhelper.getDashbord)
 // get the customers page------------------------------------------------
 router.get('/customers',login.verifyAdmin,adminhelper.getcustomers)
 //admin change status--------------------------------------------------------
@@ -78,6 +81,9 @@ router.get('/getOrder',login.verifyAdmin,orderController.getOrder)
 router.get('/updatestatus/:orderid/:status',orderController.updateOrderstatus)
 // order details--------------------------------------------------------
 router.get('/orderView/:orderid',login.verifyAdmin,orderController.getOrderdetails)
+// reject order and reason  --------------------------------------------
+router.post('/rejectorder',orderController.rejectOrder)
+
 
 // get return order details---------------------------------------------
 router.get('/viewReturn/:orderid',login.verifyAdmin,orderController.getReturnorder)
@@ -97,6 +103,28 @@ router.put('/editcoupon',coupenController.putEditcoupon)
 router.get('/removecoupon/:couponid',coupenController.removeCoupon)
 
 
+
+// get order by date for show graph -----------------------------------
+router.get('/count-orders-by-day',adminhelper.getCount)
+router.get('/count-orders-by-month',adminhelper.getCount)
+router.get('/count-orders-by-year',adminhelper.getCount)
+// end------------------------------------------------------------------
+
+
+// download sales report -----------------------------------------------
+router.post("/download-sale-report",adminhelper.generatesalesReport)
+
+
+
+
+// get offer -----------------------------------------------------------
+router.get('/offer',login.verifyAdmin,offerController.getOffer)
+// post offer when add offer--------------------------------------------
+router.post('/postoffer',offerController.postaddOffer)
+// put edit offer-------------------------------------------------------
+router.put('/puteditoffer',offerController.puteditOffer)
+// delete offer---------------------------------------------------------
+router.get('/deleteoffer/:offerid',offerController.deleteOffer)
 
 
 

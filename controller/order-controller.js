@@ -11,6 +11,9 @@ const Wallethistory = require("../model/wallethistoryModel");
 const {createOrder} = require('../controller/razorpay-controller')
 const crypto = require("crypto");
 const { log } = require("console");
+// const moment = require('moment');
+const pdf=require('../util/getInvoice')
+const moment = require('moment-timezone');
 
 module.exports={
   confirmAddress:async (req,res)=>{
@@ -36,7 +39,7 @@ module.exports={
      //    find user----------------------------------------
          const user=await User.findOne({email:req.session.email})
         
-        console.log("okkk aan ithhh");
+       
      //    find data address and cart -----------------------
          const[address,cart]= await Promise.all([
              Address.findOne({_id:addressId}),
@@ -44,15 +47,15 @@ module.exports={
          ])
         
 
-     // date setting------------------------------------------
-     const currentDate=new Date().toLocaleString("en-US", {
-         timeZone: "Asia/Kolkata",
-       });
-      
-     // delivery date ----------------------------------------  
-     const deliveryDate= new Date(
-         Date.now() + 4 * 24 * 60 * 60 * 1000
-       ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });  
+   
+            // date setting------------------------------------------
+        const currentDate = moment().tz("Asia/Kolkata").format('L LT');
+
+        // delivery date ----------------------------------------
+        const deliveryDate = moment().add(4, 'days').tz("Asia/Kolkata").format('L LT');
+
+        console.log("Current Date:", currentDate);
+        console.log("Delivery Date:", deliveryDate);
 
      //   if not coupen code ---------------------------------
 
@@ -81,6 +84,7 @@ module.exports={
                      city: address.city,
                      district: address.district,
                      state: address.state,
+                     mobile:address?.mobile,
                      pincode: address.pincode,
                      },
                      orderDate: currentDate,
@@ -140,12 +144,12 @@ module.exports={
             const totelprice=req.session.totelprice
             console.log( totelAmount,totelprice)
             let discountAmount=totelprice-totelAmount
-           
+         
     
          //    find user----------------------------------------
             //  const user=await User.findOne({email:req.session.email})
             
-            console.log("okkk aan ithhh");
+           
          //    find data address and cart -----------------------
              const[address,cart]= await Promise.all([
                  Address.findOne({_id:addressId}),
@@ -153,16 +157,15 @@ module.exports={
              ])
             
     
-         // date setting------------------------------------------
-         const currentDate=new Date().toLocaleString("en-US", {
-             timeZone: "Asia/Kolkata",
-           });
-          
-         // delivery date ----------------------------------------  
-         const deliveryDate= new Date(
-             Date.now() + 4 * 24 * 60 * 60 * 1000
-           ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });  
-    
+              // date setting------------------------------------------
+              const currentDate = moment().tz("Asia/Kolkata").format('L LT');
+
+              // delivery date ----------------------------------------
+              const deliveryDate = moment().add(4, 'days').tz("Asia/Kolkata").format('L LT');
+      
+              console.log("Current Date:", currentDate);
+              console.log("Delivery Date:", deliveryDate);
+      
          //   if not coupen code ---------------------------------
     
            let couponCode = "";
@@ -190,6 +193,7 @@ module.exports={
                          city: address.city,
                          district: address.district,
                          state: address.state,
+                         mobile:address?.mobile,
                          pincode: address.pincode,
                          },
                          orderDate: currentDate,
@@ -290,16 +294,15 @@ module.exports={
             ])
            
 
-        // date setting------------------------------------------
-        const currentDate=new Date().toLocaleString("en-US", {
-            timeZone: "Asia/Kolkata",
-          });
-         
-        // delivery date ----------------------------------------  
-        const deliveryDate= new Date(
-            Date.now() + 4 * 24 * 60 * 60 * 1000
-          ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });  
+            // date setting------------------------------------------
+            const currentDate = moment().tz("Asia/Kolkata").format('L LT');
 
+            // delivery date ----------------------------------------
+            const deliveryDate = moment().add(4, 'days').tz("Asia/Kolkata").format('L LT');
+    
+            console.log("Current Date:", currentDate);
+            console.log("Delivery Date:", deliveryDate);
+    
         //   if not coupen code ---------------------------------
 
           let couponCode = "";
@@ -326,6 +329,7 @@ module.exports={
                         city: address.city,
                         district: address.district,
                         state: address.state,
+                        mobile:address?.mobile,
                         pincode: address.pincode,
                         },
                         orderDate: currentDate,
@@ -456,6 +460,17 @@ module.exports={
         console.log(err);
       }
     },
+    rejectOrder:async (req,res)=>{
+      try{
+        console.log(req.body)
+        await Order.updateOne({_id:req.body.orderid},{$set:{orderStatus:"Order Rejected",rejectReason:req.body.rejectReason}})
+        res.json({status:true})
+        
+      }catch(err){
+        console.log(err);
+      }
+    },
+    
     cancelOrder: async (req, res) => {
       try {
         const orders = await Order.findOne({ _id: req.params.orderid });
@@ -688,6 +703,43 @@ module.exports={
         }catch(err){
 
         }
+      },
+
+      genarateInvoice:async (req,res)=>{
+        try{
+          const orderDetails = await Order.find({ _id: req.params.orderid })
+          .populate("products.productid");
+          console.log("this is reached",orderDetails);
+          if (orderDetails) {
+            const invoicePath = await pdf.generateInvoice(orderDetails);
+      
+            res.json({
+              success: true,
+              message: "Invoice generated successfully",
+              invoicePath,
+            });
+          } else {
+            res
+              .status(500)
+              .json({ success: false, message: "Failed to generate the invoice" });
+          }
+    
+        }catch(err){
+          console.log(err);
+        }
+      },
+      downloadInvoice:(req,res)=>{
+        try {
+          const id = req.params.orderid;
+          const filePath = `C:\\aceCart\\public\\pdf\\${id}.pdf`;
+          res.download(filePath, `invoice.pdf`);
+        } catch (error) {
+          console.error("Error in downloading the invoice:", error);
+          res
+            .status(500)
+            .json({ success: false, message: "Error in downloading the invoice" });
+        }
+      
       }
 
     

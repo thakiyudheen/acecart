@@ -23,6 +23,7 @@ border-radius: 8px;
         <form class="p-5 mt-3" method="post" action="/admin/editcoupon" id="editcouponform">
           <div class="p-1"> <h3>Edit Coupon</h3></div>
           <div class="mb-3">
+            <small class="text-danger" id="noError"></small>
             <label for="coupon-type" class="col-form-label">Coupon CODE:</label>
             <input type="text" class="form-control" name="couponCode" value="<%-coupon.couponCode-%>" id="coupon-type" required>
             <small class="text-danger" id="couponTypeError"></small>
@@ -33,6 +34,7 @@ border-radius: 8px;
             <input type="text" class="form-control" name="description" value="<%-coupon.description-%>" id="coupon-description" required>
             <small class="text-danger" id="couponDescriptionError"></small>
           </div>
+          <input type="hidden" name="oldCouponcode" value="<%-coupon.couponCode-%>">
           <div class="mb-3">
             <label for="min-purchase" class="col-form-label">Min Purchase Amount:</label>
             <input type="number" class="form-control" name="minPurchaseAmount" value="<%-coupon.minPurchaseAmount-%>" id="min-purchase" required>

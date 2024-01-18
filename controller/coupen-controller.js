@@ -16,12 +16,13 @@ module.exports={
     postAddcoupon:async (req,res)=>{
         try{
             console.log(req.body);
-            const coupon=await Coupon.findOne({couponCode:req.body.cuponCode})
+            req.body.couponCode=req.body.couponCode.toUpperCase()
+            const coupon=await Coupon.findOne({couponCode:req.body.couponCode})
             if(coupon){
-                res.json(false)
+                res.json({status:false})
             }else{
                 await Coupon.create(req.body)
-                res.json({msg:"okk"})
+                res.json({status:true})
             }
 
         }catch(err){
@@ -40,12 +41,37 @@ module.exports={
 
     },
     putEditcoupon:async (req,res)=>{
-        try{
-            await Coupon.updateOne({_id:req.body.id},{$set:req.body})
-            res.json({msg:"successfully edited"})
-        }catch(err){
+        try {
+            let { couponCode, oldCouponcode, description, minPurchaseAmount, discountAmount, startDate, expiryDate } = req.body;
+            couponCode = couponCode.toUpperCase();
+            oldCouponcode = oldCouponcode.toUpperCase();
+            console.log(req.body,oldCouponcode,couponCode);
+            const coupons = await Coupon.findOne({ couponCode: couponCode });
+        
+            if (coupons && couponCode!=oldCouponcode) {
+            
+            res.json({ status: false,oldCode:oldCouponcode});
+            } else {
+                await Coupon.updateOne(
+                    { _id: req.body.id },
+                    {
+                        $set: {
+                            couponCode: couponCode,
+                            description: description,
+                            minPurchaseAmount: minPurchaseAmount,
+                            discountAmount: discountAmount,
+                            startDate: startDate,
+                            expiryDate: expiryDate,
+                        },
+                    }
+                );
+        
+                res.json({ msg: "successfully edited", status: true });
+            }
+        } catch (err) {
             console.log(err);
         }
+        
     },
     removeCoupon:async(req,res)=>{
         try{

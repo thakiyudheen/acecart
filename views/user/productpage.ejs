@@ -1,39 +1,17 @@
 
 <%-include("../layout/user/header")-%>
 <%-include("../partials/usernav")-%>
-<!-- <style>
-.icon-hover:hover {
-  border-color: #3b71ca !important;
-  background-color: white !important;
-}
 
-.icon-hover:hover i {
-  color:gray !important;
-}
-body{
-  background-color:white;
-}
-
-
-.btnn:hover{
-  color: white !important;
-  background-color: black !important;
-  /* border: none !important; */
-}
-#hurt:hover{
-  color:white !important;
-  background-color: black;
-} 
-</style> -->
 
   <style>
     body{
       background-color: white;
     }
+ 
   </style>
   <!-- sidebar + content -->
   <section class=" mt-5">
-    <div class="container-fluid">
+    <div class="container-fluid p-2">
       <div class="row">
         <!-- sidebar -->
         <div class="col-lg-3">
@@ -130,14 +108,19 @@ body{
                 </h2>
                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
                   <div class="accordion-body">
-                   
+                    <div class="range">
+                      <input type="range" class="form-range" id="priceRange" 
+                          min="0" max="500000" oninput="updateMaxPrice()" />
+                  </div>
                     <div class="row mb-3">
+                     
                       <div class="col-6">
+                        
                         <p class="mb-0">
                           Min
                         </p>
                         <div class="form-outline">
-                          <input type="number" id="typeNumber"  name="min" class="form-control" />
+                          <input type="number" id="minPrice"  name="min" class="form-control" value="0" readonly />
                           <label class="form-label" for="typeNumber">₹ 0</label>
                         </div>
                       </div>
@@ -146,8 +129,8 @@ body{
                           Max
                         </p>
                         <div class="form-outline">
-                          <input type="number" id="typeNumber" name="max" class="form-control" />
-                          <label class="form-label" for="typeNumber" >₹ 1,000000</label>
+                          <input type="number" id="maxPrice" name="max" value="500000" class="form-control" readonly/>
+                          <label class="form-label" for="typeNumber" >₹ 5,000,00</label>
                         </div>
                       </div>
                     </div>
@@ -239,18 +222,35 @@ body{
           <div class="row p-3" id="proview">
             <% products.forEach(el => { %>
             <div class="col-lg-3 col-md-3 col-sm-6 d-flex">
-              <div class="card w-100 my-1 shadow" style="border: none;">
+              <div class="card w-100 my-1 shadow d-flex align-items-center" style="border: none; ">
+                
                 <a href="/userhome/products/productdetails/<%-el._id-%>">
-                <img src="/product-images/<%-el.images[0]-%>" class="card-img-top p-4" />
+                <img src="/product-images/<%-el.images[0]-%>" class="card-img-top p-2" style=" max-width: 100%;
+                max-height: 200px;
+                 "/>
                  
               </a>
+             
                 <div class="card-body d-flex flex-column">
                   <div class="d-flex flex-row">
                     <% if (el.AvailableQuantity==0) { %>
                       <h7 style="font-weight: 500; color: red;">Out of stock</h7>
                     <% }else{ %>
                       <h7 class="mb-1 me-1"><b>₹<%-el.DiscountAmount-%>\-</b></h7>
-                      <span class="text-danger"><s><small>₹<%-el.Price-%></small></s></span>
+                      <% if (el.Categoryoffer>0) { %>
+                          <% 
+                            // Assuming originalAmount and discountedAmount are available in your EJS context
+                            const originalAmount = el.DiscountAmount; // Replace with your actual original amount
+                            const discountedAmount = el.Categoryoffer; // Replace with your actual discounted amount
+
+                            // Calculating the discount percentage
+                            const discountPercentage =Math.floor( (discountedAmount/ originalAmount) * 100);
+                          %>
+                           <span class="badge rounded-pill  text-white d-flex align-items-center" style="font-weight: 400;width: 60px; background-color:red;"> Offer!!</span>
+                        
+                      <% }else{ %>
+                      <span class="text-danger"><s><small>₹ <%-el.Price-%></small></s></span>
+                      <%}%>
                       <%}%>
 
                    
@@ -262,7 +262,7 @@ body{
                       <a href="#!" class="btn  shadow-0 me-1 disabled" style="background-color: blue !important; color: white;" onclick="addTocart('<%-el._id-%>')"><small>Add to cart</small></a>
                       
                     <% }else{ %>
-                      <a href="#!" class="btn shadow-0 me-1 btnn " style="background-color: blue !important;  color: white; border-redius:0px !important; " onclick="addTocart('<%-el._id-%>')"><small>Add to cart</small></a>
+                      <a href="#!" class="btn shadow-0 me-1 btnn " style="background-color:grey !important;  color: white; border-redius:0px !important; " onclick="addTocart('<%-el._id-%>')"><small>Add to cart</small></a>
                       
                       <%}%>
                     
@@ -306,7 +306,20 @@ body{
   <!-- sidebar + content -->
   
  
-  
+  <script>
+    function updateMaxPrice() {
+      const priceRange = document.getElementById('priceRange');
+      const maxPriceInput = document.getElementById('maxPrice');
+    
+      maxPriceInput.value = priceRange.value;
+      updateLabel(maxPriceInput);
+    }
+    
+    function updateLabel(input) {
+      const label = document.querySelector(`[for="${input.id}"]`);
+      label.textContent = `₹ ${input.value}`;
+    }
+    </script>
 <!-- footer start ------------ -->
 <%-include("../partials/footernav")-%>
 <!-- footer end ------------ -->

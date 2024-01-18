@@ -68,7 +68,12 @@ module.exports={
       try{
          console.log(req.body)
          const product=await Product.find({
-            ProductName:{ $regex: "^" + req.body.search, $options: "i"},status:"Active"
+            $or: [
+               { productName: { $regex:req.body.search, $options: "i" } },
+               { Category: { $regex:req.body.search, $options: "i" } },
+               { brandName: { $regex:req.body.search, $options: "i" } }
+           ],
+           status:"Active"
          })
 
         
@@ -230,13 +235,21 @@ module.exports={
    getWallet:async (req,res)=>{
       try{
          const user=await User.findOne({email:req.session.email})
-         const [wallet,wallethistory]=await Promise.all([
+         const [wallet]=await Promise.all([
             Wallet.findOne({userid:user._id}),
-            Wallethistory.findOne({userid:user._id})
+           
+
+
 
          ])
-        
-         res.render('user/wallet',{wallet,wallethistory})
+        const wallethistory=await  Wallethistory.findOne({ userid: user._id }).sort({ 'refund.date': -1 })
+        console.log( wallethistory);
+        // Assuming your array is named 'walletHistoryArray'
+        const sortedArray =wallethistory.refund.sort((a, b) => b.date - a.date);
+
+console.log(sortedArray);
+
+         res.render('user/wallet',{wallet,wallethistory:sortedArray})
       }catch(err){
          console.log(err);
       }

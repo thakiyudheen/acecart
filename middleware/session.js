@@ -23,7 +23,7 @@ const verifyUsernav = async (req, res, next) => {
  
   if (req.session.userlogged) {
     const users= await User.findOne({email:req.session.email})
-    console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<",users );
+   
       if(users.status=='blocked'){
         req.session.userlogged=false;
         res.redirect("/");

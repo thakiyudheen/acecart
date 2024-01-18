@@ -125,8 +125,14 @@ router.get('/ordersuccess',login.verifyUser,orderController.getorderSuccess)
 // verify online payment-----------------------------------------------
 router.post('/verifyPayment',login.verifyUser,orderController.verifyPayment)
 
-// return order
+// return order--------------------------------------------------------
 router.post('/returnorder',orderController.postreturnOrder)
+
+
+// generate invoice ---------------------------------------------------
+router.get('/downloadinvoice/:orderid',orderController.genarateInvoice)
+// download pdf ------------------------------------------------------
+router.get('/downloadinvoice1/:orderid',orderController.downloadInvoice)
 
 
 

@@ -36,6 +36,11 @@ const productSchema = new Schema({
   },
   DiscountAmount: {
     type: Number,
+    default: 0 
+  },
+  
+  Categoryoffer: {
+    type: Number,
   },
   status: {
     type: String,

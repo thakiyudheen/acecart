@@ -2,6 +2,12 @@ const ADMIN= require('../model/adminModel');
 const User= require("../model/userModel");
 const Category= require("../model/categoryModel");
 const Product= require("../model/productModel");
+const Order= require("../model/orderModel");
+const moment = require('moment');
+const pdf = require("../util/salespdf");
+const {generateSalesPDF}= require("../util/salespdf");
+
+
 
 
 module.exports={
@@ -19,8 +25,9 @@ module.exports={
                 if(data.password===req.body.password){
                     req.session.adminlogged=true;
                     req.session.adminname =data.name;
+                   
                     
-                     res.render('admin/admindashboard',{name:data.name})
+                     res.redirect('/admin/dashbord')
                 }else{
                     console.log("okk")
                     res.render('admin/login',{err:"incorrect password or email  "})
@@ -35,6 +42,72 @@ module.exports={
        
         
     },
+    getDashbord:async(req,res)=>{
+        // try{
+        //     const totelOrder=await Order.aggregate([{$match:{orderStatus:'Order Processing'}},{$group:{_id:'$orderStatus',sum:{$sum:1}}}])
+        //     const order= await Order.aggregate([{$match:{PaymentStatus:'Paid'}},{$group:{_id:'$PaymentStatus',sum:{$sum:"$totalAmount"}}}])
+        //     const users= await User.find().count()
+        //     const lastOrder=await Order.find().sort({orderDate:-1}).skip(0).limit(5)
+        //     const mostSoldProducts = await Order.aggregate([
+        //       { $unwind: '$products' },
+        //       { $group: { _id: '$products.productid', totalQuantity: { $sum: '$products.quantity' } } },
+        //       { $lookup: { from: 'products', localField: '_id', foreignField: '_id', as: 'productInfo' } },
+        //       { $sort: { totalQuantity: -1 } },
+        //       { $limit: 5 },
+        //       {
+        //         $project: {
+        //           _id: 1,
+        //           totalQuantity: 1,
+        //           productInfo: { $arrayElemAt: ['$productInfo', 0] } // Extract the first element of the array
+        //         }
+        //       }
+        //     ]);
+            
+              
+        //     console.log("full fillll",mostSoldProducts[0].productInfo.images)
+        //     res.render('admin/admindashboard',{order,lastOrder,users,totelOrder,mostSoldProducts})
+        // }catch(err){
+        //     console.log(err);
+        // }
+
+        try {
+          const totalOrderPromise = Order.aggregate([{ $match: { orderStatus: 'Order Processing' } }, { $group: { _id: '$orderStatus', sum: { $sum: 1 } } }]);
+          const paidOrdersPromise = Order.aggregate([{ $match: { PaymentStatus: 'Paid' } }, { $group: { _id: '$PaymentStatus', sum: { $sum: '$totalAmount' } } }]);
+          const totalUsersPromise = User.countDocuments();
+          const lastOrdersPromise = Order.find().sort({ orderDate: -1 }).limit(5);
+          const mostSoldProductsPromise = Order.aggregate([
+            { $unwind: '$products' },
+            { $group: { _id: '$products.productid', totalQuantity: { $sum: '$products.quantity' } } },
+            { $lookup: { from: 'products', localField: '_id', foreignField: '_id', as: 'productInfo' } },
+            { $sort: { totalQuantity: -1 } },
+            { $limit: 5 },
+            {
+              $project: {
+                _id: 1,
+                totalQuantity: 1,
+                productInfo: { $arrayElemAt: ['$productInfo', 0] } // Extract the first element of the array
+              }
+            }
+          ]);
+        
+          const [totalOrder, paidOrders, totalUsers, lastOrders, mostSoldProducts] = await Promise.all([
+            totalOrderPromise,
+            paidOrdersPromise,
+            totalUsersPromise,
+            lastOrdersPromise,
+            mostSoldProductsPromise
+          ]);
+        
+          console.log("full fillll", totalOrder);
+        
+          res.render('admin/admindashboard', { order: paidOrders, lastOrders, users: totalUsers, totalOrder, mostSoldProducts });
+        } catch (err) {
+          console.error(err);
+        }
+        
+    }
+    
+    ,
     getcustomers:async (req,res)=>{ 
      try{
         const data=await User.find()
@@ -149,7 +222,177 @@ module.exports={
             console.log(err);
         }
     },
+    getCount:async (req,res)=>{
+        try{
 
+        const orders = await Order.find({
+          orderStatus: {
+            $nin: ["returned", "Cancelled", "Rejected"],
+          },
+        });
+        
+       
+        
+        const orderCountsByDay = {};
+        const totalAmountByDay = {};
+        const orderCountsByMonthYear = {};
+        const totalAmountByMonthYear = {};
+        const orderCountsByYear = {};
+        const totalAmountByYear = {};
+        let labelsByCount;
+        let labelsByAmount;
+        
+        console.log("wot h its good for your ");
+        
+        orders.forEach((order) => {
+            
+          const orderDate = moment(order.orderDate, "ddd MMM DD YYYY");
+          const dayMonthYear = orderDate.format("YYYY-MM-DD");
+          const monthYear = orderDate.format("YYYY-MM");
+          const year = orderDate.format("YYYY");
+      
+          if (req.url === "/count-orders-by-day") {
+            if (!orderCountsByDay[dayMonthYear]) {
+              orderCountsByDay[dayMonthYear] = 1;
+              totalAmountByDay[dayMonthYear] = order.totalAmount;
+            } else {
+              orderCountsByDay[dayMonthYear]++;
+              totalAmountByDay[dayMonthYear] += order.totalAmount;
+            }
+
+            const ordersByDay = Object.keys(orderCountsByDay).map(
+                (dayMonthYear) => ({
+                  _id: dayMonthYear,
+                  count: orderCountsByDay[dayMonthYear],
+                })
+              );
+    
+              const amountsByDay = Object.keys(totalAmountByDay).map(
+                (dayMonthYear) => ({
+                  _id: dayMonthYear,
+                  total: totalAmountByDay[dayMonthYear],
+                })
+              );
+    
+              amountsByDay.sort((a, b) => (a._id < b._id ? -1 : 1));
+              ordersByDay.sort((a, b) => (a._id < b._id ? -1 : 1));
+    
+              labelsByCount = ordersByDay.map((entry) =>
+                moment(entry._id, "YYYY-MM-DD").format("DD MMM YYYY")
+              );
+    
+              labelsByAmount = amountsByDay.map((entry) =>
+                moment(entry._id, "YYYY-MM-DD").format("DD MMM YYYY")
+              );
+    
+              dataByCount = ordersByDay.map((entry) => entry.count);
+              dataByAmount = amountsByDay.map((entry) => entry.total);
+
+          } else if (req.url === "/count-orders-by-month") {
+
+
+            if (!orderCountsByMonthYear[monthYear]) {
+              orderCountsByMonthYear[monthYear] = 1;
+              totalAmountByMonthYear[monthYear] = order.totalAmount;
+            } else {
+              orderCountsByMonthYear[monthYear]++;
+              totalAmountByMonthYear[monthYear] += order.totalAmount;
+            }
+
+            const ordersByMonth = Object.keys(orderCountsByMonthYear).map(
+                (monthYear) => ({
+                  _id: monthYear,
+                  count: orderCountsByMonthYear[monthYear],
+                })
+              );
+              const amountsByMonth = Object.keys(totalAmountByMonthYear).map(
+                (monthYear) => ({
+                  _id: monthYear,
+                  total: totalAmountByMonthYear[monthYear],
+                })
+              );
+    
+              ordersByMonth.sort((a, b) => (a._id < b._id ? -1 : 1));
+              amountsByMonth.sort((a, b) => (a._id < b._id ? -1 : 1));
+    
+              labelsByCount = ordersByMonth.map((entry) =>
+                moment(entry._id, "YYYY-MM").format("MMM YYYY")
+              );
+              labelsByAmount = amountsByMonth.map((entry) =>
+                moment(entry._id, "YYYY-MM").format("MMM YYYY")
+              );
+              dataByCount = ordersByMonth.map((entry) => entry.count);
+              dataByAmount = amountsByMonth.map((entry) => entry.total);
+            
+
+          } else if (req.url === "/count-orders-by-year") {
+            if (!orderCountsByYear[year]) {
+              orderCountsByYear[year] = 1;
+              totalAmountByYear[year] = order.totalAmount;
+            } else {
+              orderCountsByYear[year]++;
+              totalAmountByYear[year] += order.totalAmount;
+            }
+
+            const ordersByYear = Object.keys(orderCountsByYear).map((year) => ({
+                _id: year,
+                count: orderCountsByYear[year],
+              }));
+              const amountsByYear = Object.keys(totalAmountByYear).map((year) => ({
+                _id: year,
+                total: totalAmountByYear[year],
+              }));
+    
+              ordersByYear.sort((a, b) => (a._id < b._id ? -1 : 1));
+              amountsByYear.sort((a, b) => (a._id < b._id ? -1 : 1));
+    
+              labelsByCount = ordersByYear.map((entry) => entry._id);
+              labelsByAmount = amountsByYear.map((entry) => entry._id);
+              dataByCount = ordersByYear.map((entry) => entry.count);
+              dataByAmount = amountsByYear.map((entry) => entry.total);
+            }
+          })
+        
+        res.json({ labelsByCount, labelsByAmount, dataByCount, dataByAmount });
+        
+        }catch(err){
+
+        }
+    },
+
+    // generate pdf---------------------------------------------------
+    generatesalesReport:async (req,res)=>{
+      try {
+        let startDate = new Date(req.body.startDate);
+        let endDate = new Date(req.body.endDate);
+        endDate.setHours(23, 59, 59, 999);
+        const order = await Order
+          .find({
+            PaymentStatus: "Paid",
+            orderDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          })
+          .populate("products.productid");
+  
+        
+        const pdfBuffer = await generateSalesPDF(order, startDate, endDate);
+  
+        // Set headers for the response
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader(
+          "Content-Disposition",
+          "attachment; filename=sales Report.pdf"
+        );
+  
+        res.status(200).end(pdfBuffer);
+      } catch (error) {
+        console.log(error);
+       
+       
+      }
+    },
 
 
     // logout admin --------------------------------------------------------------------------------------

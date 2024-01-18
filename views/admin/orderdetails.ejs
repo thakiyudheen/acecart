@@ -1,5 +1,5 @@
-<%- include("../layout/user/header") -%>
-<%- include("../partials/usernav") -%>
+<%- include("../layout/admin/header") -%>
+<%- include("../partials/adminnav") -%>
 <style>
   /* body{
     background: #ddd3;
@@ -188,7 +188,7 @@
 <div class="container">
   <div class="row d-flex">
     <div class="col-md-8">
-      <div class="main-heading mb-10 p-3">My wishlist</div>
+      <div class="main-heading mb-10 p-3">Order details</div>
       <div class="table-wishlist shadow " style="padding: 20px !important;" >
           <table cellpadding="0" cellspacing="0" border="0" width="100%" >
               <thead>
@@ -388,7 +388,7 @@
                       <%}%>
 
                           <% if (orderData[0].orderStatus!="Cancelled"&&orderData[0].orderStatus!="Delivered"&&orderData[0].orderStatus!="Order Rejected") { %>
-                          <a   class="btn w-100 mt-3 p-1" style="background-color: red; color: white;" onclick="updateOrderStatus('<%-orderData[0]._id-%>','Order Rejected')"><small>Reject Order</small> </a>
+                          <a   class="btn w-100 mt-3 p-1" style="background-color: red; color: white;" data-bs-toggle="modal"  data-bs-target="#exampleModalreject" data-bs-whatever="@getbootstrap"><small>Reject Order</small> </a>
                           <% } %>
 
                          
@@ -400,8 +400,39 @@
     </div>
   </div>
 </div>
+<!-- modal reject reson -->
+<div class="modal fade" id="exampleModalreject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"><small>Reject Order</small></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="rejectForm">
+                   
+                    <input type="hidden" name="orderid" value="<%-orderData[0]._id-%>">
+                    <div class="mb-3">
+                        <label for="return-description" class="col-form-label"><small>Reason:</small></label>
+                        <textarea class="form-control" id="return-description" name="rejectReason" required pattern="^\S.*$" title="Cannot start with space"  required></textarea>
+                        <div class="invalid-feedback">
+                            Please provide a valid description.
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><small>Close</small></button>
+                <button type="button" class="btn btn-dark" id="send-reject-btn" onclick="rejectorder(event)" ><small>Reject Order</small></button>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
 
-<!-- modal -->
+<!-- end  -->
+
+
  <!-- Return Order Modal -->
       
  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -486,4 +517,4 @@
   }
 </script>
 
-<%- include("../layout/user/footer") -%>
+<%- include("../layout/admin/footer") -%>

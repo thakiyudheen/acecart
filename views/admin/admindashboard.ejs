@@ -1,20 +1,473 @@
 <%-include("../layout/admin/header")-%>
 
 <%-include("../partials/adminnav")-%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<style>
+body{
+  background-color:rgb(224, 221, 221);
+}
 
 
-</div>
-</div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-      var el = document.getElementById("wrapper");
-      var toggleButton = document.getElementById("menu-toggle");
+
+.menu{
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+
+
+
+.col-div-4-1{
+  width: 33.3%;
+  /* float: left; */
+}
+.box{
+	width: 96%;
+	height: 130px;
+	
+	padding:10px;
   
-      toggleButton.onclick = function () {
-          console.log("ok")
-          el.classList.toggle("toggled");
-      };
-  </script>
+  position: relative;
+  color: green;
+}
+.box p{
+    color: #ffffff;
+    font-weight: 500;
+    padding-left: 10px;
+}
+.number{
+  font-size: 35px;
+  margin-bottom: 0px;
+  margin-top: 20px;
+}
 
+.head-1{
+  font-size: 18px!important;
+  margin: 10px 0px;
+      color: #ffffff;
+}
+.head-1 span{
+    float: right;
+    background-color: #5643ff;
+    color: white;
+    padding: 3px 10px;
+    font-size: 15px;
+}
+.box-icon{
+	    font-size: 20px!important;
+    margin-top: 35px!important;
+    color: #5643ff;
+    padding-right: 10px;
+    background-color: #efeff5;
+    padding: 15px;
+    border-radius: 25px;
+    position: absolute;
+    right: 16px;
+    top: -18px;
+}
+.box-1{
+  width: 42%;
+  /* height: 282px; */
+  background-color: #ffffff;
+  margin-left: 10px;
+  padding:40px;
+  box-shadow: 2px 5px 10px #ddd;
+  position: relative;
+  
+}
+.m-box{
+  color: #6c7293;
+  position: relative;
+  padding: 0px 12px;
+}
+.active{
+    background-color: #5646ff;
+    color: white;
+    box-shadow: 4px 3px 7px 3px #3226ad54;
+}
+.active .no-1{
+  color: #ddd!important;
+}
+.m-box p{
+  display: inline-block;
+      margin: 10px 0px;
+}
+.no{
+  position: absolute!important;
+    top: 21px;
+    right: 15px;
+    font-weight: 500;
+}
+.no-1{
+      font-size: 12px;
+    color: #9398b1;
+}
+.act-p{
+  font-size: 13px;
+  color: #6c7293;
+}
+.act-p .fa{
+  color: orange!important;
+}
+
+.content-box-1{
+  padding: 0px 10px;
+}
+.col-div-12{
+	width: 100%;
+}
+
+.col-div-4{
+	width: 30%;
+	float: left;
+}
+.content-box{
+	padding: 20px;
+}
+.content-box p{
+	margin: 0px;
+    font-size: 20px;
+    color:#6c7293;
+}
+.content-box p span{
+	float: right;
+    background-color: #5643ff;
+    color: white;
+    padding: 3px 10px;
+    font-size: 15px;
+}
+.box-8{
+	width: 97.8%;
+	background-color: #fff;
+	height: 330px;
+	
+}
+
+.nav{
+	font-size: 30px;
+    cursor: pointer;
+    color: #6c7293;
+    margin: 11px 0px;
+}
+
+.box-8{
+	margin-left: 10px;
+}
+table {
+
+  border-collapse: collapse;
+  width: 100%;
+ 
+}
+
+td, th {
+  
+  text-align: left;
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+     background-color: #5643ff29;
+    color: #6c7293!important;
+}
+.circle-wrap {
+  margin: 50px auto;
+  width: 150px;
+  height: 150px;
+  background: #e6e2e7;
+  border-radius: 50%;
+}
+.circle-wrap .circle .mask,
+.circle-wrap .circle .fill {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  border-radius: 50%;
+}
+.circle-wrap .circle .mask {
+  clip: rect(0px, 150px, 150px, 75px);
+}
+
+.circle-wrap .circle .mask .fill {
+  clip: rect(0px, 75px, 150px, 0px);
+  background-color: #5646ff;
+}
+.circle-wrap .circle .mask.full,
+.circle-wrap .circle .fill {
+  animation: fill ease-in-out 3s;
+  transform: rotate(126deg);
+}
+
+@keyframes fill {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(126deg);
+  }
+}
+
+</style>
+<!-- sales download -->
+<div class="details">
+  <div class="recentOrders">
+      <div class="container cardHeader mt-5 d-flex justify-content-between w-98">
+          <h3>Dashboard</h3>
+          <div class="">
+            <button type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-dark"><small><i class="fa-regular fa-file-lines"></i>  Sales Report</small> </button>
+                  <!-- <a href="/downloadSalesReport" class="btn btn-danger">Download Sales Report</a> -->
+          </div>
+      </div>
+<!-- end  -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 mt-5">
+      <div class="main d-flex justify-content">
+        <div class="col-div-4-1">
+          <div class="box rounded shadow" style="background-color: rgb(8, 104, 207); color: white !important;">
+            <p class="head-1">USERS</p>
+            <p class="number"><%-locals.users -%></p>
+          </div>
+        </div>
+        <div class="col-div-4-1">
+          <div class="box rounded shadow" style="background-color: rgb(31, 11, 182); color: white !important;">
+            <p class="head-1">Revenue</p>
+            <p class="number"><%- order[0].sum -%></p>
+          </div>
+        </div>
+        <div class="col-div-4-1">
+          <div class="box rounded shadow" style="background-color: #4b50bb; color: white !important;">
+            <p class="head-1">Orders</p>
+            <p class="number"><%- totalOrder[0].sum -%></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row d-flex justify-content-center">
+          <div class="dropdown me-4 mt-3 mb-3">
+            <a class="btn float-end dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: blue; color: white;">
+              <small>By Day</small>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" id="byDayOption" onclick="updatecount('/admin/count-orders-by-day')"><small>Day</small> </a></li>
+              <li><a class="dropdown-item" id="byMonthOption" onclick="updatecount('/admin/count-orders-by-month')"><small>Month</small> </a></li>
+              <li><a class="dropdown-item" id="byYearOption" onclick="updatecount('/admin/count-orders-by-year')"><small>Year</small> </a></li>
+            </ul>
+          </div>
+          <div class="col-md-6 p-5 mt-4 shadow d-flex justify-content-center">
+            <canvas id="myChart1" style="width: 100%; max-width: 650px;"></canvas>
+          </div>
+          <div class="col-md-5 ms-5 p-3 mt-4 shadow d-flex justify-content-center">
+            <canvas id="myChart2"  style="width:90%;max-width:350px"></canvas>
+          </div>
+          <div class="col-md-12 p-5 mt-5 shadow d-flex justify-content-center" style="width: 96%;">
+            <canvas id="myChart" style="width: 100%; max-width: 650px;"></canvas>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div>
+</div>
+
+<!-- last order data  -->
+<div class="container mt-5">
+<h3>Recent orders</h3>
+<hr>
+    <div class="row ">
+        <div class="col-md-12  shadow">
+            <table class="tablep-2 mb-5 " id="example">
+                <thead>
+                    <tr class="p-5">
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col" class="text-center">Order ID</th>
+                        <th scope="col" class="text-center">No of Products</th>
+                        <th scope="col" class="text-center">Ordered Date & Time</th>
+                        <th scope="col" class="text-center">Total Amount</th>
+                        <th scope="col" class="text-center">Status</th>
+                       
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <% lastOrders.forEach((ele, index) => { %>
+                        <tr>
+                            <td class="text-center"><%- index + 1 -%></td>
+                            <td class="text-center"><%- ele._id -%></td>
+                            <td class="text-center"><%- ele.products.length -%></td>
+                            <td class="text-center"><%- ele.orderDate.toLocaleString() -%></td>
+                            <td class="text-center"><%- ele.totalAmount -%></td>
+                            <td class="text-center">
+                              <% if (ele.orderStatus === 'Order Processing') { %>
+                                <span class="badge rounded-pill bg-warning" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Order Placed') { %>
+                                <span class="badge rounded-pill bg-primary" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Shipped') { %>
+                                <span class="badge rounded-pill bg-info" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Delivered') { %>
+                                <span class="badge rounded-pill bg-success" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Order Rejected'){ %>
+                                <span class="badge rounded-pill bg-danger" style="font-weight: 400;"><%= ele.orderStatus %></span>
+                            <% } else if (ele.orderStatus === 'Cancelled'){ %>
+                                <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+                            <% } else if (ele.orderStatus === 'Requested'){ %>
+                                <span class="badge rounded-pill bg-info text-white" style="font-weight: 400;">Return </span>
+                            <% } else if(ele.orderStatus ==='return accepted'){ %>
+                                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: blue;">Return accepted</span>
+                            <%}else if(ele.orderStatus ==='return rejected'){%>
+                                <span class="badge rounded-pill  text-white" style="font-weight: 400; background-color: rgb(102, 102, 102);">Return rejected</span>
+                            <%}%>
+                            
+                            </td>
+                            
+                            
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+  <h4>Most sold Products</h4>
+  <hr>
+  <div class="row">
+    <div class="col-md-12 shadow mt-3 mb-5">
+      <table class="table table-borderless ">
+        
+      
+        <thead>
+          <tr>
+            <th>NO</th>
+            <th >Image</th>
+            <th>Name</th>
+            <th >Amount</th>
+            <th >Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% mostSoldProducts.forEach((product, index) => { %>
+            <tr>
+              <th scope="row"><%= index + 1 %></th>
+              <td><img src="/product-images/<%= product.productInfo.images[0] %>" alt="<%= product.name %>" style="max-width: 50px; max-height: 50px;"></td>
+              <td><%= product.productInfo.ProductName %></td>
+              <td><%= product.productInfo.DiscountAmount %></td>
+              <td><%= product.totalQuantity %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      
+  
+    </div>
+  </div>
+</div>
+
+
+
+<!-- end -->
+</div>
+</div>
+
+
+
+<!-- Your modal code remains the same -->
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Select Date Range</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="salesForm" method="post" action="/admin/download-sale-report">
+          <label for="startDate" class="form-label">Start Date:</label>
+          <input type="date" name="startDate" id="startDate" class="form-control" required>
+          <small id="startDateError" class="form-text text-danger"></small> <!-- Error message small tag -->
+
+          <label for="endDate" class="form-label">End Date:</label>
+          <input type="date" name="endDate" id="endDate" class="form-control" required>
+          <small id="endDateError" class="form-text text-danger"></small> <!-- Error message small tag -->
+
+          <div class="row mt-5">
+            <div class="col-sm-6">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="downloadFormat" value="pdf" id="pdfCheckbox" checked>
+                <label class="form-check-label" for="pdfCheckbox">PDF</label>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="downloadFormat" value="excel" id="excelCheckbox">
+                <label class="form-check-label" for="excelCheckbox">Excel</label>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-dark" id="generateReportBtn" disabled onclick="generatereport(event)">Generate Report</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateSubmitButtonState() {
+    var startDateInput = document.getElementById('startDate');
+    var endDateInput = document.getElementById('endDate');
+    var generateReportBtn = document.getElementById('generateReportBtn');
+
+    var startDate = new Date(startDateInput.value);
+    var endDate = new Date(endDateInput.value);
+    var currentDate = new Date();
+
+    // Reset error messages
+    document.getElementById('startDateError').textContent = '';
+    document.getElementById('endDateError').textContent = '';
+
+    if (!startDateInput.value || !endDateInput.value) {
+      document.getElementById('startDateError').textContent = 'Please select both start and end dates.';
+    }
+
+    if (endDate <= startDate) {
+      document.getElementById('endDateError').textContent = 'End date must be greater than start date.';
+    }
+
+    if (startDate > currentDate) {
+      document.getElementById('startDateError').textContent = 'Start date must be less than or equal to the current date.';
+    }
+
+    if (endDate > currentDate) {
+      document.getElementById('endDateError').textContent = 'End date must be less than or equal to the current date.';
+    }
+
+    // Enable/disable the submit button based on the error state
+    generateReportBtn.disabled = (document.getElementById('startDateError').textContent !== '' || document.getElementById('endDateError').textContent !== '');
+  }
+
+  // Attach the updateSubmitButtonState function to input change events
+  document.getElementById('startDate').addEventListener('input', updateSubmitButtonState);
+  document.getElementById('endDate').addEventListener('input', updateSubmitButtonState);
+
+  // Attach the generatereport function to the form submit event
+  document.getElementById('salesForm').addEventListener('submit', function(event) {
+    // Prevent form submission if there are validation errors
+    if (document.getElementById('generateReportBtn').disabled) {
+      event.preventDefault();
+    }
+  });
+</script>
+</script>
+
+<!-- end  -->
+
+<script>
+  updatecount("/admin/count-orders-by-day");
+</script>
 
 <%-include("../layout/user/footer")-%>

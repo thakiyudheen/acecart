@@ -68,19 +68,19 @@
                   <select class="form-select" id="statusSelect<%= data._id %>" onchange="updateOrderStatus('<%= data._id %>', this.value)">
                       <option value="" selected disabled>Select</option>
                       <option value="Order Placed">Order Placed</option>
-                      <option value="Order Rejected">Order Rejected</option>
+                      <!-- <a value="Order Rejected">Order Rejected</a> -->
                   </select>
                   <% } else if (data.orderStatus === 'Order Placed') { %>
                   <select class="form-select" id="statusSelect<%= data._id %>" onchange="updateOrderStatus('<%-data._id-%>', this.value)">
                       <option value="" selected disabled>Select</option>
                       <option value="Shipped">Shipped</option>
-                      <option value="Order Rejected">Order Rejected</option>
+                      <!-- <option value="Order Rejected">Order Rejected</option> -->
                   </select>
                   <% } else if (data.orderStatus === 'Shipped') { %>
                   <select class="form-select" id="statusSelect<%= data._id %>" onchange="updateOrderStatus('<%= data._id %>', this.value)">
                       <option value="" selected disabled>Select</option>
                       <option value="Delivered">Delivered</option>
-                      <option value="Order Rejected">Order Rejected</option>
+                      <!-- <option value="Order Rejected">Order Rejected</option> -->
                   </select>
                   <% } else if (data.orderStatus === 'Delivered') { %>
                       <span  style="font-weight: 400;color: green;">Delivered</span>

@@ -4,93 +4,50 @@
 
   
 
-<!-- <div class="container mt-4">
-    <div class="row">
-      <% product.forEach(el=> { %>
-       
-     
-        <div class="col-6 col-md-3 col-sm-6 d-flex justify-content-center justify-content-md-start">
-            <div class="card shadow-sm mt-4" style="position:relative; ">
-                <a href="https://amzn.to/42dsdGC" target="_blank">
-                  <img src="/product-images/<%-el.images[0]-%>" class="card-img-top p-5" alt="product.title" style="width:100%; height:300px; padding:20px;" />
-                </a>
-            
-                <div class="label-top shadow-0">
-                  <a class="text-white" href="https://amzn.to/42dsdGC" target="_blank">razer</a>
-                </div>
-                <div class="card-body">
-                  <% if (el.AvailableQuantity==0) { %>
-                    <h7 style="font-weight: 500; color: red;">Out of stock</h7>
-                  <% }else{ %>
-                    <h7 style="font-weight: 500;">₹<%-el.DiscountAmount-%>\-</h7>&nbsp;&nbsp;<p7><del style="color: red; font-size: 13px;">₹<%-el.Price-%></del></p7>
-                    <%}%>
-                  
-                  <div class="clearfix mb-1">
-                    <h7><%-el.ProductName-%></h7>
-                    <span class="float-start rounded-pill "><%-el.DiscountAmount-%></span>
-
-                    <span  onclick="addTowishlist('<%-el._id-%>')" class="float-end" style="position: absolute;    color: white;
-                    position: absolute;
-                    top: 15px;
-                    background-color: red;
-                    border-radius: 17px;
-                    right: 34px;
-                   text-align: center;
-                    border: 2px solid red;
-                    width: 33px;
-                ">
-                      <i class="far fa-heart" style="cursor: pointer"></i>
-            
-                    </span>
-                  </div>
-                  <p class="card-title m-1" style="font-size: 12px;">
-                    <a target="_blank " style="text-decoration: none;color: black;" href="#"><%-el.discription-%></a>
-                  </p>
-            
-                
-                  <div class="d-flex  my-1">
-            
-                    <a href="/userhome/products/productdetails/<%-el._id-%>" style="width: 48%; background-color: white; color: black;border:1px solid black" class="btn bold-btn">View  </a>
-                    <% if (el.AvailableQuantity==0) { %>
-                      <a href="#" class="btn btn-dark bold-btn ms-2 disabled" onclick="addTocart('<%-el._id-%>')" style="width: 48%; background-color: white; color: black;border:1px solid black">Add to cart</a>
-                    <% }else{ %>
-                      <a href="#" class="btn btn-dark bold-btn ms-2" onclick="addTocart('<%-el._id-%>')" style="width: 48%; background-color: white; color: black;border:1px solid black">Add to cart</a>
-                      <%}%>
-                   
-                  </div>
-                 
-              </div>
-            </div>
-
-        </div>
-      
-        <% }) %> 
-      
-    </div>
-</div>  -->
-
-<div class="container">
- 
+<div class="container mt-5 mb-4">
   <div class="row">
-    <% product.forEach(el=> { %>
-    <div class="col-lg-3 col-md-3 col-sm-2 d-flex">
-      <div class="card w-100 my-2 shadow-2-strong">
-        <img src="/product-images/<%-el.images[0]-%>" class="card-img-top img-fluid"  alt="Product Image" />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title"><small>GoPro HERO6 4K Action Camera - Black</small></h5>
-          <p class="card-text"><%- el.AvailableQuantity==0 ? 'Out of stock' : '₹' + el.DiscountAmount -%></p>
+    <% product.forEach(el => { %>
+      <div class="col-lg-3 col-md-3 col-sm-6 d-flex">
+        <div class="card w-100 my-1 shadow d-flex align-items-center" style="border: none; ">
+          <a href="/userhome/products/productdetails/<%-el._id-%>">
+          <img src="/product-images/<%-el.images[0]-%>" class="card-img-top p-2" style=" max-width: 100%;
+          max-height: 200px;
+           "/>
+           
+        </a>
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex flex-row">
+              <% if (el.AvailableQuantity==0) { %>
+                <h7 style="font-weight: 500; color: red;">Out of stock</h7>
+              <% }else{ %>
+                <h7 class="mb-1 me-1"><b>₹<%-el.DiscountAmount-%>\-</b></h7>
+                <span class="text-danger"><s><small>₹<%-el.Price-%></small></s></span>
+                <%}%>
 
-          <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-            <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
-            <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
+             
+            </div>
+            <p class="card-text"> <small><%-el.ProductName-%></small></p>
+            <div class="card-footer d-flex align-items-end pt-0 px-0 pb-0 mt-auto">
+
+              <% if (el.AvailableQuantity<=0) { %>
+                <a href="#!" class="btn  shadow-0 me-1 disabled" style="background-color: blue !important; color: white;" onclick="addTocart('<%-el._id-%>')"><small>Add to cart</small></a>
+                
+              <% }else{ %>
+                <a href="#!" class="btn shadow-0 me-1 btnn " style="background-color: blue !important;  color: white; border-redius:0px !important; " onclick="addTocart('<%-el._id-%>')"><small>Add to cart</small></a>
+                
+                <%}%>
+              
+              <a  onclick="addTowishlist('<%-el._id-%>')" class="btn px-2 pt-2 btnn " style="background-color:white;  color: black; border-redius:0px !important;"><small><i id="hurt" class="fas fa-heart fa-lg text-secondary px-1"></i></small></a>
+              <!-- <a href="#!" class="btn btn-primary shadow-0 me-1">view </a> -->
+            </div>
           </div>
         </div>
+        
       </div>
-    </div>
-    <% }) %> 
+      <% }) %>
+      
   </div>
 </div>
-
 
 
 

@@ -1,17 +1,18 @@
 <%- include("../layout/admin/header") -%>
 <%- include("../partials/adminnav") -%>
 
- <div class="container-fluid" >
+ <div class="container-fluid p-5" >
  
             
              
 
   <div class="row my-5">
-    <table id="example" class="table  text-center mt-5" style="width: 100%;">
-      <thead class="thead-dark text-center">
+    <table id="example" class="table  text-center " style="width: 100%;">
+      <thead class=" text-center p-5 w-100">
+        
         <tr>
-          <th class="text-center" scope="col">Si.No</th>
-          <th class="text-center" scope="col">User Name</th>
+          <th class="text-center" scope="col">SI-No</th>
+          <th class="text-center" scope="col">Name</th>
           <th class="text-center" scope="col">Order Id</th>
           <th class="text-center" scope="col">Purchase Date</th>
           <th class="text-center" scope="col">Payment Method</th>
@@ -21,7 +22,7 @@
           <th class="text-center" scope="col">View</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="table-group-divider">
 
      
     <% orders.forEach((data, index) => { %>                
@@ -47,7 +48,7 @@
               <% } else if (data.orderStatus === 'Order Rejected'){ %>
                   <span class="badge rounded-pill bg-danger" style="font-weight: 400;"><%= data.orderStatus %></span>
               <% } else if (data.orderStatus === 'Cancelled'){ %>
-                  <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+                  <span class="badge rounded-pill " style="font-weight: 400; background-color: red;">Cancelled</span>
           
               <% } else if (data.orderStatus === 'Requested'){ %>
                   <span class="badge rounded-pill bg-info text-white" style="font-weight: 400;">Return </span>
@@ -98,13 +99,13 @@
                  
                 <% }else{%>
 
-                <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+                <span class="badge rounded-pill " style="font-weight: 400;background-color: red;">Cancelled</span>
                 <% }%>
             </td>
 
           <td>
 
-              <a href="/admin/orderView/<%=data._id%>" class="btn btn-success"><small>view</small></a>                                                                                 
+              <a href="/admin/orderView/<%=data._id%>" class="btn" style="background-color: blue; color:white;" ><small>view</small></a>                                                                                 
 
             <!-- <a href=""><i class="fa-solid fa-trash fa-lg mx-1 text-danger" onclick=""></i></a> -->
           </td>

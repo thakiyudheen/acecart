@@ -198,6 +198,7 @@
                       <th width="45%" class="p-2"><b>Product Name</b></th>
                       <th width="15%" class="p-2"><b>Unit Price</b></th>
                       <th width="15%"class="p-2"><b>quantity</b></th>
+
                      
                   </tr>
               </thead>
@@ -219,7 +220,14 @@
                       </td>
                       <td width="15%" class="text-center"> ₹ <%= x.productid.DiscountAmount %> </td>
                       <td width="10%" class="text-center"><a  ><%= x.quantity %></a></td>
+                      <% if (orderData[0].orderStatus != 'Delivered'&&orderData[0].orderStatus != 'Cancelled'&&orderData[0].orderStatus != 'Order Rejected'&& x?.status != 'Cancelled') { %>
+                        <td class=""><a onclick="singlecancel('<%= orderData[0]._id %>','<%= x.productid._id %>')"  class="btn d-flex align-items-center justify-content-center" style="background:red; color: white;height: 30px; width:70px;"><small>cancel</small></a></td>
+                      <% }else if(x.status == 'Cancelled') { %>
+                        <td class=""> <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Item Cancelled</span></td>
+                      <%}%>
+                      
                   </tr>
+
                   <% }) %>
                  
               </tbody>
@@ -242,7 +250,7 @@
             <% } else if (orderData[0].orderStatus === 'Delivered') { %>
                 <span class="badge rounded-pill bg-success" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
             <% } else if (orderData[0].orderStatus === 'Order Rejected'){ %>
-                <span class="badge rounded-pill bg-danger" style="font-weight: 400;"><%= orderData[0].orderStatus %></span>
+                <span class="badge rounded-pill" style="font-weight: 400;background-color: red;"><%= orderData[0].orderStatus %></span>
             <% } else if (orderData[0].orderStatus === 'Cancelled'){ %>
                 <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
             <% } else if (orderData[0].orderStatus === 'Requested'){ %>

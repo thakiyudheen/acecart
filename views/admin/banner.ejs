@@ -1,0 +1,54 @@
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+
+
+            <div class="row">
+               
+                    
+                    
+                    <div class="row" id="bannerList">
+                        <!-- Banners will be displayed here -->
+                        <!-- Example banner item, replace with actual data from your server -->
+                        <div class="col-md-12 d-flex mt-5 p-3 rounded-0 shadow justify-content-between align-items-center">
+                            <h2><small>Banners</small> </h2>
+                            <a href="/admin/getAddbanner" id="exampleModal" class="btn float-end" style="background-color: blue; width:120px;color: white;"><small>Add Banner</small></a>
+                            
+                        </div>
+                        <% banner.forEach(el => { %>
+                       
+                            <div class="col-md-4 mb-4 mt-5">
+                                <div class="card">
+                                    <img src="/banner-images/<%-el.bannerImage-%>" class="card-img-top"
+                                        alt="banner name">
+                                    <div class="card-body d-flex justify-content-between">
+                                        <h5 class="card-title"><%-el.bannerName-%></h5>
+                                        <i class="fa-solid fa-trash " style="color:grey; " onclick="removeBanner('<%-el._id-%>')"></i>
+                                        <!-- Add more details or actions as needed -->
+                                    </div>
+                                    <div class="container mb-2">
+                                        <small><%-el.description-%></small>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                            <% }) %>
+                        <!-- Repeat the above block for each banner -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+
+<%- include("../layout/admin/footer") -%>

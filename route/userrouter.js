@@ -127,6 +127,8 @@ router.post('/verifyPayment',login.verifyUser,orderController.verifyPayment)
 
 // return order--------------------------------------------------------
 router.post('/returnorder',orderController.postreturnOrder)
+// cancel item single product -----------------------------------------
+router.get("/singleCancel/:orderid/:proid",orderController.cancelSingleitem)
 
 
 // generate invoice ---------------------------------------------------

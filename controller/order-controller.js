@@ -549,6 +549,115 @@ module.exports={
       }
     }
     ,
+    cancelSingleitem:async (req,res)=>{
+      console.log("heare reaches");
+      try{
+        const user=await User.findOne({email:req.session.email})
+        const orderid = req.params.orderid;
+        const proid = req.params.proid;
+        console.log(proid);
+        await Order.updateOne(
+          {
+            _id: orderid,
+            'products.productid': proid,
+          },
+          {
+            $set: {
+              'products.$.status': 'Cancelled',
+            },
+          }
+        );
+
+         // re stock to product ------------------------------
+      const order=await Order.findOne({_id:orderid})
+      const qty=order.products.filter(ele=>{
+        return proid==ele.productid
+      })
+      console.log("okkkk" ,qty);
+     
+     
+      const product = await Product.findOne({ _id:proid});
+    
+      if (product) {
+        product.AvailableQuantity += qty[0].quantity;
+        await product.save();
+      }
+      console.log("updated order",order.products[0].quantity)
+      // end ----------------------------------------------------
+      // check all cancelled-------------------------------------
+      const allCancelled = order.products.every(product => product.status == 'Cancelled');
+      console.log(allCancelled);
+      if (allCancelled){
+        await Order.updateOne(
+          { _id: orderid },
+          { $set: { orderStatus: 'Cancelled' } }
+        );
+
+      }
+      console.log("LOGGGGG",order.PaymentStatus=='Paid',product.DiscountAmount);
+      // end ------------------------------------------------------
+      // if payment status paidrefund the cash --------------------
+      if(order.PaymentStatus=='Paid'){
+        console.log("gttttttttttttttttttttt");
+        await Wallet.findOneAndUpdate(
+          { userid: user._id },
+          { $inc: { wallet:(qty[0].quantity*product.DiscountAmount)} }
+        );
+        
+      
+      // end ------------------------------------------------------
+      // create  wallet history -----------------------------------
+      const wallethistory = await Wallethistory.findOne({ userid: user._id }).lean();
+
+      console.log(!!wallethistory);
+      
+      const amount =(qty[0].quantity*product.DiscountAmount);
+      const reason = "Refund for single cancelling order";
+      const type = "credit";
+      const date = new Date();
+      
+      if (wallethistory) {
+        await Wallethistory.findOneAndUpdate(
+          { userid: user._id },
+          {
+            $push: {
+              refund: {
+                amount: amount,
+                reason: reason,
+                type: type,
+                date: date,
+              },
+            },
+          },
+          { new: true }
+        );
+      } else {
+        await Wallethistory.create({
+          userid: user._id,
+          refund: [
+            {
+              amount: amount,
+              reason: reason,
+              type: type,
+              date: date,
+            },
+          ],
+        });
+      }
+    }
+  
+
+      // end ------------------------------------------------------
+    
+      res.json(true)
+    
+
+      }catch(err){
+
+      }
+    },
+      
+
     // admin get order details----------------------------------------
     getOrderdetails:async (req,res)=>{
       try{

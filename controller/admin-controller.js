@@ -43,32 +43,7 @@ module.exports={
         
     },
     getDashbord:async(req,res)=>{
-        // try{
-        //     const totelOrder=await Order.aggregate([{$match:{orderStatus:'Order Processing'}},{$group:{_id:'$orderStatus',sum:{$sum:1}}}])
-        //     const order= await Order.aggregate([{$match:{PaymentStatus:'Paid'}},{$group:{_id:'$PaymentStatus',sum:{$sum:"$totalAmount"}}}])
-        //     const users= await User.find().count()
-        //     const lastOrder=await Order.find().sort({orderDate:-1}).skip(0).limit(5)
-        //     const mostSoldProducts = await Order.aggregate([
-        //       { $unwind: '$products' },
-        //       { $group: { _id: '$products.productid', totalQuantity: { $sum: '$products.quantity' } } },
-        //       { $lookup: { from: 'products', localField: '_id', foreignField: '_id', as: 'productInfo' } },
-        //       { $sort: { totalQuantity: -1 } },
-        //       { $limit: 5 },
-        //       {
-        //         $project: {
-        //           _id: 1,
-        //           totalQuantity: 1,
-        //           productInfo: { $arrayElemAt: ['$productInfo', 0] } // Extract the first element of the array
-        //         }
-        //       }
-        //     ]);
-            
-              
-        //     console.log("full fillll",mostSoldProducts[0].productInfo.images)
-        //     res.render('admin/admindashboard',{order,lastOrder,users,totelOrder,mostSoldProducts})
-        // }catch(err){
-        //     console.log(err);
-        // }
+   
 
         try {
           const totalOrderPromise = Order.aggregate([{ $match: { orderStatus: 'Order Processing' } }, { $group: { _id: '$orderStatus', sum: { $sum: 1 } } }]);
@@ -98,7 +73,7 @@ module.exports={
             mostSoldProductsPromise
           ]);
         
-          console.log("full fillll", totalOrder);
+          console.log("full fillll", totalOrder, mostSoldProducts[0].productInfo.images[0]);
         
           res.render('admin/admindashboard', { order: paidOrders, lastOrders, users: totalUsers, totalOrder, mostSoldProducts });
         } catch (err) {
@@ -188,7 +163,7 @@ module.exports={
     deleteCategory:async (req,res)=>{
         try{
             await Category.deleteOne({_id:req.params.id})
-            await Product.deleteMany({Category:req.params.category})
+            await Product.deleteMany({Category:req.params.id})
             res.json({msg:"catogary deleted success"})
         }catch(err){
             console.log(err);

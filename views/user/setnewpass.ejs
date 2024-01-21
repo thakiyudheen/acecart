@@ -2,8 +2,8 @@
 <%-include("../partials/usernav")-%> 
 <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
+    
+      background-color:white;
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -32,32 +32,16 @@
       width: 100%;
       padding: 8px;
       border: 1px solid #ced4da;
-      border-radius: 30px !important;
+      border-radius: 6px !important;
       box-sizing: border-box;
     }
 
-    small {
-      color: #dc3545;
-    }
+   
 
-    button {
-      
-      
-      
-      color: #ffffff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+ 
 
-    button:disabled {
-      background-color: #6c757d;
-      cursor: not-allowed;
-    }
+  
 
-    .cancel-btn {
-      background-color: #6c757d;
-    }
   </style>
 
 <div class="container1">
@@ -90,8 +74,8 @@
         <input type="hidden" name="email" value="<%= email%>">
 
         <div class="form-group">
-            <button type="submit" class="btn " style="background-color: rgb(0, 227, 0) !important; border:none !important;" id="resetBtn" onclick="forgotpassword(event)" disabled>Reset Password</button>
-            <button type="button" class="btn cancel-btn" >Cancel</button>
+            <button type="submit" class="btn " style="background-color:blue !important; border:1px solid blue !important; color: white;" id="resetBtn" onclick="forgotpassword(event)" disabled> <small>Reset Password</small></button>
+            <button type="button" class="btn cancel-btn" style="background-color: white;color: blue; border:1px solid blue"><small>Cancel</small></button>
         </div>
     </form>
 </div>

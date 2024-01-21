@@ -275,12 +275,13 @@ tr:nth-child(even) {
 
 <!-- last order data  -->
 <div class="container mt-5">
-<h3>Recent orders</h3>
-<hr>
-    <div class="row ">
-        <div class="col-md-12  shadow">
+ 
+    <div class="row  d-flex justify-content-center">
+        <div class="col-md-12   shadow" style="width:96% !important;">
             <table class="tablep-2 mb-5 " id="example">
                 <thead>
+                  <h5 class="mt-3 p-3">Recent orders</h5>
+                  
                     <tr class="p-5">
                         <th scope="col" class="text-center">No</th>
                         <th scope="col" class="text-center">Order ID</th>
@@ -330,15 +331,16 @@ tr:nth-child(even) {
         </div>
     </div>
 </div>
-<div class="container mt-5">
-  <h4>Most sold Products</h4>
-  <hr>
-  <div class="row">
-    <div class="col-md-12 shadow mt-3 mb-5">
-      <table class="table table-borderless ">
+<div class="container mt-5" >
+  
+  <div class="row  d-flex justify-content-center"">
+    <div class="col-md-12 shadow mt-3 mb-5" style="width:96% !important;">
+      <table class="table table-borderless  " >
         
       
         <thead>
+          <h5 class="mt-3 p-3">Most sold Products</h5>
+       
           <tr>
             <th>NO</th>
             <th >Image</th>
@@ -351,12 +353,12 @@ tr:nth-child(even) {
           <% mostSoldProducts.forEach((product, index) => { %>
             <tr>
               <th scope="row"><%= index + 1 %></th>
-              <td><img src="/product-images/<%= product.productInfo.images[0] %>" alt="<%= product.name %>" style="max-width: 50px; max-height: 50px;"></td>
-              <td><%= product.productInfo.ProductName %></td>
-              <td><%= product.productInfo.DiscountAmount %></td>
-              <td><%= product.totalQuantity %></td>
+              <td><img src="/product-images/<%- product.productInfo?.images[0] -%>" alt="reload" style="max-width: 50px; max-height: 50px;"></td>
+              <td><%= product.productInfo?.ProductName %></td>
+              <td><%= product.productInfo?.DiscountAmount %></td>
+              <td><%= product?.totalQuantity %></td>
             </tr>
-          <% }); %>
+            <% }); %>
         </tbody>
       </table>
       

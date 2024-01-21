@@ -283,3 +283,32 @@ function rejectorder(e) {
     }
   });
 }
+
+
+// cancel single item -------------------------------------
+function singlecancel(orderid,proid){
+          console.log("workingg g");
+          $.ajax({
+              url:'/singleCancel'+`/${orderid}/${proid}`,
+              method:'get',
+              success:async function (response){
+                  
+                      window.location.reload()
+                  
+                
+               },
+              error:function (err){
+                      alert("Something Error")
+                 
+                  
+          
+              }
+            })
+          
+      
+  
+  
+      
+      
+  
+}

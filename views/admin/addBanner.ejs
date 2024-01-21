@@ -1,0 +1,101 @@
+<%-include("../layout/admin/header")-%>
+<%-include("../partials/adminnav")-%>
+
+<div class="container justify-content-center shadow">
+    <form onsubmit="return validateForm()" class="mt-4 p-5" id="productForm" action="/admin/postAddbanner" method="post"
+        enctype="multipart/form-data">
+        <h3 class="mb-5"><small>Add Banner</small></h3>
+        <div class="form-group">
+            <label for="productName">Banner Name</label>
+            <input type="text" id="productName" placeholder="Do not exceed 50 characters" name="bannerName"
+                required maxlength="50" oninput="validateProductName()" class="form-control">
+            <div class="error-message text-danger" id="productNameError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4"
+                placeholder="At least 10 characters and maximum 40 words" oninput="validateDescription()"
+                class="form-control"></textarea>
+            <div class="error-message text-danger" id="descriptionError"></div>
+        </div>
+
+        <label for="productImage1" class="image-upload-label">
+            <div class="dropzone">
+                <input type="file" id="productImage1" name="bannerImage" onchange="displayImage(this)"
+                    class="form-control-file visually-hidden">
+                <img id="previewImage1" class="preview-image img-fluid mt-3"
+                    alt="Drag & drop or click to select image-1" style="max-width: 300px; max-height: 300px;">
+            </div>
+        </label>
+
+        <div class="form-group d-grid gap-2 mt-4">
+            <button class="btn " style="background-color: blue; color: white;" type="submit" id="submitButton"
+                disabled><small>Add Banners</small> </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        const productName = document.getElementById('productName').value.trim();
+        const description = document.getElementById('description').value.trim();
+
+        // Validate product name
+        if (productName.length === 0 || /^\s+$/.test(productName)) {
+            document.getElementById('productNameError').innerText = 'Product name is required.';
+            document.getElementById('submitButton').disabled = true;
+            return false;
+        } else {
+            document.getElementById('productNameError').innerText = '';
+        }
+
+        // Validate description
+        if (description.length < 10 || description.split(/\s+/).length > 40) {
+            document.getElementById('descriptionError').innerText = 'Description must have at least 10 characters and at most 40 words.';
+            document.getElementById('submitButton').disabled = true;
+            return false;
+        } else {
+            document.getElementById('descriptionError').innerText = '';
+        }
+
+        // Additional validations for other fields can be added here
+
+        // If all validations pass, enable the submit button
+        document.getElementById('submitButton').disabled = false;
+
+        return true;
+    }
+
+    function validateProductName() {
+        // Additional validation for product name if needed
+        validateForm();
+    }
+
+    function validateDescription() {
+        // Additional validation for description if needed
+        validateForm();
+    }
+
+    function displayImage(input) {
+        const previewId = input.id.replace('productImage', 'previewImage');
+        const previewImage = document.getElementById(previewId);
+
+        const file = input.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            // Clear the preview if no file is selected
+            previewImage.src = '';
+        }
+    }
+</script>
+
+<%-include("../layout/admin/footer")-%>

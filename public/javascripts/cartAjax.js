@@ -26,7 +26,7 @@ function addTocart(proid){
         }else{
          
          Toastify({
-          text: res.error,
+          text: res.error||"please login",
           duration: 800,
           close: false,
           gravity: "top",

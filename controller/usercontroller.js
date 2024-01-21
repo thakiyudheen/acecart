@@ -3,6 +3,8 @@ const Product= require("../model/productModel");
 const Address= require("../model/addressModel");
 const Wallet= require("../model/walletModel");
 const Wallethistory= require("../model/wallethistoryModel");
+const Category= require("../model/categoryModel");
+const Banner= require("../model/bannerModel");
 const {sendEmail}=require('../auth/nodemailer')
 const Otp = require("../model/otpModel");
 const {getSignupOtp, generateOTP}=require('../util/generateotp')
@@ -10,9 +12,14 @@ const { hashData,verifyHashedData}=require('../util/bcrypt')
 module.exports={
    getGustpage:async(req,res)=>{
       try{
-         const product=await Product.find({Category:"FLAGSHIP MOBILES",status:"Active"})
+         const category=await Category.findOne({categoryname:"FLAGSHIP MOBILES"})
+console.log("this  is id ",category);
+            const product=await Product.find({Category:category._id,status:"Active"})
+            const banner= await Banner.find()
         
-         res.render('user/guesthome',{product})
+
+        
+         res.render('user/guesthome',{product,banner})
       }catch(err){
          console.log(err)
       }
@@ -21,27 +28,107 @@ module.exports={
    
    getHomepage:async(req,res)=>{
       try{
-         const product=await Product.find({Category:"FLAGSHIP MOBILES",status:"Active"})
-         res.render('user/homepage',{user:req.session.user,product})
+         const category=await Category.findOne({categoryname:"FLAGSHIP MOBILES"})
+         
+            const product=await Product.find({Category:category._id,status:"Active"})
+            const banner= await Banner.find()
+        
+        
+         res.render('user/homepage',{user:req.session.user,product,banner})
       }catch(err){
          console.log(err)
       }
       
    },
-   getProductpage:async(req,res)=>{
-      try{
-         const [products, count ,categories, brands] = await Promise.all([
-            Product.find({ status: 'Active' }),
-            Product.find({ status: 'Active' }).count(),
-            Product.aggregate([{ $group: { _id: '$Category', count: { $sum: 1 } } }]),
-            Product.aggregate([{ $group: { _id: '$BrandName', count: { $sum: 1 } } }])
-          ]);
-         res.render('user/productpage',{user:req.session.user,products,categories,brands,count})
-      }catch(err){
-         console.log(err)
-      }
+   // getProductpage:async(req,res)=>{
+   //    try{
+   //       const [products, count ,categories, brands] = await Promise.all([
+   //          Product.find({ status: 'Active' }),
+   //          Product.find({ status: 'Active' }).count(),
+   //          Product.aggregate([{ $group: { _id: '$Category', count: { $sum: 1 } } }]),
+   //          Product.aggregate([{ $group: { _id: '$BrandName', count: { $sum: 1 } } }])
+   //        ]);
+   //       res.render('user/productpage',{user:req.session.user,products,categories,brands,count})
+   //    }catch(err){
+   //       console.log(err)
+   //    }
      
-   },
+   // },
+   getProductpage: async (req, res) => {
+      try {
+        const pageSize = 6; // Set your desired page size
+        const currentPage = parseInt(req.query.page) || 1;
+    
+        const [products, count, categories, brands] = await Promise.all([
+          Product.find({ status: 'Active' })
+            .skip((currentPage - 1) * pageSize)
+            .limit(pageSize),
+          Product.find({ status: 'Active' }).count(),
+         
+         // Product.aggregate([
+         //    {
+         //      $lookup: {
+         //        from: 'categories', // Use the actual name of your Category collection
+         //        localField: 'Category',
+         //        foreignField: '_id',
+         //        as: 'categoryInfo'
+         //      }
+         //    },
+         //    {
+         //      $unwind: '$categoryInfo'
+         //    },
+         //    {
+         //      $group: {
+         //        _id: '$categoryInfo.categoryname',
+         //        count: { $sum: 1 }
+         //      }
+         //    }
+         //  ]),
+         Product.aggregate([
+            {
+              $lookup: {
+                from: 'categories', // Use the actual name of your Category collection
+                localField: 'Category',
+                foreignField: '_id',
+                as: 'categoryInfo'
+              }
+            },
+            {
+              $unwind: '$categoryInfo'
+            },
+            {
+              $group: {
+                _id: {
+                  categoryId: '$categoryInfo._id',
+                  categoryName: '$categoryInfo.categoryname'
+                },
+                count: { $sum: 1 }
+              }
+            }
+          ]),
+          
+          
+          Product.aggregate([{ $group: { _id: '$BrandName', count: { $sum: 1 } } }])
+        ])
+    
+        const totalPages = Math.ceil(count / pageSize);
+    
+        res.render('user/productpage', {
+          user: req.session.user,
+          products,
+          categories,
+          brands,
+          count,
+          currentPage,
+          totalPages
+        });
+      } catch (err) {
+        console.log(err);
+        // Handle errors appropriately, e.g., render an error page
+        res.status(500).render('error', { error: 'Internal Server Error' });
+      }
+    },
+    
    getProductDetails:async (req,res)=>{
       try{
          const product=await Product.findOne({_id:req.params.id})
@@ -67,14 +154,31 @@ module.exports={
    postSearch:async (req,res)=>{
       try{
          console.log(req.body)
-         const product=await Product.find({
-            $or: [
-               { productName: { $regex:req.body.search, $options: "i" } },
-               { Category: { $regex:req.body.search, $options: "i" } },
-               { brandName: { $regex:req.body.search, $options: "i" } }
-           ],
-           status:"Active"
-         })
+         // const product=await Product.find({
+         //    $or: [
+         //       { productName: { $regex:req.body.search, $options: "i" } },
+         //       { Category: { $regex:req.body.search, $options: "i" } },
+         //       { brandName: { $regex:req.body.search, $options: "i" } }
+         //   ],
+         //   status:"Active"
+         // })
+         // Step 1: Find category IDs that match the search string
+         const matchingCategories = await Category.find({ categoryname: { $regex: req.body.search, $options: "i" } }, '_id');
+
+         // Extract category IDs from the result
+         const categoryIds = matchingCategories.map(category => category._id);
+
+         // Step 2: Use category IDs in the main query
+         const product = await Product.find({
+         $or: [
+            { productName: { $regex: req.body.search, $options: "i" } },
+            { Category: { $in: categoryIds } }, // Use $in to match against an array of category IDs
+            { brandName: { $regex: req.body.search, $options: "i" } }
+         ],
+         status: "Active"
+         });
+
+         
 
         
          res.render('user/producthome',{product,user:req.session.user})

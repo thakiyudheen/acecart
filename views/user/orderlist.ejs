@@ -8,11 +8,15 @@
         margin-top: 30px !important;
 
     }
+    .page-link{
+     
+        
+    }
 </style>
 
-<div class="container mt-5">
+<div class="container mt-3">
     <div class="row ">
-        <div class="col-md-12  shadow">
+        <div class="col-md-12 ">
             <table class="table mt-5 p-5  " id="example">
                 <thead>
                     <tr class="p-5">
@@ -45,7 +49,7 @@
                             <% } else if (ele.orderStatus === 'Order Rejected'){ %>
                                 <span class="badge rounded-pill bg-danger" style="font-weight: 400;"><%= ele.orderStatus %></span>
                             <% } else if (ele.orderStatus === 'Cancelled'){ %>
-                                <span class="badge rounded-pill bg-danger" style="font-weight: 400;">Cancelled</span>
+                                <span class="badge rounded-pill " style="font-weight: 400; background-color: red ;">Cancelled</span>
                             <% } else if (ele.orderStatus === 'Requested'){ %>
                                 <span class="badge rounded-pill bg-info text-white" style="font-weight: 400;">Return </span>
                             <% } else if(ele.orderStatus ==='return accepted'){ %>

@@ -31,7 +31,7 @@ const productSchema = new Schema({
     required: true,
   },
   Category: {
-    type: String,
+    type: Schema.Types.ObjectId,ref:'category',
     required: true,
   },
   DiscountAmount: {

@@ -38,13 +38,22 @@ module.exports = {
                     "date": orderDetails[0].orderDate,
                     "invoice date": orderDetails[0].orderDate,
                 },
-                "products": (orderDetails[0].products && orderDetails[0].products.length > 0) ? orderDetails[0].products.map((product) => ({
+                // "products": (orderDetails[0].products && orderDetails[0].products.length > 0) ? orderDetails[0].products.map((product) => ({
                     
-                    "quantity": product.quantity,
-                    "description": product.productid.ProductName, 
-                    "tax-rate": 18,
-                    "price": product.productid.DiscountAmount,
-                })) : [],
+                //     "quantity": product.quantity,
+                //     "description": product.productid.ProductName, 
+                //     "tax-rate": 18,
+                //     "price": product.productid.DiscountAmount,
+                // })) : [],
+                "products": (orderDetails[0].products && orderDetails[0].products.length > 0) ?
+    orderDetails[0].products
+        .filter(product => product.status === "active")
+        .map(product => ({
+            "quantity": product.quantity,
+            "description": product.productid.ProductName,
+            "tax-rate": 1,
+            "price": product.productid.DiscountAmount,
+        })) : [],
                 
     
                 "bottom-notice": "Thank You For Your Purchase",

@@ -59,20 +59,21 @@
 	align-items: center;
 }
 .round-black-btn {
-	border-radius: 10px;
-    background: black;
+	border-radius: 5px;
+    background:blue;
     color: #fff;
     padding: 5px 20px;
     display: inline-block;
-    border: solid 2px black; 
+    border:none;
     transition: all 0.5s ease-in-out 0s;
     cursor: pointer;
     font-size: 14px;
 }
 .round-black-btn:hover,
 .round-black-btn:focus {
-	background: transparent;
-	color:black;
+	background: white;
+	color:blue;
+    border:1px solid blue;
 	text-decoration: none;
 }
 .mb-10 {

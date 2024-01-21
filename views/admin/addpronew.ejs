@@ -175,7 +175,7 @@
                 <select id="category" name="Category" required oninput="validateCategory()">
                     <option value="" selected disabled>Select a category</option>
                     <%  category.forEach(ele=> { %>
-                        <option><small><%-ele.categoryname-%></small></option>
+                        <option value="<%-ele._id-%>"><small><%-ele.categoryname-%></small></option>
                         <% }) %>
                 </select>
                 

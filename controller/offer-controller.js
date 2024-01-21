@@ -6,7 +6,7 @@ const moment = require('moment');
 module.exports={
     getOffer:async(req,res)=>{
         try{
-            const offer =await Offer.find()
+            const offer =await Offer.find().populate('Category')
             const category=await  Category.find()
             res.render('admin/offer',{offer,category})
         }catch(err){

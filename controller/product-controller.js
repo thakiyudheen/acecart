@@ -44,8 +44,8 @@ module.exports={
     },
     getProducts:async(req,res)=>{
         try{
-            const data =await Product.find()
-
+            const data =await Product.find().populate('Category')
+            console.log("products",data);
             res.render('admin/products',{data})
         }catch(err){
             console.log(err);
@@ -75,14 +75,14 @@ module.exports={
     },
     geteditProducts:async (req,res)=>{
         try{
-            const [products,category,brand]=await Promise.all([
-                Product.find({_id:req.params.id}),
+            const [product,category,brand]=await Promise.all([
+                Product.findOne({_id:req.params.id}).populate('Category'),
                 Category.find(),
                 Brand.find()
             ])
-            
+            console.log("populated",product);
            
-            res.render('admin/editpronew',{product:products[0],category,brand})
+            res.render('admin/editpronew',{product,category,brand})
         }catch(err){
             console.log(err);
         }

@@ -4,11 +4,13 @@ const login=require('../middleware/session')
 const adminhelper= require('../controller/admin-controller')
 const producthelper= require('../controller/product-controller')
 const upload = require("../middleware/multer");
+const bannerupload = require("../middleware/banner-multer");
 const usercontroller = require('../controller/usercontroller')
 const orderController = require('../controller/order-controller')
 const brandController = require('../controller/brand-controller')
 const coupenController = require('../controller/coupen-controller')
 const offerController = require('../controller/offer-controller')
+const bannerController = require('../controller/banner-Controller')
 
 
 
@@ -126,6 +128,16 @@ router.put('/puteditoffer',offerController.puteditOffer)
 // delete offer---------------------------------------------------------
 router.get('/deleteoffer/:offerid',offerController.deleteOffer)
 
+
+// get banner-----------------------------------------------------------
+router.get("/getBanner",login.verifyAdmin,bannerController.getBanner)
+// get add banner-------------------------------------------------------
+router.get('/getAddbanner',login.verifyAdmin,bannerController.getAddbanner)
+// post add image-------------------------------------------------------
+const uploadbanner =[ { name: "bannerImage", maxCount: 1 }]
+router.post('/postAddbanner', login.verifyAdmin, bannerupload.fields(uploadbanner), bannerController.postAddbanner);
+// delete banner--------------------------------------------------------
+router.delete('/removeBanner/:bannerid',bannerController.deleteBanner)
 
 
 

@@ -41,7 +41,7 @@
                     <% offer.forEach((ele, index) => { %>
                         <tr>
                             <td><%- index + 1 %></td>
-                            <td><%- ele.Category %></td>
+                            <td><%- ele.Category.categoryname %></td>
                             <td><%- new Date(ele.expiryDate).toLocaleDateString() %></td>
                             <td><%- ele.discount %>%</td>
                             <td>
@@ -91,7 +91,7 @@
                         <select class="form-control" name="Category" id="coupon-category" required>
                             <option value="" selected disabled>Select a category</option>
                     <%  category.forEach(ele=> { %>
-                        <option><small><%-ele.categoryname-%></small></option>
+                        <option value="<%-ele._id-%>"><small><%-ele.categoryname-%></small></option>
                         <% }) %>
                         </select>
                         <small class="text-danger" id="couponCategoryError"></small>
@@ -139,21 +139,16 @@
                         <!-- New Category Select Field -->
                         <div class="mb-3">
                             <label for="coupon-category" class="col-form-label">Category:</label>
-                            <!-- <select class="form-control" name="Category" id="coupon-category" required>
-                                <option selected disabled><%- elem.Category %></option>
-                                <% category.forEach(ele => { %>
-                                    <option><%- ele.categoryname %></option>
-                                <% }) %>
-                            </select> -->
+                           
                             <select class="form-control" name="Category" id="coupon-category" required>
                                 
                                 <% category.forEach(ele => { %>
-                                    <option <%- elem.Category === ele.categoryname ? 'selected' : '' %> value="<%- ele.categoryname %>"><%- ele.categoryname %></option>
+                                    <option <%- elem.Category.categoryname == ele.categoryname ? 'selected' : '' %> value="<%- ele._id %>"><%- ele.categoryname %></option>
                                 <% }) %>
                             </select>
                             <small class="text-danger" id="couponCategoryError"></small>
                         </div>
-                        <input type="hidden" name="oldCategory" value="<%-elem.Category-%>">
+                        <input type="hidden" name="oldCategory" value="<%-elem.Category._id-%>">
                         <input type="hidden" name="_id" value="<%- elem._id %>">
                         <!-- Modified Discount Amount Field -->
                         <div class="mb-3">

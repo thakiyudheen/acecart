@@ -150,6 +150,7 @@
                         <div class="row">
                           <div class="col-md-2 mb-4">
                             <img src="/product-images/<%= x.productid.images[0] %>" class="img-fluid" alt="Phone">
+
                           </div>
                           <div class="col-md-6 text-center d-flex justify-content-center align-items-center">
                             <p class="text-muted mb-0"><%= x.productid.ProductName %></p>
@@ -160,6 +161,7 @@
                           <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                             <p class="text-muted mb-0 small">$<%= x.productid.DiscountAmount %></p>
                           </div>
+                          
                           <% if (x.status == "Return") { %>
                             <h5 style="color: brown;">item returned</h5>
                           <% } else if (orderData[0].Status == "Delivered") { %>

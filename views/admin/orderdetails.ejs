@@ -217,6 +217,9 @@
                       </td>
                       <td width="15%" class="text-center"> ₹ <%= x.productid.DiscountAmount %> </td>
                       <td width="10%" class="text-center"><a  ><%= x.quantity %></a></td>
+                      <%  if(x.status == 'Cancelled') { %>
+                        <td class=""> <span class="badge rounded-pill "  style="font-weight: 400;background-color: red;">Item Cancelled</span></td>
+                      <%}%>
                   </tr>
                   <% }) %>
                  
@@ -422,8 +425,8 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><small>Close</small></button>
-                <button type="button" class="btn btn-dark" id="send-reject-btn" onclick="rejectorder(event)" ><small>Reject Order</small></button>
+                <button type="button" class="btn" style="background-color: white;color: blue; border: 1px solid blue;" data-bs-dismiss="modal"><small>Close</small></button>
+                <button type="button" class="btn " style="background-color: blue;" id="send-reject-btn" onclick="rejectorder(event)" ><small>Reject Order</small></button>
             </div>
           </form>
         </div>
@@ -467,8 +470,6 @@
           </div>
         </form>
       </div>
-  </div>
-</div>
 
 <script>
   document.getElementById('return-reason').addEventListener('input', toggleButtonState);

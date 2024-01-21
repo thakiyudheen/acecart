@@ -51,7 +51,7 @@
           <li class="nav-item">
             <a class="" href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> 
               <% if (locals.cartCount>=0) { %>
-                <span id="cart-count" class="badge bg-danger" style="position: absolute; top:7px;"><small><%=locals.cartCount%></small></span>
+                <span id="cart-count" class="badge rounded-circle" style="position: absolute; top:13px; background-color: red; color: white;"><small><%=locals.cartCount%></small></span>
               <% } %>
              
             </a>
@@ -59,13 +59,16 @@
       
           <% if(locals.user){ %>
             <li class="nav-item dropdown ">
-                <a class=" dropdown-toggle " href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
-                  <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px"><%= user%></button>
+                <a class=" dropdown-toggle ms-3 " href="#" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-user "></i>
+                  <!-- <button style="border-radius: 60px; background-color:rgb(0, 0, 0); border :2px solid rgb(0, 0, 0);color:azure; width:86px"><%= user%></button> -->
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/orderlist"><small>View orders</small></a></li>
-                  <li><a class="dropdown-item" href="/userprofile"><small>Profile</small></a></li>
-                  <li><a class="dropdown-item" href="/logoutuser"><small>Logout</small></a></li>
+                 
+                  <li><a class="dropdown-item disabled" ><small><%= locals.user%></small></a></li>
+                  <li><a class="dropdown-item" href="/orderlist"><small><i class="fa-solid fa-list-check"></i>&nbsp;&nbsp;View orders</small></a></li>
+                  <li><a class="dropdown-item" href="/userprofile"><small><i class="fa-solid fa-gear"></i>&nbsp;&nbsp;Settings</small></a></li>
+                  <li><a class="dropdown-item" href="/logoutuser" style="color: red;"><small><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;LogOut</small></a></li>
                  
                 </ul>
               </li>

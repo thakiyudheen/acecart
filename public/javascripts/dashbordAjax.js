@@ -71,31 +71,3 @@ function updatecount(id) {
     });
   }
   
-
-//   generate report 
-// function generatereport(e){
-   
-//         e.preventDefault();
-//         console.log("working ")
-      
-//         // Additional validation if needed
-//         var addressForm = $('#salesForm');
-//         console.log(addressForm.serialize());
-//         // AJAX POST request
-//         $.ajax({
-//           method: 'post',  // Use PUT method
-//           url:"/admin/download-sale-report",
-//           data: addressForm.serialize(),
-//           success: function (res) {
-           
-            
-//          alert("ready  this ")
-            
-//           },
-//           error: function (error) {
-//             // Handle error response
-//             console.error(error);
-//           }
-//         });
-      
-// }

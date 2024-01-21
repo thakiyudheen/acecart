@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <a href="/admin/addproducts" class="btn btn-primary float-end m-3">Add Product</a>
+            <a href="/admin/addproducts" class="btn  float-end m-3" style="background-color: blue !important; color: white;"><small>Add Product</small></a>
         </div>
     </div>
 </div>
@@ -35,7 +35,7 @@
                     <td><img src="/product-images/<%=ele.images[0]%>" alt="" style="width: 80px;height: 80px;"></td>
                     <td><%-ele.ProductName-%></td>
                     <td><%-ele.Price-%></td>
-                    <td><%-ele.Category-%></td>
+                    <td><%-ele.Category.categoryname-%></td>
                     <td><%-ele.BrandName-%></td>
                     <td><%-ele.AvailableQuantity-%></td>
                      <% if (ele.status=="Active") { %>

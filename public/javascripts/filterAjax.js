@@ -18,7 +18,7 @@ function filter(e) {
         const arr = response.products.map(el => {
           
 
-         return `<div class="col-lg-3 col-md-3 col-sm-6 d-flex">
+         return `<div class="col-lg-4 col-md-3 col-sm-6 d-flex">
             <div class="card w-100 my-1 shadow d-flex align-items-center" style="border: none; ">
               <a href="/userhome/products/productdetails/${el._id}">
                 <img src="/product-images/${el.images[0]}" class="card-img-top p-2" style="max-width: 100%; max-height: 200px;" />
@@ -47,7 +47,7 @@ function filter(e) {
           })
           
           console.log(">>>>>>>>>>>>>>>>>>",arr);
-          const productsContainer = $('#proview');
+          const productsContainer = $('#inside');
             productsContainer.empty(); // Clear existing products
             productsContainer.append(arr.join(''));
          document.getElementById('count').innerHTML=response.count

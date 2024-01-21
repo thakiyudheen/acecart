@@ -174,7 +174,7 @@
                 <label for="category">Category</label>
                 <select id="category" name="Category" required oninput="validateCategory()">
                     <% category.forEach(ele=> { %>
-                        <option  <%product.Category==ele.categoryname?'selected':""%>  ><%-ele.categoryname-%></option>
+                        <option <%= product.Category.categoryname == ele.categoryname ? 'selected' : '' %> value="<%- ele._id %>"><%- ele.categoryname %></option>
                     <% }) %>
                 </select>
                 

@@ -66,6 +66,6 @@ app.use((err, req, res, next) => {
   res.status(404).send("some thing went wrong");
 });
 
-app.listen(3001, () => {
+app.listen(3000, () => {
   console.log("server running in http://localhost:3001");
 })

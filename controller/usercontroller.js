@@ -40,20 +40,7 @@ console.log("this  is id ",category);
       }
       
    },
-   // getProductpage:async(req,res)=>{
-   //    try{
-   //       const [products, count ,categories, brands] = await Promise.all([
-   //          Product.find({ status: 'Active' }),
-   //          Product.find({ status: 'Active' }).count(),
-   //          Product.aggregate([{ $group: { _id: '$Category', count: { $sum: 1 } } }]),
-   //          Product.aggregate([{ $group: { _id: '$BrandName', count: { $sum: 1 } } }])
-   //        ]);
-   //       res.render('user/productpage',{user:req.session.user,products,categories,brands,count})
-   //    }catch(err){
-   //       console.log(err)
-   //    }
-     
-   // },
+   
    getProductpage: async (req, res) => {
       try {
         const pageSize = 6; // Set your desired page size
@@ -64,26 +51,7 @@ console.log("this  is id ",category);
             .skip((currentPage - 1) * pageSize)
             .limit(pageSize),
           Product.find({ status: 'Active' }).count(),
-         
-         // Product.aggregate([
-         //    {
-         //      $lookup: {
-         //        from: 'categories', // Use the actual name of your Category collection
-         //        localField: 'Category',
-         //        foreignField: '_id',
-         //        as: 'categoryInfo'
-         //      }
-         //    },
-         //    {
-         //      $unwind: '$categoryInfo'
-         //    },
-         //    {
-         //      $group: {
-         //        _id: '$categoryInfo.categoryname',
-         //        count: { $sum: 1 }
-         //      }
-         //    }
-         //  ]),
+        
          Product.aggregate([
             {
               $lookup: {
@@ -153,15 +121,7 @@ console.log("this  is id ",category);
    // searching  ----------------------------------------------
    postSearch:async (req,res)=>{
       try{
-         console.log(req.body)
-         // const product=await Product.find({
-         //    $or: [
-         //       { productName: { $regex:req.body.search, $options: "i" } },
-         //       { Category: { $regex:req.body.search, $options: "i" } },
-         //       { brandName: { $regex:req.body.search, $options: "i" } }
-         //   ],
-         //   status:"Active"
-         // })
+         
          // Step 1: Find category IDs that match the search string
          const matchingCategories = await Category.find({ categoryname: { $regex: req.body.search, $options: "i" } }, '_id');
 
@@ -199,7 +159,7 @@ console.log("this  is id ",category);
     },
     editUser:async (req,res)=>{
       try{
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",req.body)
+      
       
          const user= await User.updateOne({email:req.session.email},{$set:req.body})
         res.locals.user=user.name;
@@ -226,11 +186,11 @@ console.log("this  is id ",category);
             await user.save()
             console.log(hashed)
             
-            // res.redirect('/userprofile')
+            
             res.json(true )
          }else{
             res.json(false)
-            // res.render('user/resetpassword',{err:"old password is incorrect!!"})
+            
          }
       }catch(err){
          console.log(err);

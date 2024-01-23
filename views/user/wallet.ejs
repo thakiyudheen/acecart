@@ -15,8 +15,12 @@
         <div class="col-md-12">
             <!-- Balance Section -->
             <div class="balance-section p-5 shadow-sm rounded  mt-5 border" style="background-color: rgb(220, 220, 220);">
-                <h5><b>Current Balance</b></h5>
-                <h6><b>₹ <%- wallet.wallet?wallet.wallet:0 -%>.00</b></h6>
+                <i class="fa-solid fa-wallet" style="position: absolute;
+                font-size: 50px;
+                color: black;
+                left: 43px;"></i>
+                <h5 class="ms-5"><b>Current Balance</b></h5>
+                <h6 class="ms-5"><b>₹ <%- wallet.wallet?wallet.wallet:0 -%>.00</b></h6>
             </div>
         </div>
         <div class="col-md-12">

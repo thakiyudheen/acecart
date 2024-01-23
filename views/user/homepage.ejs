@@ -1,4 +1,6 @@
 <%-include("../layout/user/header")-%>
+<!-- Bootstrap CSS -->
+
 <%-include("../partials/usernav")-%> 
 
 <!-- To create a more stylized underline, you can use CSS to customize the appearance. Here's an example with a red, dashed underline: -->
@@ -34,21 +36,19 @@
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
- 
-   
- 
+
   <div class="carousel-inner">
-    <% banner.forEach((el,index) => { %>
-    <div class="carousel-item <%- index==0?'active':'' -%>">
-      <img src="/banner-images/<%-el.bannerImage-%>" class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-       <h5 class="btn "  style="border-radius: 60px; width: 100px;background-color: blue;"><a href="" style="text-decoration: none; color: white;">VIEW</a></h5>
-        <p><%-el.description-%></p>
+    <% banner.forEach((el, index) => { %>
+      <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+        <img src="/banner-images/<%-el.bannerImage-%>" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5 class="btn" style="border-radius: 60px; width: 100px;background-color: blue;"><a href="" style="text-decoration: none; color: white;">VIEW</a></h5>
+          <p><%-el.description-%></p>
+        </div>
       </div>
-    </div>
     <% }) %>
-   
   </div>
+
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
@@ -58,6 +58,7 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+
   <!-- carosal end  -->
 
 

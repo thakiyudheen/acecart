@@ -7,11 +7,7 @@ const { generateOTP}=require('../util/generateotp')
 const { hashData,verifyHashedData}=require('../util/bcrypt')
 
 
-// var _email;
-// var _name;
-// var _status;
-// var _password;
-// var _otp;
+
 module.exports={
     
     getSignupOtp:async(req,res)=>{
@@ -94,7 +90,7 @@ module.exports={
        
           
             User.create(req.session.userdata).then(async(data)=>{
-                console.log("is  it dat ",data)
+                
                 await Wallet.create({
                     userid:data._id,
                     wallet:0

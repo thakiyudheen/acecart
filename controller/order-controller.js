@@ -11,7 +11,7 @@ const Wallethistory = require("../model/wallethistoryModel");
 const {createOrder} = require('../controller/razorpay-controller')
 const crypto = require("crypto");
 const { log } = require("console");
-const pdf=require('../util/getInvoice')
+// const pdf=require('../util/getInvoice')
 const moment = require('moment-timezone');
 
 module.exports={

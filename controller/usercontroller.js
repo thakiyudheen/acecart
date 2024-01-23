@@ -12,7 +12,8 @@ const { hashData,verifyHashedData}=require('../util/bcrypt')
 module.exports={
    getGustpage:async(req,res)=>{
       try{
-         const banner= await Banner.find()
+          const banner= await Banner.find()
+         
          const category=await Category.findOne({categoryname:"FLAGSHIP MOBILES"})
             if(category){
             const product=await Product.find({Category:category._id,status:"Active"})

@@ -11,7 +11,7 @@ const Wallethistory = require("../model/wallethistoryModel");
 const {createOrder} = require('../controller/razorpay-controller')
 const crypto = require("crypto");
 const { log } = require("console");
-// const pdf=require('../util/getInvoice')
+const pdf=require('../util/getInvoice')
 const moment = require('moment-timezone');
 
 module.exports={
@@ -815,38 +815,38 @@ module.exports={
 
       genarateInvoice:async (req,res)=>{
         try{
-          // const orderDetails = await Order.find({ _id: req.params.orderid })
-          // .populate("products.productid");
-          // console.log("this is reached",orderDetails);
-          // if (orderDetails) {
-          //   const invoicePath = await pdf.generateInvoice(orderDetails);
+          const orderDetails = await Order.find({ _id: req.params.orderid })
+          .populate("products.productid");
+          console.log("this is reached",orderDetails);
+          if (orderDetails) {
+            const invoicePath = await pdf.generateInvoice(orderDetails);
       
-          //   res.json({
-          //     success: true,
-          //     message: "Invoice generated successfully",
-          //     invoicePath,
-          //   });
-          // } else {
-          //   res
-          //     .status(500)
-          //     .json({ success: false, message: "Failed to generate the invoice" });
-          // }
+            res.json({
+              success: true,
+              message: "Invoice generated successfully",
+              invoicePath,
+            });
+          } else {
+            res
+              .status(500)
+              .json({ success: false, message: "Failed to generate the invoice" });
+          }
     
         }catch(err){
           console.log(err);
         }
       },
       downloadInvoice:(req,res)=>{
-        // try {
-        //   const id = req.params.orderid;
-        //   const filePath = `C:\\aceCart\\public\\pdf\\${id}.pdf`;
-        //   res.download(filePath, `invoice.pdf`);
-        // } catch (error) {
-        //   console.error("Error in downloading the invoice:", error);
-        //   res
-        //     .status(500)
-        //     .json({ success: false, message: "Error in downloading the invoice" });
-        // }
+        try {
+          const id = req.params.orderid;
+          const filePath = `C:\\aceCart\\public\\pdf\\${id}.pdf`;
+          res.download(filePath, `invoice.pdf`);
+        } catch (error) {
+          console.error("Error in downloading the invoice:", error);
+          res
+            .status(500)
+            .json({ success: false, message: "Error in downloading the invoice" });
+        }
       
       }
 

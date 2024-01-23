@@ -53,7 +53,7 @@ app.use("/admin", routers);
 
 
 
-mongoose.connect(process.env.MONGOURL,{useNewUrlParser:true,useUnifiedTopology:false})
+mongoose.connect(process.env.MONGOURL,{useNewUrlParser:true,useUnifiedTopology:true})
 .then(()=>{
    console.log("Mongo connected succesfully");
 })

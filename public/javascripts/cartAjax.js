@@ -55,6 +55,7 @@ function addTocart(proid){
 // change  quentity-------------------------
 
  function quantityChanger(proid,no,qty,cartid){
+  console.log(qty,no)
   console.log("CHANGE QUE");
   $.ajax({
     url:"/updatecart/"+`${proid}/${no}/${qty}/${cartid}`,

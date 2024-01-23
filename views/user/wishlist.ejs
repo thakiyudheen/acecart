@@ -18,6 +18,11 @@
                             </tr>
                         </thead>
                         <tbody>
+
+
+                            <% if (locals.wishlist1) { %>
+                             
+                           
                             <% wishlist1.forEach(ele => { %>
                              
                           
@@ -52,6 +57,7 @@
                                 <td width="10%" class="text-center"><a onclick="removewishlist('<%-ele.productid._id-%>','<%-wishid-%>')" ><i class="fa-solid fa-xmark"></i></a></td>
                             </tr>
                             <% }) %>
+                            <% } %>
                            
                         </tbody>
                     </table>

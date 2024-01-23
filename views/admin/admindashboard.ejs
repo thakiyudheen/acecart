@@ -234,13 +234,13 @@ tr:nth-child(even) {
         <div class="col-div-4-1">
           <div class="box rounded shadow" style="background-color: rgb(31, 11, 182); color: white !important;">
             <p class="head-1">Revenue</p>
-            <p class="number"><%- order[0].sum -%></p>
+            <p class="number"><%- order[0]?.sum -%></p>
           </div>
         </div>
         <div class="col-div-4-1">
           <div class="box rounded shadow" style="background-color: #4b50bb; color: white !important;">
             <p class="head-1">Orders</p>
-            <p class="number"><%- totalOrder[0].sum -%></p>
+            <p class="number"><%- totalOrder[0]?.sum -%></p>
           </div>
         </div>
       </div>

@@ -12,14 +12,17 @@ const { hashData,verifyHashedData}=require('../util/bcrypt')
 module.exports={
    getGustpage:async(req,res)=>{
       try{
+         const banner= await Banner.find()
          const category=await Category.findOne({categoryname:"FLAGSHIP MOBILES"})
-console.log("this  is id ",category);
+            if(category){
             const product=await Product.find({Category:category._id,status:"Active"})
-            const banner= await Banner.find()
+           
+            res.render('user/guesthome',{product,banner})
+            }else{
+               res.render('user/guesthome',{banner})
+            }
+           
         
-
-        
-         res.render('user/guesthome',{product,banner})
       }catch(err){
          console.log(err)
       }
@@ -309,9 +312,9 @@ console.log("this  is id ",category);
         const wallethistory=await  Wallethistory.findOne({ userid: user._id }).sort({ 'refund.date': -1 })
         console.log( wallethistory);
         // Assuming your array is named 'walletHistoryArray'
-        const sortedArray =wallethistory.refund.sort((a, b) => b.date - a.date);
+        const sortedArray =wallethistory?.refund.sort((a, b) => b.date - a.date);
 
-console.log(sortedArray);
+         
 
          res.render('user/wallet',{wallet,wallethistory:sortedArray})
       }catch(err){

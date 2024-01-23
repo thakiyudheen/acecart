@@ -73,7 +73,7 @@ module.exports={
             mostSoldProductsPromise
           ]);
         
-          console.log("full fillll", totalOrder, mostSoldProducts[0].productInfo.images[0]);
+          // console.log("full fillll", totalOrder, mostSoldProducts[0].productInfo.images[0]);
         
           res.render('admin/admindashboard', { order: paidOrders, lastOrders, users: totalUsers, totalOrder, mostSoldProducts });
         } catch (err) {

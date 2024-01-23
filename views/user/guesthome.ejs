@@ -97,6 +97,9 @@
 <div class="container mt-5">
   <div class="row">
     <h2 style="padding: 10px ; width: 100%; background-color: rgb(255, 255, 255);">Flagship Mobiles</h2>
+    <% if (locals.product) { %>
+     
+   
     <% product.forEach(el => { %>
       <div class="col-lg-3 col-md-4 col-sm-6 d-flex">
         <div class="card w-100 my-1 shadow d-flex align-items-center" style="border: none; ">
@@ -157,6 +160,7 @@
         
       </div>
       <% }) %>
+      <% } %>
     
   </div>
 </div>

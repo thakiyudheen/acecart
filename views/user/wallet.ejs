@@ -20,13 +20,19 @@
                 color: black;
                 left: 43px;"></i>
                 <h5 class="ms-5"><b>Current Balance</b></h5>
-                <h6 class="ms-5"><b>₹ <%- wallet.wallet?wallet.wallet:0 -%>.00</b></h6>
+                <h6 class="ms-5"><b>₹ <%- wallet?.wallet?wallet.wallet:0 -%>.00</b></h6>
             </div>
         </div>
         <div class="col-md-12">
 <!-- Transaction Section -->
 <div class="transaction-table mt-5 mb-4">
     <h5><small>Transaction History</small></h5>
+    <% if (!wallethistory) { %>
+     <p>No transactios are avilable</p>
+    <% } %>
+   
+     
+   
 
     <!-- Transaction Table -->
     <table class="table table-striped">
@@ -39,6 +45,7 @@
             </tr>
         </thead>
         <tbody>
+            <% if ( wallethistory) { %>
             <!-- Sample Transactions (Replace with dynamic data from your backend) -->
             <% wallethistory.forEach(el => { %>
              
@@ -55,6 +62,7 @@
                 <td><%-el.reason-%></td>
             </tr>
             <% }) %>
+            <% } %>
             <!-- Add more rows as needed -->
         </tbody>
     </table>

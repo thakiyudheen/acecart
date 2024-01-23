@@ -12,8 +12,13 @@ module.exports={
         try{
             const user=await User.findOne({email:req.session.email})
              const wishlist=await Wishlist.find({userid:user._id}).populate("products.productid")
-            console.log("poooo",wishlist[0].products)
-            res.render('user/wishlist',{wishlist1:wishlist[0].products,wishid:wishlist[0]._id})
+             if(wishlist){
+                res.render('user/wishlist',{wishlist1:wishlist[0]?.products,wishid:wishlist[0]?._id})
+             }else{
+                res.render('user/wishlist')
+             }
+         
+            
         }catch(err){
             console.log(err);
         }

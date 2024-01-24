@@ -142,9 +142,9 @@ function createRazorpay(order){
       },
       success:function (response){
         if(response.success){
-        //  window.location.href='/ordersuccess'
+          window.location.href='/ordersuccess'
 
- window.location.href='/userhome'
+
       }
          
           

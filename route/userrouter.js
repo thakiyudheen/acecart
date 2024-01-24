@@ -120,7 +120,7 @@ router.get('/orderdetails/:orderid',login.verifyUser,orderController.OrderDetail
 // cancel order -------------------------------------------------------
 router.get('/cancelorder/:orderid/:status',orderController.cancelOrder)
 // order succcessfully! -----------------------------------------------
-router.get('/ordersuccess',login.verifyUser,orderController.getorderSuccess)
+router.get('/ordersuccess',orderController.getorderSuccess)
 
 // verify online payment-----------------------------------------------
 router.post('/verifyPayment',login.verifyUser,orderController.verifyPayment)

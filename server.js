@@ -53,7 +53,7 @@ app.use("/admin", routers);
 
 
 
-mongoose.connect(process.env.MONGOURL,{useNewUrlParser:true,useUnifiedTopology:true,  serverSelectionTimeoutMS: 30000,})
+mongoose.connect(process.env.MONGOURL,{useNewUrlParser:true,useUnifiedTopology:true })
 .then(()=>{
    console.log("Mongo connected succesfully");
 })
@@ -67,5 +67,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(3000, () => {
-  console.log("server running in http://localhost:3001");
+  console.log("server running in http://localhost:3000");
 })

@@ -118,8 +118,8 @@ function createRazorpay(order){
       order_id: id,
       handler: function (response) {
 
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
         verifyPayment(response,order)
        
       },
@@ -142,7 +142,7 @@ function createRazorpay(order){
       },
       success:function (response){
         if(response.success){
-          location.href='/ordersuccess'
+         window.location.href='/ordersuccess'
         }
          
           

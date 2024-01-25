@@ -62,7 +62,7 @@ mongoose.connect(process.env.MONGOURL,{useNewUrlParser:true,useUnifiedTopology:t
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(404).send("some thing went wrong");
+  res.status(404).render('user/pageNotFound',{err});
 });
 
 app.listen(3000, () => {

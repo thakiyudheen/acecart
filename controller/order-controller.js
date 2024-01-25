@@ -18,6 +18,7 @@ module.exports={
   confirmAddress:async (req,res)=>{
     console.log(req.body);
    req.session.confirm=req.body
+   if(req.body.adressId){
     if(req.body.paymethod=="cod"){
        
         res.json({method:"cod"})
@@ -270,6 +271,11 @@ module.exports={
         }
         
     }
+  }else{
+
+    res.json({err:"please add  address!!",status:false,method :"address"})
+
+  }
 },
     cashOndelivery:async (req,res)=>{
         

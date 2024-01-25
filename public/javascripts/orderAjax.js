@@ -31,23 +31,38 @@ function updateOrderStatus(orderid,status){
 // cancelorder0--------------------------------------
 
 function cancelOrder(orderid,status){
-    console.log("okk aajaxx");
-    $.ajax({
+    console.log("okk aajaxx"); 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure cancel this order!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
         
-        url:"/cancelorder/"+`${orderid}/${status}`,
-        
-        method:"get",
-        success:function (response){
-            window.location.reload()
-            alert(response.msg)
-           
-            
-        },
-        error:function (err){
-            alert("Something Error")
-    
-        }
-    })
+          url:"/cancelorder/"+`${orderid}/${status}`,
+          
+          method:"get",
+          success:function (response){
+              window.location.reload()
+              alert(response.msg)
+             
+              
+          },
+          error:function (err){
+              alert("Something Error")
+      
+          }
+      })
+          
+      }
+      })
+
+  
 }
 
 
@@ -93,6 +108,19 @@ function  placeorder(event) {
             }).showToast();
           }
         
+       }else if(res.method=="address"){
+        Toastify({
+          text: res.msg || "please add address",
+          duration: 800,
+          close: false,
+          gravity: "top",
+          position: 'center',
+          style: {
+            background: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
+            color: "red",
+            borderRadius: "15px",
+          }
+        }).showToast();
        }
       
   
@@ -290,22 +318,37 @@ function rejectorder(e) {
 // cancel single item -------------------------------------
 function singlecancel(orderid,proid){
           console.log("workingg g");
-          $.ajax({
-              url:'/singleCancel'+`/${orderid}/${proid}`,
-              method:'get',
-              success:async function (response){
+
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "are you sure cancel this item!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                url:'/singleCancel'+`/${orderid}/${proid}`,
+                method:'get',
+                success:async function (response){
+                    
+                        window.location.reload()
+                    
                   
-                      window.location.reload()
-                  
+                 },
+                error:function (err){
+                        alert("Something Error")
+                   
+                    
+            
+                }
+              })
                 
-               },
-              error:function (err){
-                      alert("Something Error")
-                 
-                  
-          
-              }
+            }
             })
+       
           
       
   

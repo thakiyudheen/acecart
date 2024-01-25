@@ -20,10 +20,7 @@
         justify-content: center;
     }
 
-    .container {
-        height: 100vh;
-    }
-
+   
     .card h1 {
         font-size: 48px;
         margin-bottom: 0px;
@@ -77,14 +74,14 @@
 
 <body>
 
-<div class="container">
+<div class="container mb-5">
     <div class="row">
         <nav class="nav nav-borders mt-2">
-            <a class="nav-link  ms-0" href="/userprofile" target="__blank">Profile</a>
-            <a class="nav-link" href="/getwallet" target="__blank">Wallet</a>
-            <a class="nav-link " href="/resetpassword" target="__blank">Security</a>
-            <a class="nav-link active" href="/coupons"  target="__blank">Coupons</a>
-            <a class="nav-link  " href="/address"  target="__blank">Address</a>
+            <a class="nav-link  ms-0" href="/userprofile" >Profile</a>
+            <a class="nav-link" href="/getwallet" >Wallet</a>
+            <a class="nav-link " href="/resetpassword" >Security</a>
+            <a class="nav-link active" href="/coupons"  >Coupons</a>
+            <a class="nav-link  " href="/address"  >Address</a>
         </nav>
         <hr class="mt-0 mb-3">
         <% coupons.forEach(el => { %>

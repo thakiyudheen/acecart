@@ -37,7 +37,7 @@ function addTowishlist(proid){
 function removewishlist(proid,wishid){
     Swal.fire({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: "Remove this!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

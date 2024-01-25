@@ -126,7 +126,7 @@
 .mt-40 {
     margin-top: 40px !important; 
 }
-.in-stock-box {
+/* .in-stock-box {
 	background: #ff0000;
 	font-size: 12px;
 	text-align: center;
@@ -134,7 +134,7 @@
 	padding: 5px;
 	display: inline-block;  
     color: #fff;
-}
+} */
 .trash-icon {
     font-size: 20px;
     color:black;

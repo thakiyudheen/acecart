@@ -3,11 +3,11 @@
 <div class="container">
     <div class="row">
         <nav class="nav nav-borders mt-4">
-            <a class="nav-link  ms-0" href="/userprofile" target="__blank">Profile</a>
-            <a class="nav-link" href="/getwallet" target="__blank">Wallet</a>
-            <a class="nav-link" href="/resetpassword" target="__blank">Security</a>
-            <a class="nav-link" href="/coupons"  target="__blank">Coupons</a>
-            <a class="nav-link active " href="/address"  target="__blank">Address</a>
+            <a class="nav-link  ms-0" href="/userprofile">Profile</a>
+            <a class="nav-link" href="/getwallet" >Wallet</a>
+            <a class="nav-link" href="/resetpassword" >Security</a>
+            <a class="nav-link" href="/coupons"  >Coupons</a>
+            <a class="nav-link active " href="/address"  >Address</a>
         </nav>
         <hr class="mt-0 mb-4">
         <div class="col-md-12"><button class="btn float-end mt-2" style="background-color: blue; color: white;" data-bs-toggle="modal" class="btn" data-bs-target="#exampleModaladd" data-bs-whatever="@getbootstrap"><small>Add Address</small></button></div>
@@ -15,6 +15,9 @@
             <h5>Address</h5>
         </div>
         <div class="col-md-12 mt-3">
+          <% if ( addresses.length>0) { %>
+           
+         
             <% addresses.forEach(function(x,index) { %>
                 <div class="col-md-12 mb-2">
                   <div class="form-check shadow rounded  px-5 py-5">
@@ -34,6 +37,9 @@
                 </div>
                
               <% }) %>
+              <% }else{ %>
+                <div class="text-center mb-5 text-secondary"><h5>No find any Adress!!</h5></div>
+              <%}%>
         </div>
     </div>
 </div>

@@ -56,14 +56,16 @@ function addTocart(proid){
 
  function quantityChanger(proid,no,qty,cartid){
   console.log(qty,no)
+ 
   console.log("CHANGE QUE");
   $.ajax({
     url:"/updatecart/"+`${proid}/${no}/${qty}/${cartid}`,
     method:'get',
     success:function (res){
       if(res.status){
+       
       
-         location.reload()
+          location.reload()
       }else{
         Toastify({
           text: res.msg,
@@ -77,10 +79,11 @@ function addTocart(proid){
             borderRadius: "15px",
           }
         }).showToast();
-        setTimeout(function() {
-          // Reload the page
-          location.reload();
-        },1000);
+        // setTimeout(function() {
+        //   // Reload the page
+        //   location.reload();
+        // },800);
+        
         
       }
       
@@ -91,21 +94,34 @@ function addTocart(proid){
   })
  }
 
+
+
 //  remove from cart-------------------------------
 function removecart(cartid,proid){
-  console.log("remove QUE");
-  const ok=confirm("Are sure  remove")
-  if(ok){
-    $.ajax({
-      url:"/removecart/"+`${cartid}/${proid}`,
-      method:'get',
-      success:function (response){
-        window.location.reload()
-      },
-      error:function (err){
-        alert("Something Error")
-      }
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "you sure remove this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url:"/removecart/"+`${cartid}/${proid}`,
+        method:'get',
+        success:function (response){
+          window.location.reload()
+        },
+        error:function (err){
+          alert("Something Error")
+        }
+      })
+    }
     })
-  }
+
+
+  
 
  }

@@ -232,7 +232,7 @@
              
                 <div class="card-body d-flex flex-column">
                   <div class="d-flex flex-row">
-                    <% if (el.AvailableQuantity==0) { %>
+                    <% if (el.AvailableQuantity<0) { %>
                       <h7 style="font-weight: 500; color: red;">Out of stock</h7>
                     <% }else{ %>
                       <h7 class="mb-1 me-1"><b>₹<%-el.DiscountAmount-%>\-</b></h7>

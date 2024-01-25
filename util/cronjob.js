@@ -5,13 +5,14 @@ const  cron = require("node-cron");
 const moment = require('moment');
 
 async function removeOffer(){
+  console.log("crone working");
     try{
       console.log("working cronjob");
       const currentDate = moment(); // Current date and time
       const formattedDate = currentDate.format('YYYY-MM-DD');
-       const comparisonDate = moment(expiryDate);
+      //  const comparisonDate = moment(expiryDate);
         
-        const offer= await Offer.find({expiryDate:{$lt:formattedDate }})
+        const offer= await Offer.find({expiryDate:{$lte:formattedDate }})
         if(offer.length>0){
             for (const ele of offer) {
                 const product = await Product.findOne({Category:ele.Category})

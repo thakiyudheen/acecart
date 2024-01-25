@@ -10,10 +10,9 @@ const hashData = async (data, saltRound = 10) => {
 };
 const verifyHashedData = async (unHashed, hashed) => {
     try {
-        // console.log(unHashed,' unash ')
-        // console.log(hashed,' hashed ')
+       
         const match = await bcrypt.compare(unHashed, hashed);
-        // const match = await bcrypt.compare(hashed, unHashed);
+        
         console.log(match);
         return match;
     } catch (err) {

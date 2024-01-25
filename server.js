@@ -10,8 +10,7 @@ const app = express();
 const router = require("./route/userrouter");
 const routers = require("./route/adminrouter");
 const path=require('path');
-
-// const { checkOffer } = require("./util/cronjob");
+const { removeOffer } = require("./util/cronjob");
 
 app.use(nocache());
 

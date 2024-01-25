@@ -65,7 +65,7 @@ module.exports={
                 req.body.userId=user._id
                 const adress=req.body;
                 await Address.create(adress)
-                res.redirect('/userprofile')
+                res.redirect('/address')
              }
             
         }catch(err){

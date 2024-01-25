@@ -847,7 +847,7 @@ module.exports={
           const id = req.params.orderid;
           // home\\ubuntu\\acecart\\public\\pdf\\  
           // const filePath = `C:\\aceCart\\public\\pdf\\${id}.pdf`;
-          const filePath = `home\\ubuntu\\acecart\\public\\pdf\\${id}.pdf`;
+          const filePath = `public\\pdf\\${id}.pdf`;
           
           res.download(filePath, `invoice.pdf`);
         } catch (error) {

@@ -845,7 +845,10 @@ module.exports={
       downloadInvoice:(req,res)=>{
         try {
           const id = req.params.orderid;
-          const filePath = `C:\\aceCart\\public\\pdf\\${id}.pdf`;
+          // home\\ubuntu\\acecart\\public\\pdf\\  
+          // const filePath = `C:\\aceCart\\public\\pdf\\${id}.pdf`;
+          const filePath = `home\\ubuntu\\acecart\\public\\pdf\\${id}.pdf`;
+          
           res.download(filePath, `invoice.pdf`);
         } catch (error) {
           console.error("Error in downloading the invoice:", error);

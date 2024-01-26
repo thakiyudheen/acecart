@@ -4,6 +4,7 @@ const Product= require("../model/productModel");
 const Cart= require("../model/cartModel");
 const Order= require("../model/orderModel");
 const mongoose = require('mongoose');
+const Wallet = require("../model/walletModel");
 
 
 
@@ -11,7 +12,7 @@ module.exports={
     getCheckout:async(req,res)=>{
         try{
         const user=await User.findOne({email:req.session.email})
-        
+        const wallet=await Wallet.findOne({userid:user._id})
         const address=await Address.find({userId:user._id})
         const cart = await Cart.findOne({userid:user._id})
         console.log(req.session.couponCode);
@@ -22,7 +23,8 @@ module.exports={
                 subtotelbefore: req.session.subtotelbefore,
                 subtotel:req.session.subtotel,
                 coupondiscount:req.session.couponDiscount,
-                couponCode:req.session.couponCode
+                couponCode:req.session.couponCode,
+                wallet:wallet.wallet
             })
         }else{
            res.redirect('/userhome')

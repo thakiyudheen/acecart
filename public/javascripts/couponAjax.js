@@ -137,6 +137,8 @@ function checkcoupon(event) {
         document.getElementById('button-addon2').disabled=true ;
         document.getElementById('checkcouponerr').innerHTML= "Coupon applied successfully";
         document.getElementById('checkcouponerr').style.color= "orange";
+        document.getElementById('available').style.display='none' ;
+
        
       }else{
         

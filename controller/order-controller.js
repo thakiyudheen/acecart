@@ -452,7 +452,7 @@ module.exports={
           timeZone: "Asia/Kolkata",
         });
         if(req.params.status=='Delivered'){
-          await Order.updateOne({_id:req.params.orderid.trim()},{$set:{orderStatus:req.params.status.trim(),deliveryDate:currentDate}})
+          await Order.updateOne({_id:req.params.orderid.trim()},{$set:{orderStatus:req.params.status.trim(),deliveryDate:currentDate,PaymentStatus:'Paid'}})
         }else{
           await Order.updateOne({_id:req.params.orderid.trim()},{$set:{orderStatus:req.params.status.trim()}})
         }
@@ -462,6 +462,7 @@ module.exports={
         
       res.json({msg:"status changed successfully!"})
       }catch(err){
+
         console.log(err);
       }
     },
@@ -489,13 +490,13 @@ module.exports={
           if (walletRecord) {
             
             await Wallet.updateOne({userid:user._id},{$inc:{wallet:orders.totalAmount}})
-            await Order.updateOne({userid:user._id},{$set:{orderStatus:"return accepted",PaymentStatus:"refunded"}})
+            await Order.updateOne({userid:user._id},{$set:{orderStatus:"return accepted",PaymentStatus:"Refunded"}})
           } else {
             await Wallet.create({
               userid: user._id,
               wallet: orders.totalAmount,
             });
-            await Order.updateOne({userid:user._id},{$set:{orderStatus:"return accepted",PaymentStatus:"refunded"}})
+            await Order.updateOne({userid:user._id},{$set:{orderStatus:"return accepted",PaymentStatus:"Refunded"}})
           }
           if(orders.paymentMethod =='wallet'||orders.paymentMethod == 'online'&&orders.PaymentStatus=='Paid'){
             const wallethistory = await Wallethistory.findOne({ userid: user._id });
@@ -603,12 +604,12 @@ module.exports={
       // end ------------------------------------------------------
       // if payment status paidrefund the cash --------------------
       if(order.PaymentStatus=='Paid'){
-        console.log("gttttttttttttttttttttt");
+       
         await Wallet.findOneAndUpdate(
           { userid: user._id },
           { $inc: { wallet:(qty[0].quantity*product.DiscountAmount)} }
         );
-        
+    await Order.updateOne({_id:order._id},{$set:{PaymentStatus:'Refunded'}})
       
       // end ------------------------------------------------------
       // create  wallet history -----------------------------------

@@ -55,25 +55,39 @@ function removebrand(dta,brand){
 
 // delete product --------------------------
 function deletepro(dta){
-    let ok=confirm("Are you sure to delete")
-    if(ok==true){
-        $.ajax({
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "delete this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
         
-            url:"/admin/deleteproduct/"+dta,
-            
-            method:"get",
-            success:function (response){
-                window.location.reload()
-                alert(response.msg)
-               
+                url:"/admin/deleteproduct/"+dta,
                 
-            },
-            error:function (err){
-                alert("Something Error")
-        
-            }
+                method:"get",
+                success:function (response){
+                    window.location.reload()
+                    alert(response.msg)
+                   
+                    
+                },
+                error:function (err){
+                    alert("Something Error")
+            
+                }
+            })
+            
+        }
         })
-    }
+
+   
+       
+    
    
 }
 // user block ------------------------------------------------------

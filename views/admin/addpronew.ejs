@@ -119,7 +119,7 @@
 }
 </style>
 
-<div class="container justify-content-center shadow">
+<div class="container justify-content-center shadow mt-1">
 
     <h3><small> Add products</small></h3><br><br>
     <form onsubmit="return validateForm()" id="productForm" action="/admin/addproduct" method="post"
@@ -251,8 +251,9 @@
 
 
 
-        <div class="form-group d-grid gap-2">
-            <button class="btn btn-primary" type="submit" id="submitButton" disabled>Add Produts</button>
+        <div class="form-group mt-2 ">
+            <a href="/admin/products" style="background-color: white; border:1px solid blue; color:blue;" class="btn">cancel</a>
+            <button class="btn " style="background-color:blue; color: white !important;" type="submit" id="submitButton" disabled>Add Produts</button>
         </div>
     </form>
 </div>

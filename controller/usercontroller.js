@@ -125,24 +125,25 @@ module.exports={
    // searching  ----------------------------------------------
    postSearch:async (req,res)=>{
       try{
+         const{search}=req.body
          
          // Step 1: Find category IDs that match the search string
-         const matchingCategories = await Category.find({ categoryname: { $regex: req.body.search, $options: "i" } }, '_id');
-
+         const matchingCategories = await Category.find({ categoryname: { $regex:search, $options: "i" } }, '_id');
+         console.log( matchingCategories)
          // Extract category IDs from the result
          const categoryIds = matchingCategories.map(category => category._id);
-
+         console.log(categoryIds)
          // Step 2: Use category IDs in the main query
          const product = await Product.find({
          $or: [
-            { productName: { $regex: req.body.search, $options: "i" } },
+            { ProductName: { $regex: search, $options: "i" } },
             { Category: { $in: categoryIds } }, // Use $in to match against an array of category IDs
-            { brandName: { $regex: req.body.search, $options: "i" } }
+            { BrandName: { $regex:search, $options: "i" } }
          ],
          status: "Active"
          });
 
-         
+         console.log("searched",product)
 
         
          res.render('user/producthome',{product,user:req.session.user})

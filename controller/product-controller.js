@@ -22,12 +22,12 @@ module.exports={
     },
     addProducts:async(req,res)=>{
         try{
-            console.log("okkkk",req.body);
+           
             console.log("fiels",req.files);
             const files=req?.files
            
             let images=[files.image1[0].filename,files.image2[0].filename,files.image3[0].filename,files.image4[0].filename]
-            console.log(images)
+          
             const pro={
                 ...req.body,
                 images

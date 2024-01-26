@@ -234,7 +234,7 @@
                   <div class="d-flex flex-row">
                     <% if (el.AvailableQuantity<0) { %>
                       <h7 style="font-weight: 500; color: red;">Out of stock</h7>
-                    <% }else{ %>
+                    <% }else { %>
                       <h7 class="mb-1 me-1"><b>₹<%-el.DiscountAmount-%>\-</b></h7>
                       <% if (el.Categoryoffer>0) { %>
                           <% 
@@ -245,6 +245,7 @@
                             // Calculating the discount percentage
                             const discountPercentage =Math.floor( (discountedAmount/ originalAmount) * 100);
                           %>
+                        
                            <span class="badge rounded-pill  text-white d-flex align-items-center justify-content-center" style=" 
                            width: 60px;
                            background-color: #38c7ae;
@@ -252,8 +253,9 @@
                            top: 10px;
                            left: 9px;
                            border-radius: 3px !important;"> Offer!!</span>
+                           
                         
-                      <% }else{ %>
+                      <% }else if(el.Price!=el.DiscountAmount){ %>
                       <span class="text-danger"><s><small>₹ <%-el.Price-%></small></s></span>
                       <%}%>
                       <%}%>

@@ -23,7 +23,13 @@ function updatecount(id) {
           }
         });
   
-        var barColors = ["red", "green", "blue", "orange", "brown"];
+        // var barColors = ["red", "green", "blue", "orange", "brown"];
+        var barColors = [ "blue",
+        "#00aba9",
+        "#2b5797",
+        "#e8c3b9",
+        "#1e7145",
+        "red", "green", "blue", "orange", "brown", "yellow"];
   
         new Chart("myChart", {
           type: "bar",
@@ -48,7 +54,8 @@ function updatecount(id) {
           "#00aba9",
           "#2b5797",
           "#e8c3b9",
-          "#1e7145"
+          "#1e7145",
+          "red", "green", "blue", "orange", "brown", "yellow"
         ];
   
         new Chart("myChart2", {

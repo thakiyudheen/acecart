@@ -29,11 +29,12 @@ module.exports={
 
                 for (const ele of products) {
                     const product = await Product.findOne({ _id: ele._id });
-                    if(products.DiscountAmount==products.Price){
-                       
-                    }
-                    
-                   
+                    const categoryOffer = Math.floor((ele.DiscountAmount * offers.discount) / 100);
+
+                    product.Categoryoffer = categoryOffer;
+                    product.DiscountAmount = ele.DiscountAmount - categoryOffer;
+
+                    await product.save();
                 }
 
                 res.json({status:true})

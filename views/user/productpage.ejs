@@ -236,7 +236,7 @@
                       <h7 style="font-weight: 500; color: red;">Out of stock</h7>
                     <% }else{ %>
                       <h7 class="mb-1 me-1"><b>₹<%-el.DiscountAmount-%>\-</b></h7>
-                      <% if (el.Categoryoffer>0&&el.DiscountAmount!=el.price) { %>
+                      <% if (el.Categoryoffer>0) { %>
                           <% 
                             // Assuming originalAmount and discountedAmount are available in your EJS context
                             const originalAmount = el.DiscountAmount; // Replace with your actual original amount

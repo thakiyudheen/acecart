@@ -488,7 +488,7 @@ module.exports={
           let walletRecord = await Wallet.findOne({ userid: user._id });
           
           if (walletRecord) {
-            
+            console.log("here reached ");
             await Wallet.updateOne({userid:user._id},{$inc:{wallet:orders.totalAmount}})
             await Order.updateOne({userid:user._id},{$set:{orderStatus:"return accepted",PaymentStatus:"Refunded"}})
           } else {

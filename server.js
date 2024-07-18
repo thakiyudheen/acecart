@@ -40,6 +40,7 @@ app.use(
 
 
 
+
 app.use(express.static(path.join(__dirname,'public')))
 app.use(express.static(path.join(__dirname,'public/assets')))
 // app.use(express.static("public"));
@@ -52,7 +53,9 @@ app.use("/admin", routers);
 
 
 
-mongoose.connect(process.env.MONGOURL,{useNewUrlParser:true,useUnifiedTopology:true })
+
+
+mongoose.connect(process.env.MONGOURL)
 .then(()=>{
    console.log("Mongo connected succesfully");
 })

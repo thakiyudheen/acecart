@@ -19,13 +19,15 @@ module.exports={
         try{
             console.log(req.body)
             const data= await ADMIN.findOne({email:req.body.email})
-    
+            console.log('thsi is data',data)
+            
             if(data){
                 
+          
                 if(data.password===req.body.password){
                     req.session.adminlogged=true;
                     req.session.adminname =data.name;
-                   
+                    console.log('this is admin',password)
                     
                      res.redirect('/admin/dashbord')
                 }else{

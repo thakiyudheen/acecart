@@ -34,7 +34,7 @@ module.exports={
       try{
          const category=await Category.findOne({categoryname:"FLAGSHIP MOBILES"})
          
-            const product=await Product.find({Category:category._id,status:"Active"})
+            const product=await Product.find({Category:category?._id,status:"Active"})
             const banner= await Banner.find()
         
         

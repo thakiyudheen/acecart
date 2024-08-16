@@ -54,45 +54,46 @@ function addTocart(proid){
 
 // change  quentity-------------------------
 
- function quantityChanger(proid,no,qty,cartid){
-  console.log(qty,no)
+//  function quantityChanger(proid,no,qty,cartid){
+//   console.log(qty,no)
  
-  console.log("CHANGE QUE");
-  $.ajax({
-    url:"/updatecart/"+`${proid}/${no}/${qty}/${cartid}`,
-    method:'get',
-    success:function (res){
-      if(res.status){
-       
-      
-          location.reload()
-      }else{
-        Toastify({
-          text: res.msg,
-          duration: 800,
-          close: false,
-          gravity: "top",
-          position: 'center',
-          style: {
-            background: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
-            color: "red",
-            borderRadius: "15px",
-          }
-        }).showToast();
-        // setTimeout(function() {
-        //   // Reload the page
-        //   location.reload();
-        // },800);
+//   console.log("CHANGE QUE");
+//   $.ajax({
+//     url:"/updatecart/"+`${proid}/${no}/${qty}/${cartid}`,
+//     method:'get',
+//     success:function (res){
+//       if(res.status){
+//           console.log(proid);
+          
+//           document.getElementById(`qty_${proid}`).value+=1
+//           location.reload()
+//       }else{
+//         Toastify({
+//           text: res.msg,
+//           duration: 800,
+//           close: false,
+//           gravity: "top",
+//           position: 'center',
+//           style: {
+//             background: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
+//             color: "red",
+//             borderRadius: "15px",
+//           }
+//         }).showToast();
+//         // setTimeout(function() {
+//         //   // Reload the page
+//         //   location.reload();
+//         // },800);
         
         
-      }
+//       }
       
-    },
-    error:function (err){
-      alert("Something Error")
-    }
-  })
- }
+//     },
+//     error:function (err){
+//       alert("Something Error")
+//     }
+//   })
+//  }
 
 
 

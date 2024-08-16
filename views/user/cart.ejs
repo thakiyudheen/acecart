@@ -3,11 +3,6 @@
 <style>
   @import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
 
-/* body {
-    background-color:white;
-    font-family: 'Calibri', sans-serif !important;
-} */
-
 .mt-100{
    margin-top:100px;
 
@@ -37,8 +32,6 @@
 .card-header:first-child {
     border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
 }
-
-
 
 .card .card-body {
     padding: 30px;
@@ -122,22 +115,28 @@
 
                           </div>
                            <div class="col-lg col-sm-3">
-                            <% if (el.quantity>1) { %>
-                             <button class="btn btn-light border px-2 icon-hover-primary" type="button"style="background-color:white;  border:none;"
-                              onclick="quantityChanger(' <%-el.productid -%> ',-1,'<%-el.quantity -%>','<%-el._id-%>')"><i
+                            <% if (parseInt(el.quantity)>1) { %>
+                             <button class="btn btn-light border px-2 icon-hover-primary" <%-el.quantity<=1?'disabled':'' -%>   id='btn_<%-el.productid.toString().trim() -%>' type="button"style="background-color:white;  border:none;"
+                              onclick="quantityChanger('<%-el.productid.toString() -%>',-1,'<%-el.quantity -%>','<%-el._id-%>')"><i
                                 class="fa-solid fa-minus" style="color: #000000;"></i></button>
                                 <% }else{ %>
-                                  <button disabled class="btn btn-light border px-2 icon-hover-primary" type="button"style="background-color: white; border:1px solid white;"
-                                  onclick="quantityChanger(' <%-el.productid -%> ',-1,'<%-el.quantity -%>','<%-el._id-%>')"><i
+                                  <button disabled class="btn btn-light border px-2 icon-hover-primary" id='btn_<%-el.productid.toString().trim() -%>' type="button"style="background-color: white; border:1px solid white;"
+                                  onclick="quantityChanger('<%-el.productid.toString() -%>',-1,'<%-el.quantity -%>','<%-el._id-%>')"><i
                                     class="fa-solid fa-minus" style="color:white;"></i></button>
                                   
                                   <% }%>
-                            <span id="<%-el.productid-%>" class="p-3">
-                              <%-el.quantity -%>  
-                            </span>
+                            <!-- <span id="<%-el.productid-%>" class="p-3"> -->
+                              <input type="text" 
+                              id="<%-el.productid.toString() -%>"
+                              value="<%-el.quantity -%>" 
+                              style="background-color:white; border:1px solid white; width:30px; padding-left:10px; outline:none;" 
+                              onfocus="this.style.border='none';"
+                              onblur="this.style.border='1px solid white';">
+                                               
+                            <!-- </span> -->
                             <button id="" style="background-color: white; border:none;"
                               class="btn btn-light border px-2 icon-hover-primary" type="button"
-                              onclick="quantityChanger('<%-el.productid -%> ',1,'<%-el.quantity -%>','<%-el._id-%>')"><i
+                              onclick="quantityChanger('<%-el.productid.toString() -%>',1,'<%-el.quantity -%>','<%-el._id-%>')"><i
                                 class="fa-solid fa-plus" style="color: #000000;"></i></button>
                               </div>
 
@@ -168,15 +167,6 @@
                        <hr style="height: 0.5px;">     
                             
                 </div>
-<!-- 
-                <div class="border-top pt-4 mx-4 mb-4">
-                  <p>
-                    <i class="fas fa-truck text-muted fa-lg"></i> Free Delivery
-                    with in 1 week
-                  </p>
-                  <p class="text-muted"></p>
-
-                </div>   -->
               </div>
             </div> 
          
@@ -187,7 +177,7 @@
                     <div id="subtotal" class="d-flex justify-content-between mt-3">
                       <p class="mb-2"><b>Totel amount :</b></p>
                       <b>
-                        <p>₹ <%-totelprice-%> <span id="subtotalAmount">
+                        <p id="subtotalAmount1">₹ <%-totelprice-%> <span >
                             
                           </span></p>
                       </b>
@@ -195,7 +185,7 @@
                     <div id="Discount" class="d-flex justify-content-between mt-3">
                       <p class="mb-2"><b>discount :</b></p>
                       <b>
-                        <p style="color: red;">₹ <%-toteldiscount-%> <span id="subtotalAmount">
+                        <p style="color: red;" id="subtotalAmount">₹ <%-toteldiscount-%> <span >
                             
                           </span></p>
                       </b>
@@ -242,7 +232,56 @@
   
 
 
-  
+  <script>
+    function quantityChanger(proid,no,qty,cartid){
+  console.log(qty,no)
+  console.log(proid.toString(),document.getElementById(`${proid.toString()}`));
+ 
+  console.log("CHANGE QUE");
+  $.ajax({
+    url:`/updatecart/${proid}/${no}/${qty}/${cartid}`,
+    method:'get',
+    success:function (res){
+      if(res.status){
+        console.log(res);
+        document.getElementById(`btn_${proid.toString().trim()}`).disabled = parseInt(res.updatedQuantity) <= 1;
+        document.getElementById(`totalPrice`).innerHTML ='₹ '+parseInt(res.subtotel);
+        document.getElementById(`totalQuantityValue`).innerHTML = parseInt(res.totelqty);
+        document.getElementById(`subtotalAmount`).innerHTML ='₹ '+parseInt(res.toteldiscount);
+        document.getElementById(`subtotalAmount1`).innerHTML ='₹ '+parseInt(res.totelprice);
+        document.getElementById(`${proid.toString().trim()}`).value=res.updatedQuantity 
+                 
+          // location.reload()
+      }else{
+        Toastify({
+          text: res.msg,
+          duration: 800,
+          close: false,
+          gravity: "top",
+          position: 'center',
+          style: {
+            background: "rgba(255, 255, 255, 0.8)", // White with 80% opacity
+            color: "red",
+            borderRadius: "15px",
+          }
+        }).showToast();
+        // setTimeout(function() {
+        //   // Reload the page
+        //   location.reload();
+        // },800);
+        
+        
+      }
+      
+    },
+    error:function (err){
+      alert("Something Error")
+    }
+  })
+ }
+
+
+  </script>
 <!-- footer start ------------ -->
 <%-include("../partials/footernav")-%>
 <!-- footer end ------------ -->

@@ -77,141 +77,6 @@ module.exports={
     addTocart:async (req,res)=>{
         console.log("okk aan mone")
         console.log(req.session.email)
-        // try{
-
-
-        //     const products=await Products.findOne({_id:req.params.id})
-        //     if(products.AvailableQuantity>=)
-        //      const user=await  User.findOne({email:req.session.email})
-        //     if(user){
-        //         const cart = await Cart.findOne({userid:user._id})
-            
-
-        //         if(cart){
-   
-        //           await Cart.findOne({userid:user._id,'products.productid':req.params.id}).then(async (dta)=>{
-        //                if(dta){
-        //                    await Cart.updateOne({
-        //                     userid:user.id,'products.productid':req.params.id 
-        //                 },
-        //                 {
-        //                     $inc:
-        //                     {
-        //                         'products.$.quantity':1
-        //                     }
-        //                 })
-                           
-        //                }else{
-   
-        //                    console.log(Cart)
-        //                    await Cart.updateOne({
-        //                     userid:user.id
-        //                 },
-        //                 {
-        //                     $push:
-        //                     {
-        //                         products:
-        //                         {
-        //                             productid:req.params.id,quantity:1
-        //                         }
-        //                     }
-        //                 })
-        //                }
-        //            })
-                       
-        //            }else{
-        //           console.log("sndd ")
-        //            const data={
-        //                userid:user._id,
-        //                products:[
-        //                    {
-        //                        productid:req.params.id,
-        //                        quantity:1
-        //                    }
-        //                ]
-        //            }
-        //             await Cart.create(data)
-        //            }
-        //            res.json({msg:true})
-        
-        //     }else{
-        //         res.json({msg:false})
-        //     }
-            
-                   
-        // } catch(err){
-        //     console.log(err);
-        // }
-
-
-
-        // try {
-        //     const productId = req.params.id;
-        
-        //     // Step 1: Check product availability
-        //     const product = await Product.findOne({ _id: productId });
-        
-        //     if (product && product.AvailableQuantity >= 1) { // Assuming you want to add only 1 quantity to the cart
-        
-        //         // Step 2: Check if the user is logged in
-        //         const user = await User.findOne({ email: req.session.email });
-        
-        //         if (user) {
-        //             // Step 3: Check if the user has a cart
-        //             const cart = await Cart.findOne({ userid: user._id });
-        
-        //             if (cart) {
-        //                 // Step 4: Check if the product is already in the cart
-        //                 const cartProduct = cart.products.find(item => item.productid === productId);
-        
-        //                 if (cartProduct) {
-        //                     // If product is already in the cart, compare the quantities
-        //                     if (cartProduct.quantity <= product.AvailableQuantity) {
-        //                         // Increase the quantity in the cart
-        //                         console.log("ya its work")
-        //                         await Cart.updateOne(
-        //                             { userid: user._id, 'products.productid': productId },
-        //                             { $inc: { 'products.$.quantity': 1 } }
-        //                         );
-        //                         res.json({ msg: true });
-        //                     } else {
-        //                         res.json({ msg: false, error: "Quantity exceeds available quantity" });
-        //                     }
-        //                 } else {
-        //                     // If product is not in the cart, add it
-        //                     await Cart.updateOne(
-        //                         { userid: user._id },
-        //                         {
-        //                             $push: {
-        //                                 products: {
-        //                                     productid: productId,
-        //                                     quantity: 1
-        //                                 }
-        //                             }
-        //                         }
-        //                     );
-        //                     res.json({ msg: true });
-        //                 }
-        //             } else {
-        //                 // If user does not have a cart, create a new one
-        //                 const cartData = {
-        //                     userid: user._id,
-        //                     products: [{ productid: productId, quantity: 1 }]
-        //                 };
-        //                 await Cart.create(cartData);
-        //                 res.json({ msg: true });
-        //             }
-        //         } else {
-        //             res.json({ msg: false ,user:false});
-        //         }
-        //     } else {
-        //         res.json({ msg: false, error: "Product not available or quantity exceeds available quantity" });
-        //     }
-        // } catch (err) {
-        //     console.log(err);
-        //     res.status(500).json({ msg: false, error: "Internal server error" });
-        // }
-
 
         try {
             const productId = req.params.id;
@@ -286,31 +151,6 @@ module.exports={
     },
     updateCart:async(req,res)=>{
         try{
-            // const productId = req.params.proid;
-            // const product = await Product.findOne({ _id: productId });
-            // const user = await User.findOne({ email: req.session.email });
-            // const cart = await Cart.findOne({ userid: user._id });
-            // const existingProduct = cart.products.find(item => item.productid.toString() === productId);
-
-
-            // if (existingProduct.quantity <= product.AvailableQuantity&&existingProduct.quantity<5&&req.params.no==1){
-            //     await Cart.updateOne({
-            //         _id:req.params.cartid,'products.productid':req.params.proid.trim()
-            //     },
-            //     {
-            //         $inc:
-            //         {
-            //             'products.$.quantity':req.params.no
-            //         }
-            //     })
-    
-    
-    
-            //     res.json({msg:"Added!"})
-            // }else{
-            //     res.json({msg:"Maximum purchase quantity exceeded (5 products allowed)."})
-            // }
-            
         
             
                 console.log("logesh h",req.params.proid,req.params.no,req.params.qty,req.params.cartid)
@@ -328,8 +168,49 @@ module.exports={
                             { _id: req.params.cartid, 'products.productid': req.params.proid.trim() },
                             { $inc: { 'products.$.quantity': req.params.no } }
                         );
+                       
+                   
+
+                        const updatedCart = await Cart.findOne({ _id: req.params.cartid }).select('products');
+                    
+                        console.log('yes here reached');
+                        
+                        // Find the updated product
+                        const product = updatedCart.products.find(p =>{ 
+                            console.log('asdfa',p.productid.toString(),req.params.proid.toString(),p.productid.toString().trim()==req.params.proid.trim().toString());
+                            
+                            return p.productid.toString().trim() === req.params.proid.toString().trim()});
+                        
+                        console.log('this is cart-------------------------------',product)
+
+                         // Find the user's cart and populate the products
+                        const cart = await Cart.findOne({ userid: user._id }).populate('products.productid');
+
+                        let subtotel = 0;
+                        let totelqty = 0;
+                        let toteldiscount = 0;
+                        let totelprice = 0;
+
+                        if (cart && cart.products.length > 0) {
+                            cart.products.forEach((ele) => {
+                                totelprice += ele.productid.Price * ele.quantity;
+                                subtotel += ele.productid.DiscountAmount * ele.quantity;
+                                toteldiscount = totelprice - subtotel;
+                                totelqty += ele.quantity;
+                            });
+                        }
+
+                        // Store data in session
+                        req.session.subtotel = subtotel;
+                        req.session.subtotelbefore = subtotel;
+                        req.session.totelprice = totelprice;
+                        req.session.couponDiscount = 0;
+                        req.session.couponCode = '';
+
+                        
+                        // Respond with the updated quantity
+                        res.json({ status: true, updatedQuantity: product.quantity ,subtotel,totelqty,toteldiscount,totelprice});
                 
-                        res.json({ msg: "Added!",status:true  });
                     }
 
                  }else{

@@ -68,6 +68,6 @@ app.use((err, req, res, next) => {
   res.status(404).render('user/pageNotFound',{err});
 });
 
-app.listen(3000, () => {
+app.listen(4000, () => {
   console.log("server running in http://localhost:3000");
 })
